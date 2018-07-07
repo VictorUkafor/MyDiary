@@ -6,6 +6,9 @@ body {
 	overflow-y: scroll;
 }
 
+a{
+    text-decoration: none;
+}
 
 .logo{
     margin-left: 5%;
@@ -43,6 +46,10 @@ header{
     margin-top: -81px;
 }
 
+.sign-in a{
+    color: #feeedf;
+}
+
 .sign-in{
     height: 80px;
     width: 85px;
@@ -58,6 +65,10 @@ header{
     background-color: #feeedf;
     color: #17a2b8;
     border: 3px solid #17a2b8;
+}
+
+.sign-in a:hover{
+    color: #17a2b8;
 }
 
 .page-header{
