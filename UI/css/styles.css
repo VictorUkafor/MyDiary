@@ -1,7 +1,7 @@
 body {
     background-color:#feeedf;
 	margin:0px auto;
-	min-width:100%;
+	width:100%;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
@@ -69,7 +69,7 @@ header{
 }
 
 .signup-form{
-    width: 50%;
+    max-width: 50%;
     margin-left: 25%;
     margin-top: 40px;
     padding: 35px;
@@ -152,14 +152,73 @@ footer{
 
 @media screen and (max-width:360px){
 
+
+    header{
+        margin-top: 0;
+        width: 100%;
+        margin-left: 0;
+        height:  50px;
+    }
+
+    .logo{
+        margin-left: 5%;
+    }
     
+    .logo-image{
+        width: 100%;
+        height: auto;
+        margin-top: 0;
+    }
+    
+    .logo-text{
+        margin-top: 80px;
+        font-size: 12px;
+        margin-left: 0%;
+    }
+
+    .side-button{
+        float: right;
+        margin-top: 0px;
+    }
+
+    .sign-in{
+        margin-top: 27px;
+        height: 50px;
+        width: 70;
+        background-color: #eb5d32;
+        border: 3px solid #17a2b8;
+        color: #feeedf;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: candara;
+    }
+
+    .page-header{
+        font-size: 25px;
+        margin-top: 20px;
+    }
+
+    .signup-form{
+        min-width: 68%;
+        margin-left: 0%;
+        margin-right: 25%;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
 
     .copyright{
         font-size: 10px;
+        line-height: 13px;
         margin-left: 3%;
     }
     
-    
+    footer{
+        height: 25px;
+        padding-bottom: 10px;
+        line-height: 15px;
+    }
 }
 
 
