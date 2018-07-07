@@ -43,11 +43,7 @@ header{
 
 .side-button{
     float: right;
-    margin-top: -81px;
-}
-
-.sign-in a{
-    color: #feeedf;
+    margin-top: -82px;
 }
 
 .sign-in{
@@ -67,9 +63,6 @@ header{
     border: 3px solid #17a2b8;
 }
 
-.sign-in a:hover{
-    color: #17a2b8;
-}
 
 .page-header{
     font-family:  candara;
