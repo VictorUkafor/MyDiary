@@ -186,7 +186,6 @@ header{
     max-width: 74%;
     margin-left: 10%;
     margin-top: 60px;
-    padding-bottom: 50px;
 }
 
 .left-entry{
@@ -299,6 +298,25 @@ header{
 }
 
 .action-link:hover{
+    opacity: 0.7;
+}
+
+.pagination{
+    margin-left: 25%;
+}
+
+.pagination-link{
+    border: 0;
+    color: #fff;
+    font-family: candara;
+    font-size: 15px;
+    padding: 7px 12px;
+    margin-left: -3px;
+    background-color: #17a2b8;
+    font-weight: bold;
+}
+
+.pagination-link:hover{
     opacity: 0.7;
 }
 
