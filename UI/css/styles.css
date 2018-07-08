@@ -47,8 +47,7 @@ header{
 }
 
 .sign-in{
-    height: 80px;
-    width: 85px;
+    padding: 28px 20px;
     background-color: #eb5d32;
     border: 3px solid #17a2b8;
     color: #feeedf;
