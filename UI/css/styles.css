@@ -126,7 +126,6 @@ header{
     border-radius: 20px;
     border: 1px solid #eb5d32;
     margin-bottom: 80px;
-    box-shadow: #5c453d;
 }
 
 .form-group{
@@ -179,6 +178,129 @@ header{
     color: #eb5d32;
 }
 
+.body{
+    margin-bottom: 50px;
+}
+
+.entries{
+    max-width: 74%;
+    margin-left: 10%;
+    margin-top: 60px;
+    padding-bottom: 50px;
+}
+
+.left-entry{
+    width: 48%;
+    margin-bottom: 40px;
+}
+
+.right-entry{
+    margin-top: -202px;
+    float: right;
+    width: 48%;
+    margin-bottom: 40px;
+}
+
+.image-div{
+    width: 48%;
+}
+
+.image-div a:hover{
+    opacity: 0.8;
+}
+
+.entry-image{
+    max-width: 100%;
+    
+}
+
+.entry-div{
+    float: right;
+    width: 48%;
+    padding: 2%;
+    background-color: #fff;
+    margin-top: -162px;
+}
+
+.entry-heading{
+    font-family: corbel;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+    color: #17a2b8;
+}
+
+.entry-heading:hover{
+    text-decoration: underline;
+}
+
+.entry-heading a{
+    color: #17a2b8;
+}
+
+.date{
+    text-align: right;
+    font-family: candara;
+    font-size: 10px;
+    color: #000;
+    margin-top: -5px;
+}
+
+.entry-line{
+    height: 2px;
+    background-color: #17a2b8;
+    border: 0px;
+}
+
+.date2{
+    color: #eb5d32;
+}
+
+.entry-text{
+    font-size: 12px;
+    font-family: candara;
+    line-height: 16px;
+    color: #000;
+}
+
+.entry-text:hover{
+    text-decoration: underline;
+}
+
+.entry-text a{
+    font-family: candara;
+    color: #000;
+}
+
+.actions{
+    margin-top: -9px;
+}
+
+.action-link{
+    border: 0;
+    color: #fff;
+    font-family: candara;
+    font-size: 11px;
+    float: right;
+    padding: 3px 8px;
+    
+}
+
+.read-more{
+    background-color: #17a2b8;
+}
+
+.modify-entry{
+    background-color: #eb5d32;
+}
+
+.delete-entry{
+    background-color: red;
+}
+
+.action-link:hover{
+    opacity: 0.7;
+}
 
 footer{
     padding-top: 10px;
