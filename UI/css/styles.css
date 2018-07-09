@@ -453,6 +453,10 @@ footer{
         margin-left: 22%;
     }
 
+    .side-button{
+        margin-top: -78px;
+    }
+
     .sign-in{
         margin-top: -9px;
         padding: 28px 20px;
@@ -487,7 +491,7 @@ footer{
 }
 
 
-@media screen and (max-width:1280px){
+@media screen and (min-width:1280px) and (max-width:1280px) {
 
     .side-button{
         margin-top: -78px;
