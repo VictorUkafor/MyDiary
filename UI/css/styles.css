@@ -217,7 +217,8 @@ header{
     width: 48%;
     padding: 2%;
     background-color: #fff;
-    margin-top: -162px;
+    margin-top: -161px;
+    margin-right: 1px;
 }
 
 .entry-heading{
