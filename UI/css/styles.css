@@ -302,7 +302,7 @@ header{
     background-color: red;
 }
 
-.action-link:hover, .action-link2:hover{
+.action-link:hover, .action-link2:hover, .action-link3:hover{
     opacity: 0.7;
 }
 
@@ -379,7 +379,40 @@ header{
 }
 
 
+.profile-image img{
+    width: 20%;
+    margin-left: 20%;   
+}
 
+.user-info{
+    width: 40%;
+    margin-left: 45%;
+    margin-top: -280px;
+    margin-bottom: 50px;
+}
+
+.user-info p{
+    font-family:  candara;
+    font-size: 22px;
+    font-weight: bold;
+    color:  #17a2b8;   
+}
+
+.user2{
+    font-family:  candara;
+    font-size: 18px;
+    font-weight: normal;
+    color:  #000;     
+}
+
+.action-link3{
+    border: 0;
+    color: #fff;
+    font-family: candara;
+    font-size: 14px;
+    padding: 8px 18px;
+    
+}
 
 
 footer{
@@ -549,6 +582,14 @@ footer{
 
     .entry-text{
         padding: 0px 3px;
+    }
+
+    .profile-image img{
+        margin-top: 20px;   
+    }
+
+    .user-info{
+        margin-top: -240px;
     }
 
 }
