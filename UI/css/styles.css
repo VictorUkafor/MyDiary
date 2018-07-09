@@ -157,6 +157,11 @@ header{
     background-image: none;
 }
 
+
+.form-field-textarea{
+    height: 70px;
+}
+
 .form-button {
     width: 100%;
     border: 1px solid #eb5d32;
