@@ -43,7 +43,7 @@ header{
 
 .side-button{
     float: right;
-    margin-top: -82px;
+    margin-top: -81px;
 }
 
 .sign-in{
@@ -448,15 +448,42 @@ footer{
         margin-left: 9%;
     }
 
-    .side-button{
-        margin-top: -87px;
-    }
-
     .signup-form{
         width: 56%;
         margin-left: 22%;
     }
-    
+
+    .sign-in{
+        margin-top: -9px;
+        padding: 28px 20px;
+        background-color: #eb5d32;
+        border: 3px solid #17a2b8;
+        color: #feeedf;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: candara;
+    }
+
+
+    .entries{
+        max-width: 90%;
+        margin-left: 5%;
+    }
+
+    .entry-div{
+        width: 50%;
+        padding: 1%;
+        margin-top: -151px;
+    }
+
+    .right-entry{
+        margin-top: -192px;
+    }
+
+    .entry-text{
+        padding: 0px 3px;
+    }
+
 }
 
 
@@ -465,6 +492,16 @@ footer{
     .side-button{
         margin-top: -78px;
     }
+
+    .entry-div{
+        margin-top: -161px;
+    }
+
+    .entries{
+        max-width: 78%;
+        margin-left: 9%;
+    }
+
     
 }
 
@@ -474,5 +511,22 @@ footer{
     .side-button{
         margin-top: -85px;
     }
+
+    .entries{
+        max-width: 71%;
+        margin-left: 11.5%;
+    }
+
+    .image-div{
+        width: 46.8%;
+    }
+
+    .entry-div{
+        margin-right: 5px;
+        margin-top: -161px;
+    }
+
+
+
     
 }
