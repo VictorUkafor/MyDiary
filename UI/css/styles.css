@@ -577,12 +577,34 @@ footer{
 
 .search-field{
     width: 78%;
+    margin-left: -4%;
 }
 
 .search-button{
     width: 28%;
 }
 
+.body form{
+    margin-left: 4%;
+}
+
+.image-div{
+    width: 0;
+}
+
+.body .entries{
+    margin-left: -72%;
+    padding-bottom: 370px;
+}
+
+.entries{
+    min-width: 180%;
+    margin-top: 180px;
+}
+
+.entry-div{
+    margin-bottom: 150px;
+}
 
 footer{
     padding-bottom: 10px;
