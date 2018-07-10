@@ -475,6 +475,21 @@ footer{
        margin-left: -95px;
        width: 97%;
 }   
+
+.left-entry{
+    width: 61%;
+    margin-left: 15%;
+}
+
+.right-entry{
+    margin-top: 0;
+    padding-top: 200px;
+    float: left;
+    width: 61%;
+    margin-bottom: 40px; 
+    margin-left: 15%;
+}
+
    
 }
 
@@ -506,6 +521,20 @@ footer{
         margin-left: -11%;
         width: 87%;
  } 
+
+ .left-entry{
+    width: 81%;
+    margin-left: 8%;
+}
+
+.right-entry{
+    margin-top: 0;
+    padding-top: 200px;
+    float: left;
+    width: 81%;
+    margin-bottom: 40px; 
+    margin-left: 8%;
+}
     
 }
 
