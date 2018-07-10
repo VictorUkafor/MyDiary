@@ -131,7 +131,7 @@ header{
 }
 
 .signup-form{
-    max-width: 50%;
+    width: 50%;
     margin-left: 25%;
     margin-top: 40px;
     padding: 35px;
@@ -460,6 +460,16 @@ footer{
        width: 110%;
        margin-left: 20px;
    } 
+
+   .signup-form{
+    min-width: 60%;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+   .body form{
+       margin-left: 17%;
+   }
    
 }
 
@@ -476,6 +486,16 @@ footer{
         width: 150%;
         margin-left: 20px;
     } 
+
+    .signup-form{
+        min-width: 70%;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+    
+    .body form{
+        margin-left: 10%;
+    }
     
 }
 
