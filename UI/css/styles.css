@@ -490,6 +490,10 @@ footer{
     margin-left: 15%;
 }
 
+.pagination{
+    margin-top: 250px;
+    margin-bottom: -80px;
+}
    
 }
 
@@ -594,16 +598,28 @@ footer{
 
 .body .entries{
     margin-left: -72%;
-    padding-bottom: 370px;
+    padding-bottom: 350px;
 }
 
 .entries{
     min-width: 180%;
     margin-top: 180px;
+    margin-bottom: -50px
 }
 
 .entry-div{
     margin-bottom: 150px;
+}
+
+.pagination-link{
+    font-size: 13px;
+    padding: 7px 12px;
+    margin-left: -3px;
+}
+
+.pagination{
+    width: 70%;
+    padding-top: 250px;
 }
 
 footer{
