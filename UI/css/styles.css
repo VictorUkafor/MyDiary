@@ -12,6 +12,7 @@ a{
 
 .logo{
     margin-left: 5%;
+    padding-top: 1px;
 }
 
 header{
@@ -24,15 +25,15 @@ header{
 
 .logo-image{
     width: 5%;
-    margin-top: 15px;
+    float: left;
+    margin-top: -7px;
+    margin-right: 15px;
 }
 
 .logo-text{
-    margin-top: -55px;
     font-family: candara;
     font-size: 32px;
     font-weight: bold;
-    margin-left: 6.5%;
     color: #5c453d;
     font-style: italic;
 }
@@ -43,11 +44,24 @@ header{
 
 .side-button{
     float: right;
-    margin-top: -81px;
+    margin-top: -77px;
+    margin-right: 7px;
+}
+
+.side-button li{
+	display:inline;
+}
+
+.side-button li a{
+	outline:none;
+}
+
+.side-button li a:hover{
+	text-decoration:none;
 }
 
 .sign-in{
-    padding: 28px 20px;
+    padding: 22px 20px;
     background-color: #eb5d32;
     border: 3px solid #17a2b8;
     color: #feeedf;
@@ -436,60 +450,42 @@ footer{
 
 @media screen and (max-width:360px){
 
-
     header{
         margin-top: 0;
         width: 100%;
         margin-left: 0;
-        height:  50px;
+        height:  45px;
     }
 
     .logo{
-        margin-left: 5%;
-    }
-    
-    .logo-image{
-        width: 100%;
-        height: auto;
-        margin-top: 0;
-    }
-    
-    .logo-text{
-        margin-top: 80px;
-        font-size: 12px;
-        margin-left: 0%;
+        width: 145%;
+        padding-top: 70px;
+        margin-left: -40px;
     }
 
-    .side-button{
-        float: right;
-        margin-top: 0px;
+    .logo h1{
+        font-size: 20px;
+    }
+
+    .logo img{
+        margin-top: -3px;
+    }
+
+    .side-button li input{
+        font-size: 10px;
+        margin-top: -17px;
+
     }
 
     .sign-in{
-        margin-top: 27px;
-        height: 50px;
-        width: 70;
+        padding: 8px 8px;
+        margin-left: -4px;
         background-color: #eb5d32;
-        border: 3px solid #17a2b8;
-        color: #feeedf;
-        font-size: 15px;
-        font-weight: bold;
-        font-family: candara;
     }
 
     .page-header{
         font-size: 25px;
         margin-top: 20px;
-    }
-
-    .signup-form{
-        min-width: 68%;
-        margin-left: 0%;
-        margin-right: 25%;
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 30px;
     }
 
     .copyright{
@@ -508,19 +504,30 @@ footer{
 
 @media screen and (max-width:600px){
 
-    .logo-image{
-        width: 10%;
-        margin-top: 18px;
+    header{
+        margin-top: 0;
+        width: 100%;
+        margin-left: 0;
+        height:  80px;
     }
 
-    .logo-text{
-        font-size: 36px;
-        margin-top: -60px;
-        margin-left: 9%;
+    .logo{
+        width: 150%;
+        margin-left: 20px;
     }
 
-    .side-button{
-        margin-top: -80px;
+    .logo h1{
+        font-size: 33px;
+    }
+
+    .logo img{
+        margin-top: -9px;
+    }
+
+    .side-button li input{
+        font-size: 15px;
+        margin-top: -13px;
+
     }
 
     .signup-form{
@@ -533,15 +540,14 @@ footer{
 
 @media screen and (max-width:1024px){
 
-    .logo-image{
-        width: 7%;
-        margin-top: 14px;
+    .side-button{
+        margin-top: -68px;
+        margin-right: 7px;
     }
 
-    .logo-text{
-        font-size: 36px;
-        margin-top: -60px;
-        margin-left: 9%;
+    .logo-image{
+        width: 7%;
+        margin-top: -8px;
     }
 
     .signup-form{
@@ -549,13 +555,8 @@ footer{
         margin-left: 22%;
     }
 
-    .side-button{
-        margin-top: -78px;
-    }
-
     .sign-in{
         margin-top: -9px;
-        padding: 28px 20px;
         background-color: #eb5d32;
         border: 3px solid #17a2b8;
         color: #feeedf;
@@ -597,8 +598,13 @@ footer{
 
 @media screen and (min-width:1280px) and (max-width:1280px) {
 
+    .logo-image{
+        width: 6%;
+        margin-top: -10px;
+    }
+
     .side-button{
-        margin-top: -78px;
+        margin-top: -77px;
     }
 
     .entry-div{
@@ -616,8 +622,12 @@ footer{
 
 @media screen and (min-width:1440px){
 
+    .logo-image{
+        margin-top: -8px;
+    }
+
     .side-button{
-        margin-top: -85px;
+        margin-top: -77px;
     }
 
     .entries{
