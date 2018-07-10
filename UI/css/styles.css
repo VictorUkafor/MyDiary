@@ -83,7 +83,7 @@ header{
     margin-top: 20px;
     padding: 2%;
     background-color: #fff;
-    border-radius: 15px;
+    border-radius: 20px;
     border: 1px solid #eb5d32;
     margin-bottom: 20px;
 }
@@ -470,6 +470,11 @@ footer{
    .body form{
        margin-left: 17%;
    }
+
+   .search-field{
+       margin-left: -95px;
+       width: 97%;
+}   
    
 }
 
@@ -496,6 +501,11 @@ footer{
     .body form{
         margin-left: 10%;
     }
+
+    .search-field{
+        margin-left: -11%;
+        width: 87%;
+ } 
     
 }
 
@@ -529,6 +539,19 @@ footer{
 .page-header{
     font-size: 20px;
     margin-top: 20px;
+}
+
+.search-box{
+    width: 85%;
+    margin-left: 3%;
+}
+
+.search-field{
+    width: 78%;
+}
+
+.search-button{
+    width: 28%;
 }
 
 
