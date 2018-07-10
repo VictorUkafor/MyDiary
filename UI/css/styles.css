@@ -622,6 +622,32 @@ footer{
     padding-top: 250px;
 }
 
+.single-entry-image img{
+    width: 80%;
+    margin-left: 10%;
+}
+
+.entry-content h1{
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.date-p{
+    font-size: 14px;
+}
+
+.single-line{
+    height: 2px;
+    background-color: #17a2b8;
+    border: 0;
+}
+
+.entry-p{
+    font-family: corbel;
+    font-size: 14px;
+    line-height: 25px;
+}
+
 footer{
     padding-bottom: 10px;
     line-height: 15px;
