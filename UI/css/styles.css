@@ -506,6 +506,12 @@ footer{
     font-size: 10px;
 }
 
+.page-header{
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+
 footer{
     padding-bottom: 10px;
     line-height: 15px;
