@@ -506,6 +506,16 @@ footer{
     font-size: 10px;
 }
 
+footer{
+    padding-bottom: 10px;
+    line-height: 15px;
+}
+
+.copyright{
+    font-size: 11px;
+    margin-left: 15px;
+    margin-right: 2px;
+}
 
    
 }
@@ -574,7 +584,7 @@ footer{
 }
 
 
-@media screen and (min-width:1280px) and (max-width:1280px) {
+@media screen and (min-width:1280px) and (max-width:1300px) {
 
     .logo-image{
         width: 6%;
