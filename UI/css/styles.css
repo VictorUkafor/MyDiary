@@ -494,6 +494,16 @@ footer{
     margin-top: 250px;
     margin-bottom: -80px;
 }
+
+.profile-image img{
+    width: 30%;
+    margin-left: 10%;   
+}
+
+.profile-div .user-info{
+    margin-top: -265px;
+}
+
    
 }
 
@@ -538,6 +548,20 @@ footer{
     width: 81%;
     margin-bottom: 40px; 
     margin-left: 8%;
+}
+
+.profile-image img{
+    width: 30%;
+    margin-left: 10%;   
+}
+
+.profile-div{
+    margin-left: -5%;
+}
+
+.profile-div .user-info{
+    margin-top: -225px;
+    width: 60%;
 }
     
 }
@@ -646,6 +670,25 @@ footer{
     font-family: corbel;
     font-size: 14px;
     line-height: 25px;
+}
+
+.profile-image img{
+    width: 35%;
+    margin-left: 30%;   
+}
+
+.profile-div{
+    margin-left: -5%;
+}
+
+.profile-div .user-info{
+    margin-top: 30px;
+    width: 100%;
+    margin-left: 10%;
+}
+
+.user-info p{
+    font-size: 18px;   
 }
 
 footer{
