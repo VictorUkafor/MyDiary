@@ -1,5 +1,3 @@
-
-
 function validateSignUpForm(){
     let firstName = document.forms["signUp"]["firstName"].value;
     let lastName = document.forms["signUp"]["lastName"].value;
@@ -7,9 +5,6 @@ function validateSignUpForm(){
     let password = document.forms["signUp"]["password"].value;
     let confirmPassword = document.forms["signUp"]["confirmPassword"].value;
     let photograph = document.forms["signUp"]["photograph"].value;
-
-
-
 
     if(firstName.trim() === ''){
         const firstNameError = 'First Name field is required';
@@ -45,6 +40,28 @@ function validateSignUpForm(){
         const photographError = 'You must upload your passport';
         document.getElementById('photographError').innerHTML = '<h1 class="errorField">'+ photographError +'</h1>';
     }     
+
+    
+    return false;
+}
+
+
+
+
+function validateSignInForm(){
+    let email = document.forms["signIn"]["email"].value;
+    let password = document.forms["signIn"]["password"].value;
+
+
+    if(email.trim() === ''){
+        const emailError = 'Email field is required';
+        document.getElementById('emailError').innerHTML = '<h1 class="errorField">'+ emailError +'</h1>'; 
+    }  
+    
+    if(password.trim() === ''){
+        const passwordError = 'Password field is required';
+        document.getElementById('passwordError').innerHTML = '<h1 class="errorField">'+ passwordError +'</h1>'; 
+    }   
 
     
     return false;
