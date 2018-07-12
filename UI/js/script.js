@@ -107,10 +107,17 @@ function validateSignInForm(){
 function validateAddEntryForm(){
     let entryContent = document.forms["addEntry"]["entryContent"].value;
 
+    document.getElementById('entryContentError').innerHTML = '';
+
     if(entryContent.trim() === ''){
         const entryContentError = 'You must some entry';
         document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">'+ entryContentError +'</h1>'; 
-    }   
+        document.getElementById('Entry_content').value = "";
+
+        return false;
+    }  else {
+        return true;
+    } 
 
     return false;
 }
