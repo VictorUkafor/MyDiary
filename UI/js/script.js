@@ -1,3 +1,6 @@
+
+// onSumbit event for signup form
+
 function validateSignUpForm(){
     let firstName = document.forms["signUp"]["firstName"].value;
     let lastName = document.forms["signUp"]["lastName"].value;
@@ -70,7 +73,7 @@ function validateSignUpForm(){
 }
 
 
-
+// onSumbit event for signin form
 
 function validateSignInForm(){
     let email = document.forms["signIn"]["email"].value;
@@ -103,6 +106,7 @@ function validateSignInForm(){
 
 
 
+// onSumbit event for add entry  form
 
 function validateAddEntryForm(){
     let entryContent = document.forms["addEntry"]["entryContent"].value;
@@ -285,13 +289,13 @@ let entries = [
 ];
 
 
-
+// on document load
 entries.forEach((entry) => {
     document.getElementById('entries').innerHTML += entry; 
 })
 
 
-
+// deleting entries
 function deleteEntry(){
     document.getElementById('entries').innerHTML = ''; 
     entries.splice((entries.length - 1),1);
