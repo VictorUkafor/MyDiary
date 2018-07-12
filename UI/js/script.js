@@ -141,3 +141,164 @@ function validateModifyEntryForm(){
 
     return false;
 }
+
+
+
+let entries = [
+    '<div class="left-entry">' +
+    '<div class="image-div">' +
+        '<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' + 
+        '</div>' +
+    
+        '<div class="entry-div">' +
+        '<h3 class="entry-heading"><a href="single-entry.html">My First Day in School</a></h3>' +
+        '<p class="date">Last Updated: <span class="date2">Feb 25, 2018</span></p>' +
+        '<hr class="entry-line"/>' +
+        '<p class="entry-text"><a href="single-entry.html">' +
+            'Lorem ipsum dolor sit amet,' +
+            'adipiscing elit. Etiam pulv inar, mauris sit' +
+            'amet interdum feugiat . . .' +
+            '</a></p>' +
+            '<div class="actions">' +
+            '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+            '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+            '<a><button type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+                '</div>' +
+        
+    '</div>' +
+'</div>',
+
+'<div class="right-entry">' +
+'<div class="image-div">' +
+'<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' +
+        '</div>' +
+
+        '<div class="entry-div">' +
+        '<h3 class="entry-heading"><a href="single-entry.html">How it all started</a></h3>' +
+        '<p class="date">Last Updated: <span class="date2">Mar 12, 2018</span></p>' +
+        '<hr class="entry-line"/>' +
+        '<p class="entry-text"><a href="single-entry.html">' +
+        'Lorem ipsum dolor sit amet,' +
+        'adipiscing elit. Etiam pulv inar, mauris sit' +
+        'amet interdum feugiat . . .' +
+        '</a></p>' +
+        '<div class="actions">' +
+        '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+        '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+        '<a><button type="submit" id="entry2" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+        '</div>' +
+    
+        '</div>' +
+'</div>',
+
+'<div class="left-entry">' +
+'<div class="image-div">' +
+    '<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' + 
+    '</div>' +
+
+    '<div class="entry-div">' +
+    '<h3 class="entry-heading"><a href="single-entry.html">My First Day in School</a></h3>' +
+    '<p class="date">Last Updated: <span class="date2">Feb 25, 2018</span></p>' +
+    '<hr class="entry-line"/>' +
+    '<p class="entry-text"><a href="single-entry.html">' +
+        'Lorem ipsum dolor sit amet,' +
+        'adipiscing elit. Etiam pulv inar, mauris sit' +
+        'amet interdum feugiat . . .' +
+        '</a></p>' +
+        '<div class="actions">' +
+        '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+        '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+        '<a><button type="submit" id="entry3" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+            '</div>' +
+    
+'</div>' +
+'</div>',
+
+'<div class="right-entry">' +
+'<div class="image-div">' +
+'<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' +
+    '</div>' +
+
+    '<div class="entry-div">' +
+    '<h3 class="entry-heading"><a href="single-entry.html">How it all started</a></h3>' +
+    '<p class="date">Last Updated: <span class="date2">Mar 12, 2018</span></p>' +
+    '<hr class="entry-line"/>' +
+    '<p class="entry-text"><a href="single-entry.html">' +
+    'Lorem ipsum dolor sit amet,' +
+    'adipiscing elit. Etiam pulv inar, mauris sit' +
+    'amet interdum feugiat . . .' +
+    '</a></p>' +
+    '<div class="actions">' +
+    '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+    '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+    '<a><button type="submit" id="entry4" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+    '</div>' +
+
+    '</div>' +
+'</div>',
+
+'<div class="left-entry">' +
+'<div class="image-div">' +
+    '<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' + 
+    '</div>' +
+
+    '<div class="entry-div">' +
+    '<h3 class="entry-heading"><a href="single-entry.html">My First Day in School</a></h3>' +
+    '<p class="date">Last Updated: <span class="date2">Feb 25, 2018</span></p>' +
+    '<hr class="entry-line"/>' +
+    '<p class="entry-text"><a href="single-entry.html">' +
+        'Lorem ipsum dolor sit amet,' +
+        'adipiscing elit. Etiam pulv inar, mauris sit' +
+        'amet interdum feugiat . . .' +
+        '</a></p>' +
+        '<div class="actions">' +
+        '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+        '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+        '<a><button type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+            '</div>' +
+    
+'</div>' +
+'</div>',
+
+'<div class="right-entry">' +
+'<div class="image-div">' +
+'<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' +
+    '</div>' +
+
+    '<div class="entry-div">' +
+    '<h3 class="entry-heading"><a href="single-entry.html">How it all started</a></h3>' +
+    '<p class="date">Last Updated: <span class="date2">Mar 12, 2018</span></p>' +
+    '<hr class="entry-line"/>' +
+    '<p class="entry-text"><a href="single-entry.html">' +
+    'Lorem ipsum dolor sit amet,' +
+    'adipiscing elit. Etiam pulv inar, mauris sit' +
+    'amet interdum feugiat . . .' +
+    '</a></p>' +
+    '<div class="actions">' +
+    '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+    '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
+    '<a onclick="deleteEntry"><button type="submit" id="entry2" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+    '</div>' +
+
+    '</div>' +
+'</div>'
+];
+
+
+
+entries.forEach((entry) => {
+    document.getElementById('entries').innerHTML += entry; 
+})
+
+
+
+function deleteEntry(){
+    document.getElementById('entries').innerHTML = ''; 
+    entries.splice((entries.length - 1),1);
+
+    entries.forEach((entry) => {
+        document.getElementById('entries').innerHTML += entry; 
+    })  
+
+}
+
