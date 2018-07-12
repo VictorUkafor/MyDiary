@@ -26,7 +26,7 @@
 
         <h1 class="page-header">Sign Up Today</h1>
 
-        <form name="signUp" class="signup-form" action="sign-in.html" onsubmit="return validateSignUpForm()">
+        <form name="signUp" id="signUp" class="signup-form" action="sign-in.html" onsubmit="return validateSignUpForm()">
             <div class="form-group">
               <label class="input-label" for="FirstName">First Name</label>
               <input name="firstName" type="text" class="form-field" id="FirstName" placeholder="First Name">
@@ -54,7 +54,7 @@
             </div>
             <div class="">
               <label  class="input-label" for="InputFile">Photograph</label>
-              <input name="photograph" type="file" class="form-field" id="InputFile">
+              <input name="photograph" type="file" class="form-field" id="Photograph">
               <div id="photographError"></div>
             </div>
             <button type="submit" class="form-button">Sign Up</button>

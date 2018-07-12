@@ -429,9 +429,9 @@ header{
 }
 
 .errorField{
-    color: red;
+    color: #fff;
     font-size: 16px;
-    background-color:  #555;
+    background-color:  red;
     padding: 5px 5px;
     width: 95%;
     margin-top: 10px;
