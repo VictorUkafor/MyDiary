@@ -121,3 +121,23 @@ function validateAddEntryForm(){
 
     return false;
 }
+
+
+
+function validateModifyEntryForm(){
+    let entryContent = document.forms["modifyEntry"]["entryContent"].value;
+
+    document.getElementById('entryContentError').innerHTML = '';
+
+    if(entryContent.trim() === ''){
+        const entryContentError = 'You must some entry';
+        document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">'+ entryContentError +'</h1>'; 
+        document.getElementById('Entry_content').value = "";
+
+        return false;
+    }  else {
+        return true;
+    } 
+
+    return false;
+}
