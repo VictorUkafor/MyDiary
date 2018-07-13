@@ -1,0 +1,55 @@
+{
+  "name": "my_diary",
+  "version": "1.0.0",
+  "description": "MyDiary web app",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.1",
+    "swagger-tools": "^0.10.3",
+    "swagger-ui-express": "^2.0.15",
+    "uuid": "^3.2.1"
+    
+  },
+  "devDependencies": {  
+    "validator": "^9.4.1",    
+    "airbnb-browser-shims": "^2.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-airbnb": "^2.4.0",  
+    "coveralls": "^3.0.0",
+    "nyc": "^11.4.1",
+    "istanbul": "^0.4.5",
+    "supertest": "^3.0.0",  
+    "chai": "^4.1.2",
+    "eslint": "^4.18.2",
+    "expect": "^22.4.3",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "mocha": "^5.0.1"
+  },
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node",
+    "test": "nyc --reporter=html --reporter=text mocha --exit --require babel-register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
+    "eslint": "eslint --fix server",
+    "showcoverage": "start coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorUkafor/MyDiary.git"
+  },
+  "author": "Victor Ukafor victorukafor@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictorUkafor/MyDiary/issues"
+  },
+  "homepage": "https://github.com/VictorUkafor/MyDiary#readme"
+}
