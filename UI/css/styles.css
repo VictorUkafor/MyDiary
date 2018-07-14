@@ -428,6 +428,14 @@ header{
     
 }
 
+.errorField{
+    color: #fff;
+    font-size: 16px;
+    background-color:  red;
+    padding: 5px 5px;
+    width: 95%;
+    margin-top: 10px;
+}
 
 footer{
     padding-top: 10px;

@@ -27,14 +27,15 @@
 
         <h1 class="page-header">Add an Entry</h1>
 
-        <form class="signup-form" action="all-entries.html">
+        <form name="addEntry" class="signup-form" action="all-entries.html" onsubmit="return validateAddEntryForm()">
             <div class="form-group">
               <label  class="input-label" for="Title">Title</label>
               <input type="text" class="form-field" id="Title" placeholder="Entry title here . . .">
             </div>
             <div class="form-group">
               <label  class="input-label" for="Entry_content">Entry Content</label>
-              <textarea type="password" height="50px" class="form-field form-field-textarea" id="Entry_content" placeholder="Enter your thought . . ."></textarea>
+              <textarea name="entryContent" height="50px" class="form-field form-field-textarea" id="Entry_content" placeholder="Enter your thought . . ."></textarea>
+              <div id="entryContentError"></div>
             </div>
             <button type="submit" class="form-button">Save Entry</button>
           </form>
