@@ -85,6 +85,59 @@ describe('MyDiary API Routes', () => {
           });
       });
     }); 
+
+
+    // Testing for 'POST /api/v1/login'
+  describe('POST /api/v1/login', () => {
+    // Logs a user into the app successfully
+    it('Logs a user into the app successfully', (done) => {
+      request.post('/api/v1/login')
+        .send({
+          email: 'johndoe@gmail.com',
+          password: 'password',
+        })
+        .expect(201)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+    // both fields are required
+    it('Both fields are required', (done) => {
+      request.post('/api/v1/login')
+        .send({})
+        .expect(400)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+    // invalid email or password
+    it('Invalid email or password', (done) => {
+      request.post('/api/v1/login')
+        .send({
+          email: 'john@gmail.com1',
+          password: 'password',
+        })
+        .expect(404)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+    // invalid email or password
+    it('Invalid email or password', (done) => {
+      request.post('/api/v1/login')
+        .send({
+          email: 'johndoe@gmail.com',
+          password: 'password1',
+        })
+        .expect(404)
+        .end((err) => {
+          done(err);
+        });
+    });
+  });
     
 
 
