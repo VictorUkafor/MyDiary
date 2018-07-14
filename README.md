@@ -3,29 +3,61 @@
 MyDiary is an online journal where users can pen down their thoughts and feelings.
 
 
+
 # Motivation
 
 MyDiary gives users the avenue to pen down their daily thoughts and ideas. They can add new
 notes anytime as well as modify or delete old notes.
 
 
+
 # Getting Started
 
-Clone the repo by downloading the zip file or copying the link from the 'clone or download' button and running it with
-the command 'git clone' on the terminal.
+Clone the repo by downloading the zip file or copying the link from the 'clone or download' button and running it with the command ``git clone`` on the terminal.
+
+
+
+# Tech/Frameworks used
+
+Built with
+
+      - Node/Express
+
+
+Template built with
+
+1. HTML
+
+2. CSS
+
+3. Javascript
 
 
 # Installation
 
 To view the UI:
 
-1.  Open the cloned directory
+*  Open the cloned directory
 
-2.  Go to UI subfolder
+*  Go to UI subfolder
 
-3.  Open the index.html with an Internet Browser
+*  Open the index.html with an Internet Browser
 
-4. Hurray! the template is live.
+* Hurray! the template is live.
+
+
+To get started with the app:
+
+* clone it to your local machine
+
+* cd to the root directory
+
+* run ``npm install``
+
+* start up the app by running ``npm start``
+
+5. go to ``localhost:8000/api/v1`` on your web browser to view the index page
+
 
 
 # Author
