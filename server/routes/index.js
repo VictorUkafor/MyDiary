@@ -2,8 +2,10 @@ import express from 'express';
 import uuid from 'uuid';
 import data from '../dummy_data';
 import UserController from '../controllers/users';
+import AuthController from '../middlewares';
 
 const apiRouter = express.Router();
+const auth = new AuthController(data);
 const user = new UserController(data, uuid);
 
 apiRouter.get('/', (req, res) => res.status(200).send({
@@ -11,7 +13,10 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 }));
 
 
-apiRouter.post('/signup', user.addUser);
+apiRouter.post('/signup', 
+auth.checksForUserRequiredFields,
+auth.checksIfUserAlreadyExist,
+user.postUser);
 
 
 
