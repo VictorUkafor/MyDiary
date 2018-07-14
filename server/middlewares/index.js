@@ -5,8 +5,8 @@ import data from '../dummy_data';
   */
 export default class AuthController {
   /**
-      *  constructor      
-      * 
+      *  constructor
+      *
       */
   constructor() {
     this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
@@ -91,47 +91,44 @@ export default class AuthController {
       *  @param  {object} next the third parameter
       *  @returns {object} return an object
       */
-     checksIfUserExist(req, res, next) {
-      const authenticatedUser = data.users.find(user => user.email === req.body.email);
-  
-      if (!authenticatedUser) {
-        res.status(404).send({ message: 'Invalid email or password!' });
-      } else {
-        req.user = authenticatedUser;
-        next();
-         
-      }
+  checksIfUserExist(req, res, next) {
+    const authenticatedUser = data.users.find(user => user.email === req.body.email);
+
+    if (!authenticatedUser) {
+      res.status(404).send({ message: 'Invalid email or password!' });
+    } else {
+      req.user = authenticatedUser;
+      next();
     }
-  
-    /** A method for checking login required fields:
+  }
+
+  /** A method for checking login required fields:
         *  Takes 3 parameters
         *  @param {object} req the first parameter
         *  @param  {object} res the second parameter
         *  @param  {object} next the third parameter
         *  @returns {object} return an object
         */
-    checksForLogInRequiredFields(req, res, next) {
-      const errors = {};
-  
-      if (!req.body.email) {
-        errors.email = 'Email field is required';
-      }
-  
-      if (req.body.email && req.body.email.indexOf('@') === -1) {
-        errors.email = 'You\'ve entered an invalid email';
-      }
-  
-      if (!req.body.password) {
-        errors.password = 'Password field is required';
-      }
-  
-  
-      if (Object.keys(errors).length > 0) {
-        res.status(400).send({ message: errors });
-      } else {
-        next();
-      }
-    }  
+  checksForLogInRequiredFields(req, res, next) {
+    const errors = {};
+
+    if (!req.body.email) {
+      errors.email = 'Email field is required';
+    }
+
+    if (req.body.email && req.body.email.indexOf('@') === -1) {
+      errors.email = 'You\'ve entered an invalid email';
+    }
+
+    if (!req.body.password) {
+      errors.password = 'Password field is required';
+    }
 
 
+    if (Object.keys(errors).length > 0) {
+      res.status(400).send({ message: errors });
+    } else {
+      next();
+    }
+  }
 }
