@@ -13,11 +13,12 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 }));
 
 
-apiRouter.post('/signup', 
-auth.checksForUserRequiredFields,
-auth.checksIfUserAlreadyExist,
-user.postUser);
-
+apiRouter.post(
+  '/signup',
+  auth.checksForUserRequiredFields,
+  auth.checksIfUserAlreadyExist,
+  user.postUser
+);
 
 
 export default apiRouter;

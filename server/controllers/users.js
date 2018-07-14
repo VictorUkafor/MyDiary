@@ -7,12 +7,12 @@ export default class UserController {
 /**
   *  constructor
   *  Takes two parameter
-  *  @param {object} dummy_data the first parameter
+  *  @param {object} dummyData the first parameter
   * @param {object} id the second parameter
   *
   */
-  constructor(dummy_data, id) {
-    this.users = dummy_data.users;
+  constructor(dummyData, id) {
+    this.users = dummyData.users;
     this.id = id;
     this.postUser = this.postUser.bind(this);
   }
@@ -35,15 +35,10 @@ export default class UserController {
     const user = {
       id, firstName, lastName, email, password,
     };
-    
+
     this.users.push(user);
     return res.status(201).send({
       message: ['A user account has been created successfully', user]
     });
-
-    }
-  
-
-
-
+  }
 }
