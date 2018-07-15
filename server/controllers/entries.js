@@ -17,6 +17,7 @@ export default class EntryController {
     this.getEntry = this.getEntry.bind(this);
     this.postEntry = this.postEntry.bind(this);
     this.putEntry = this.putEntry.bind(this);
+    this.deleteEntry = this.deleteEntry.bind(this);
   }
 
 
@@ -122,6 +123,34 @@ export default class EntryController {
 
     return res.status(201).send({
       message: ['The entry has been updated successfully', entryToModify]
+    });    
+
+  }else{
+    return res.status(404).send({
+      message: 'Entry can not be found!'
+    });
+  }
+
+}
+
+
+    /** An API for deleting a diary entry:
+  *  DELETE: api/v1/entries/<entryId>
+  *  Takes 2 parameters
+  *  @param {object} req the first parameter
+  *  @param  {object} res the second parameter
+  *
+  *  @returns {object} return an object
+  */
+ deleteEntry(req, res) {
+  const entryToDelete = data.entries.find(entry => entry.id === req.params.entryId);
+
+  if(entryToDelete){
+    const index = data.entries.indexOf(entryToDelete);
+    data.entries.splice(index, 1);
+
+    return res.status(200).send({
+      message: ['The entry has been deleted successfully', data.entries]
     });    
 
   }else{

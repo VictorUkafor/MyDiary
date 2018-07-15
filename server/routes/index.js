@@ -48,6 +48,11 @@ apiRouter.put(
   entry.putEntry
 );
 
+apiRouter.delete(
+  '/entries/:entryId',
+  entry.deleteEntry
+);
+
 
 
 
