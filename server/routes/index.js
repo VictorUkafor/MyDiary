@@ -38,6 +38,11 @@ apiRouter.get(
   entry.getEntry
 );
 
+apiRouter.post(
+  '/entries',
+  entry.postEntry
+);
+
 
 
 

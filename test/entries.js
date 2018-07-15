@@ -55,6 +55,36 @@ describe('MyDiary API Routes', () => {
     });
 
 
+      // Testing for 'POST /api/v1/entries
+  describe('POST /api/v1/entries', () => {
+    // Add a new diary entry
+    it('Adds a new diary', (done) => {
+      request.post('/api/v1/entries')
+        .send({
+          title: 'My first bootcamp experience',
+          content: 'I was so excited when i recieved . . .'
+        })
+        .expect(201)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+      // Content field must be filled
+    it('Content field must be filled', (done) => {
+      request.post('/api/v1/entries')
+        .send({
+          title: 'My first bootcamp experience'
+        })
+        .expect(400)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+  });
+
+
     
 
 
