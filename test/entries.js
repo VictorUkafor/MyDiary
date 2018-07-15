@@ -116,6 +116,29 @@ describe('MyDiary API Routes', () => {
       });
 
 
+        // Testing for 'DELETE /api/v1/entries/<entryId>'
+  describe('DELETE /api/v1/entries/<entryId>', () => {
+    // Entry can not be found
+    it('Entry can not be found', (done) => {
+      request.delete('/api/v1/entries/3')
+        .expect(404)
+        .end((err) => {
+          done(err);
+        });
+    });
+
+    // Deletes an entry
+    it('Deletes an entry', (done) => {
+      request.delete(`/api/v1/entries/${data.entries[2].id}`)
+        .expect(200)
+        .end((err) => {
+          done(err);
+        });
+    });
+  });
+
+
+
     
 
 
