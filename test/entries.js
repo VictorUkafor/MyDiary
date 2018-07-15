@@ -1,10 +1,10 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
-import { entries } from '../server/dummy_data';
+import data from '../server/dummy_data';
 import app from '../index';
 
-
 const request = supertest(app);
+
 
 describe('MyDiary API Routes', () => {
     beforeEach((done) => {
@@ -46,7 +46,7 @@ describe('MyDiary API Routes', () => {
   
       // Gets a single entry
       it('Gets a single entry', (done) => {
-        request.get(`/api/v1/entries/${entries[0].id}`)
+        request.get(`/api/v1/entries/${data.entries[0].id}`)
           .expect(200)
           .end((err) => {
             done(err);
