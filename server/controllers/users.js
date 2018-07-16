@@ -56,13 +56,11 @@ export default class UserController {
    *
    *  @returns {object} return an object
    */
-  loginUser(req, res) {    
+  loginUser(req, res) {
     if (bcrypt.compareSync(req.body.password, req.user.password)) {
       res.status(201).send({ message: `Welcome! ${req.user.firstName} ${req.user.lastName}` });
     } else {
       res.status(404).send({ message: 'Invalid email or password!' });
     }
-  } 
-  
-  
+  }
 }

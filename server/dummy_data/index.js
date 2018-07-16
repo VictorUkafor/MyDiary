@@ -11,14 +11,14 @@ const data = {
       firstName: 'Kelvin',
       lastName: 'George',
       email: 'kelvingeorge@gmail.com',
-      password: password
+      password
     },
     {
       id: uuid.v4(),
       firstName: 'Daniel',
       lastName: 'David',
       email: 'danieldavid@gmail.com',
-      password: password
+      password
     }
   ],
 
