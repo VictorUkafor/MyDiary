@@ -1,9 +1,7 @@
 language: node_js
 node_js:
-- "stable"
-env:
-global:
-- export NODE_ENV=test
+  - "iojs"
+  - "7"
 before_script:
 - npm install
 script:
