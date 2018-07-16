@@ -1,4 +1,3 @@
-import data from '../dummy_data';
 import bcrypt from 'bcrypt';
 
 /**
@@ -9,11 +8,12 @@ export default class UserController {
 /**
   *  constructor
   *  Takes two parameter
-  * @param {object} id the second parameter
-  * @param {object} bcrypt the third parameter
+  * @param {object} id the first parameter
+  * @param {object} data the second parameter
   *
   */
-  constructor(id) {
+  constructor(id, data) {
+    this.users = data.users;
     this.id = id;
     this.postUser = this.postUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
@@ -40,7 +40,7 @@ export default class UserController {
       id, firstName, lastName, email, password,
     };
 
-    data.users.push(user);
+    this.users.push(user);
     return res.status(201).send({
       message: ['A user account has been created successfully', user]
     });
