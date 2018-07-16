@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "iojs"
   - "7"
+env:
+global:
+- export NODE_ENV=test  
 before_script:
 - npm install
 script:

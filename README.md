@@ -31,11 +31,11 @@ Built with
 
 Template built with
 
-1. HTML
+      - HTML
 
-2. CSS
+      - CSS
 
-3. Javascript
+      - Javascript
 
 
 # Installation
@@ -61,7 +61,7 @@ To get started with the app:
 
 * start up the app by running ``npm start``
 
-5. go to ``localhost:8000/api/v1`` on your web browser to view the index page
+* go to ``localhost:8000/api/v1`` on your web browser to view the index page
 
 
 
