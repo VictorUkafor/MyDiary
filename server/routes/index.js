@@ -1,12 +1,11 @@
 import express from 'express';
 import uuid from 'uuid';
-import data from '../dummy_data';
 import UserController from '../controllers/users';
 import AuthController from '../middlewares';
 
 const apiRouter = express.Router();
-const auth = new AuthController(data);
-const user = new UserController(data, uuid);
+const auth = new AuthController();
+const user = new UserController(uuid);
 
 apiRouter.get('/', (req, res) => res.status(200).send({
   message: 'Welcome to MyDiary app!',
@@ -15,10 +14,18 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 
 apiRouter.post(
   '/signup',
-  auth.checksForUserRequiredFields,
+  auth.checksForSignUpRequiredFields,
   auth.checksIfUserAlreadyExist,
   user.postUser
 );
+
+apiRouter.post(
+  '/login',
+  auth.checksForLogInRequiredFields,
+  auth.checksIfUserExist,
+  user.loginUser
+);
+
 
 
 export default apiRouter;
