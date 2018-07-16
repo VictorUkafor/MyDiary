@@ -3,6 +3,7 @@ node_js:
   - "7"
 env:
 global:
+- CC_TEST_REPORTER_ID=69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
 - export NODE_ENV=test  
 before_script:
 - npm install
