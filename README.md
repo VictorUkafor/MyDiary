@@ -10,15 +10,9 @@ MyDiary gives users the avenue to pen down their daily thoughts and ideas. They 
 notes anytime as well as modify or delete old notes.
 
 
-# Build status
+# Build Status
 
-[![Build Status](https://travis-ci.org/VictorUkafor/MyDiary.svg?branch=018-Server-setup-continuous-integrations)](https://travis-ci.org/VictorUkafor/WEConnect)
-
-[![Coverage Status](https://coveralls.io/repos/github/VictorUkafor/MyDiary/badge.svg?branch=018-Server-setup-continuous-integrations)](https://coveralls.io/github/VictorUkafor/MyDiary?branch=master) 
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/maintainability)](https://codeclimate.com/github/VictorUkafor/MyDiary/maintainability)
-
-[![Test Coverage](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/test_coverage)](https://codeclimate.com/github/VictorUkafor/MyDiary/test_coverage)
+[![Build Status](https://travis-ci.org/VictorUkafor/MyDiary.svg?branch=018-Server-setup-continuous-integrations)](https://travis-ci.org/VictorUkafor/WEConnect) [![Coverage Status](https://coveralls.io/repos/github/VictorUkafor/MyDiary/badge.svg?branch=018-Server-setup-continuous-integrations)](https://coveralls.io/github/VictorUkafor/MyDiary?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/maintainability)](https://codeclimate.com/github/VictorUkafor/MyDiary/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/test_coverage)](https://codeclimate.com/github/VictorUkafor/MyDiary/test_coverage)
 
 
 
