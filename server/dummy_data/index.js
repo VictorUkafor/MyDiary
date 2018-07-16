@@ -25,28 +25,24 @@ const data = {
   entries: [
     {
       id: uuid.v4(),
-      userId: 1,
       title: 'My first day in school',
       content: 'Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat'
     },
 
     {
       id: uuid.v4(),
-      userId: 1,
       title: 'My fight of faith',
       content: 'Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat'
     },
 
     {
       id: uuid.v4(),
-      userId: 2,
       title: 'How to prepare a good meal',
       content: 'Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat'
     },
 
     {
       id: uuid.v4(),
-      userId: 2,
       title: 'Not knowing what to do',
       content: 'Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat'
     },
