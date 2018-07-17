@@ -15,6 +15,7 @@ export default class EntryController {
     this.id = id;
     this.getAllEntries = this.getAllEntries.bind(this);
     this.getEntry = this.getEntry.bind(this);
+    this.postEntry = this.postEntry.bind(this);
   }
 
 
@@ -53,6 +54,50 @@ export default class EntryController {
       message: 'Entry can not be found!'
   });
   }
+}
+
+
+    /** An API for adding a new diary entry:
+  *  POST: api/v1/entries
+  *  Takes 2 parameters
+  *  @param {object} req the first parameter
+  *  @param  {object} res the second parameter
+  *
+  *  @returns {object} return an object
+  */
+ postEntry(req, res) {
+   if(req.body.content){
+
+     if(!req.body.title){
+     const id = this.id.v4();
+     const { content } = req.body;
+     const title = content.substring(0, 10);
+
+     const entry = { id, title, content }
+     data.entries.push(entry);
+     return res.status(201).send({
+      message: ['A new diary entry has been added successfully', entry]
+    });
+
+     } else {
+       
+      const id = this.id.v4();
+      const { title } = req.body;
+      const { content } = req.body;
+      
+      const entry = { id, title, content }
+      data.entries.push(entry);
+      return res.status(201).send({
+       message: ['A new diary entry has been added successfully', entry]
+     }); 
+     }
+
+   } else {
+     return res.status(400).send({
+       message: 'Content field is required!'
+      }); 
+   }
+
 }
 
 
