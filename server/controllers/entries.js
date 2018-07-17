@@ -16,6 +16,7 @@ export default class EntryController {
     this.getAllEntries = this.getAllEntries.bind(this);
     this.getEntry = this.getEntry.bind(this);
     this.postEntry = this.postEntry.bind(this);
+    this.putEntry = this.putEntry.bind(this);
   }
 
 
@@ -97,6 +98,37 @@ export default class EntryController {
        message: 'Content field is required!'
       }); 
    }
+
+}
+
+
+    /** An API for modifying diary entry:
+  *  POST: api/v1/entries/<entryId>
+  *  Takes 2 parameters
+  *  @param {object} req the first parameter
+  *  @param  {object} res the second parameter
+  *
+  *  @returns {object} return an object
+  */
+ putEntry(req, res) {
+  const entryToModify = data.entries.find(entry => entry.id === req.params.entryId);
+
+  if(entryToModify){
+    entryToModify.title = req.body.title ?
+    req.body.title : entryToModify.title;
+
+    entryToModify.content = req.body.content ?
+    req.body.content : entryToModify.content;
+
+    return res.status(201).send({
+      message: ['The entry has been updated successfully', entryToModify]
+    });    
+
+  }else{
+    return res.status(404).send({
+      message: 'Entry can not be found!'
+    });
+  }
 
 }
 

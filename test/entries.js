@@ -85,6 +85,37 @@ describe('MyDiary API Routes', () => {
   });
 
 
+    // Testing for 'PUT /api/v1/entries/<entryId>'
+    describe('PUT /api/v1/entries/<entryId>', () => {
+      // Modifies a diary entry
+      it('Modifies a diary entry', (done) => {
+        request.put(`/api/v1/entries/${data.entries[1].id}`)
+          .send({
+            title: 'The full story',
+            description: 'It all started when we decided to go . . .',
+          })
+          .expect(201)
+          .end((err) => {
+            done(err);
+          });
+      });
+  
+      // Entry can not be found
+      it('Entry can not be found', (done) => {
+        request.put('/api/v1/entries/4')
+          .send({
+            title: 'The full story',
+            description: 'It all started when we decided to go . . .',
+          })
+          .expect(404)
+          .end((err) => {
+            done(err);
+          });
+      });
+  
+      });
+
+
     
 
 

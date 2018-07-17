@@ -43,6 +43,11 @@ apiRouter.post(
   entry.postEntry
 );
 
+apiRouter.put(
+  '/entries/:entryId',
+  entry.putEntry
+);
+
 
 
 
