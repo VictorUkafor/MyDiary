@@ -33,5 +33,12 @@ apiRouter.get(
   entry.getAllEntries
 );
 
+apiRouter.get(
+  '/entries/:entryId',
+  entry.getEntry
+);
+
+
+
 
 export default apiRouter;
