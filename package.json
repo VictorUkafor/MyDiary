@@ -20,7 +20,6 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-airbnb": "^2.4.0",  
-    "coveralls": "^3.0.0",
     "nyc": "^11.4.1",
     "istanbul": "^0.4.5",
     "supertest": "^3.0.0",  
@@ -37,7 +36,6 @@
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
     "test": "nyc --reporter=html --reporter=text mocha --exit --require babel-register",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "eslint": "eslint --fix server",
     "showcoverage": "start coverage/lcov-report/index.html"
