@@ -83,9 +83,14 @@ export default class EntryController {
       const title = this.setTitle(req.body.title, content);
 
       const entry = { id, title, content };
+      if(this.entries.push(entry)){
       return res.status(201).send({
         message: ['A new diary entry has been added successfully', entry]
       });
+    }
+    return res.status(500).send({
+      message: 'Server error: Entry could be added!'
+    })
 
     }
     
