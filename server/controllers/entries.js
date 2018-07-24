@@ -59,6 +59,15 @@ export default class EntryController {
   }
 
 
+  // method for setting the title in postEntry method
+  setTitle(title, content){
+    if (!title) {
+      return content.substring(0, 10);
+    } else {
+      return title;
+    }
+  }
+
   /** An API for adding a new diary entry:
   *  POST: api/v1/entries
   *  Takes 2 parameters
@@ -69,28 +78,22 @@ export default class EntryController {
   */
   postEntry(req, res) {
     if (req.body.content) {
-      if (!req.body.title) {
-        const id = this.id.v4();
-        const { content } = req.body;
-        const title = content.substring(0, 10);
-
-        const entry = { id, title, content };
-        this.entries.push(entry);
-        return res.status(201).send({
-          message: ['A new diary entry has been added successfully', entry]
-        });
-      }
-
       const id = this.id.v4();
-      const { title } = req.body;
       const { content } = req.body;
+      const title = this.setTitle(req.body.title, content);
 
       const entry = { id, title, content };
-      this.entries.push(entry);
+      if(this.entries.push(entry)){
       return res.status(201).send({
         message: ['A new diary entry has been added successfully', entry]
       });
     }
+    return res.status(500).send({
+      message: 'Server error: Entry could be added!'
+    })
+
+    }
+    
     return res.status(400).send({
       message: 'Content field is required!'
     });
@@ -109,15 +112,19 @@ export default class EntryController {
     const entryToModify = this.entries.find(entry => entry.id === req.params.entryId);
 
     if (entryToModify) {
-      entryToModify.title = req.body.title ?
-        req.body.title : entryToModify.title;
 
-      entryToModify.content = req.body.content ?
-        req.body.content : entryToModify.content;
-
-      return res.status(201).send({
+      if((entryToModify.title = req.body.title ? req.body.title : entryToModify.title) &&
+        (entryToModify.content = req.body.content ? req.body.content : entryToModify.content)){
+          return res.status(200).send({
         message: ['The entry has been updated successfully', entryToModify]
       });
+      }
+
+      return res.status(500).send({
+        message: 'Server error: Entry could be updated!'
+      })
+
+
     }
     return res.status(404).send({
       message: 'Entry can not be found!'
@@ -138,11 +145,18 @@ export default class EntryController {
 
     if (entryToDelete) {
       const index = this.entries.indexOf(entryToDelete);
-      this.entries.splice(index, 1);
 
-      return res.status(200).send({
-        message: ['The entry has been deleted successfully', this.entries]
+      if(this.entries.splice(index, 1)){
+        return res.status(204).send({
+          message: ['The entry has been deleted successfully', this.entries]
       });
+      }
+
+      return res.status(500).send({
+        message: 'Server error: Entry could be deleted!'
+      })
+
+
     }
     return res.status(404).send({
       message: 'Entry can not be found!'

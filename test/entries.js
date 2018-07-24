@@ -94,7 +94,7 @@ describe('MyDiary API Routes', () => {
             title: 'The full story',
             description: 'It all started when we decided to go . . .',
           })
-          .expect(201)
+          .expect(200)
           .end((err) => {
             done(err);
           });
@@ -130,7 +130,7 @@ describe('MyDiary API Routes', () => {
     // Deletes an entry
     it('Deletes an entry', (done) => {
       request.delete(`/api/v1/entries/${data.entries[2].id}`)
-        .expect(200)
+        .expect(204)
         .end((err) => {
           done(err);
         });

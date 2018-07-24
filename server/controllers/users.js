@@ -40,10 +40,16 @@ export default class UserController {
       id, firstName, lastName, email, password,
     };
 
-    this.users.push(user);
-    return res.status(201).send({
-      message: ['A user account has been created successfully', user]
-    });
+    if(this.users.push(user)){
+      return res.status(201).send({
+        message: ['A user account has been created successfully', user]
+      });
+    }
+
+    return res.status(500).send({
+      message: 'Server error: User could not be created!'
+    })
+
   }
 
 
