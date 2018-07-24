@@ -145,11 +145,18 @@ export default class EntryController {
 
     if (entryToDelete) {
       const index = this.entries.indexOf(entryToDelete);
-      this.entries.splice(index, 1);
 
-      return res.status(200).send({
-        message: ['The entry has been deleted successfully', this.entries]
+      if(this.entries.splice(index, 1)){
+        return res.status(204).send({
+          message: ['The entry has been deleted successfully', this.entries]
       });
+      }
+
+      return res.status(500).send({
+        message: 'Server error: Entry could be deleted!'
+      })
+
+
     }
     return res.status(404).send({
       message: 'Entry can not be found!'
