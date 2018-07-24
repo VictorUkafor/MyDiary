@@ -59,6 +59,15 @@ export default class EntryController {
   }
 
 
+  // method for setting the title in postEntry method
+  setTitle(title, content){
+    if (!title) {
+      return content.substring(0, 10);
+    } else {
+      return title;
+    }
+  }
+
   /** An API for adding a new diary entry:
   *  POST: api/v1/entries
   *  Takes 2 parameters
@@ -69,28 +78,17 @@ export default class EntryController {
   */
   postEntry(req, res) {
     if (req.body.content) {
-      if (!req.body.title) {
-        const id = this.id.v4();
-        const { content } = req.body;
-        const title = content.substring(0, 10);
-
-        const entry = { id, title, content };
-        this.entries.push(entry);
-        return res.status(201).send({
-          message: ['A new diary entry has been added successfully', entry]
-        });
-      }
-
       const id = this.id.v4();
-      const { title } = req.body;
       const { content } = req.body;
+      const title = this.setTitle(req.body.title, content);
 
       const entry = { id, title, content };
-      this.entries.push(entry);
       return res.status(201).send({
         message: ['A new diary entry has been added successfully', entry]
       });
+
     }
+    
     return res.status(400).send({
       message: 'Content field is required!'
     });
