@@ -94,7 +94,7 @@ describe('MyDiary API Routes', () => {
             title: 'The full story',
             description: 'It all started when we decided to go . . .',
           })
-          .expect(201)
+          .expect(200)
           .end((err) => {
             done(err);
           });

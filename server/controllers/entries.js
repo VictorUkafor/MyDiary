@@ -112,15 +112,19 @@ export default class EntryController {
     const entryToModify = this.entries.find(entry => entry.id === req.params.entryId);
 
     if (entryToModify) {
-      entryToModify.title = req.body.title ?
-        req.body.title : entryToModify.title;
 
-      entryToModify.content = req.body.content ?
-        req.body.content : entryToModify.content;
-
-      return res.status(201).send({
+      if((entryToModify.title = req.body.title ? req.body.title : entryToModify.title) &&
+        (entryToModify.content = req.body.content ? req.body.content : entryToModify.content)){
+          return res.status(200).send({
         message: ['The entry has been updated successfully', entryToModify]
       });
+      }
+
+      return res.status(500).send({
+        message: 'Server error: Entry could be updated!'
+      })
+
+
     }
     return res.status(404).send({
       message: 'Entry can not be found!'
