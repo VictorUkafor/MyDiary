@@ -5,15 +5,12 @@
 export default class AuthController {
   /**
       *  constructor
-      *  Takes one parameter
-      * @param {object} data the first parameter
       *
       */
-  constructor(data) {
-    this.users = data.users;
-    this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
+  constructor() {
+    //this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
-    this.checksIfUserExist = this.checksIfUserExist.bind(this);
+    //this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
   }
 
@@ -26,15 +23,15 @@ export default class AuthController {
       *  @param  {object} next the third parameter
       *  @returns {object} return an object
       */
-  checksIfUserAlreadyExist(req, res, next) {
-    const registeredUser = this.users.find(user => user.email === req.body.email);
+  // checksIfUserAlreadyExist(req, res, next) {
+  //   const registeredUser = this.users.find(user => user.email === req.body.email);
 
-    if (registeredUser) {
-      res.status(500).send({ message: 'An account with this email has already been created!' });
-    } else {
-      next();
-    }
-  }
+  //   if (registeredUser) {
+  //     res.status(500).send({ message: 'An account with this email has already been created!' });
+  //   } else {
+  //     next();
+  //   }
+  // }
 
   /** A method for checking if user has already been registered:
       *  POST: api/v1/signup
@@ -93,16 +90,16 @@ export default class AuthController {
       *  @param  {object} next the third parameter
       *  @returns {object} return an object
       */
-  checksIfUserExist(req, res, next) {
-    const authenticatedUser = this.users.find(user => user.email === req.body.email);
+  // checksIfUserExist(req, res, next) {
+  //   const authenticatedUser = this.users.find(user => user.email === req.body.email);
 
-    if (!authenticatedUser) {
-      res.status(404).send({ message: 'Invalid email or password!' });
-    } else {
-      req.user = authenticatedUser;
-      next();
-    }
-  }
+  //   if (!authenticatedUser) {
+  //     res.status(404).send({ message: 'Invalid email or password!' });
+  //   } else {
+  //     req.user = authenticatedUser;
+  //     next();
+  //   }
+  // }
 
   /** A method for checking login required fields:
         *  Takes 3 parameters
