@@ -38,7 +38,7 @@ export default class UserController {
       if(err) {
         done();
         return res.status(500).send({
-          message: 'Server error: User could not be created!'
+          message: 'Server error!'
         });
     }
 
@@ -58,7 +58,6 @@ export default class UserController {
         message: 'User registered successfully', 
         registeredUser, token
       });
-    
     });
   
   });

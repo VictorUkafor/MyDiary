@@ -1,3 +1,11 @@
+import pg from 'pg';
+import path from 'path';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import key from '../models/key';
+
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_dev';
+
 /**
   *  class AuthController
   *
@@ -8,7 +16,7 @@ export default class AuthController {
       *
       */
   constructor() {
-    //this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
+    this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
     //this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
@@ -23,15 +31,37 @@ export default class AuthController {
       *  @param  {object} next the third parameter
       *  @returns {object} return an object
       */
-  // checksIfUserAlreadyExist(req, res, next) {
-  //   const registeredUser = this.users.find(user => user.email === req.body.email);
+  checksIfUserAlreadyExist(req, res, next) {
 
-  //   if (registeredUser) {
-  //     res.status(500).send({ message: 'An account with this email has already been created!' });
-  //   } else {
-  //     next();
-  //   }
-  // }
+    const registeredUser = [];
+    
+    pg.connect(connectionString, (err, client, done) => {
+      if(err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
+    }
+
+    const User = client.query('SELECT * FROM diaryUser WHERE email=($1);', [req.body.email]);
+
+    User.on('row', (row) => { 
+      registeredUser.push(row); 
+    });
+
+    User.on('end', () => { 
+      done();
+      if(registeredUser.length > 0){
+        return res.status(400).send({ message: 'An account with this email has already been created!' });
+      } 
+      
+      next();
+    });
+
+  });
+  
+ 
+  }
 
   /** A method for checking if user has already been registered:
       *  POST: api/v1/signup
@@ -75,7 +105,7 @@ export default class AuthController {
 
 
     if (Object.keys(errors).length > 0) {
-      res.status(400).send({ message: errors });
+      return res.status(400).send({ message: errors });
     } else {
       next();
     }

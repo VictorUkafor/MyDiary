@@ -16,7 +16,7 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 apiRouter.post(
   '/auth/signup',
   auth.checksForSignUpRequiredFields,
-  //auth.checksIfUserAlreadyExist,
+  auth.checksIfUserAlreadyExist,
   user.postUser
 );
 
