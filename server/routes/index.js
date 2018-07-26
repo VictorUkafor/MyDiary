@@ -41,6 +41,7 @@ apiRouter.get(
 
 apiRouter.post(
   '/entries',
+  auth.checksForAddEntryRequiredFields,
   auth.checksIfUserIsAuthenticated,
   entry.postEntry
 );
