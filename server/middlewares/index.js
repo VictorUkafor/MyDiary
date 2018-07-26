@@ -21,6 +21,7 @@ export default class AuthController {
     this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
     this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
+    this.checksForAddEntryRequiredFields = this.checksForAddEntryRequiredFields.bind(this);
   }
 
 
@@ -237,6 +238,27 @@ export default class AuthController {
     });
 
   }
+
+
+    /** A method for checking if user has already been registered:
+      *  POST: api/v1/signup
+      *  Takes 3 parameters
+      *  @param {object} req the first parameter
+      *  @param  {object} res the second parameter
+      *  @param  {object} next the third parameter
+      *  @returns {object} return an object
+      */
+     checksForAddEntryRequiredFields(req, res, next) {
+
+      if(!req.body.content){
+        return res.status(400).send({
+          message: 'Content field is required!'
+      });  
+      } else {
+        next();
+      }
+  
+    }
 
 
 
