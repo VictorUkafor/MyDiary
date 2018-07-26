@@ -20,12 +20,12 @@ apiRouter.post(
   user.postUser
 );
 
-// apiRouter.post(
-//   '/login',
-//   auth.checksForLogInRequiredFields,
-//   auth.checksIfUserExist,
-//   user.loginUser
-// );
+apiRouter.post(
+  '/auth/login',
+  auth.checksForLogInRequiredFields,
+  auth.checksIfUserExist,
+  user.loginUser
+);
 
 // apiRouter.get(
 //   '/entries',
