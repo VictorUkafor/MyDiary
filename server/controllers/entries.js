@@ -74,32 +74,7 @@ export default class EntryController {
   *  @returns {object} return an object
   */
   getEntry(req, res) {
-    const token = req.body.token || req.query.token || req.headers['authentication'];
-    const entry = [];
-
-    pg.connect(connectionString, (err, client, done) => {
-      if (err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
-        });
-      }
-
-      const getEntry = client.query('SELECT * FROM entry WHERE diaryUserId=($1) AND id=($2);',
-        [req.user.id, req.params.entryId]);
-
-      getEntry.on('row', (row) => {
-        entry.push(row);
-      });
-
-      getEntry.on('end', () => {
-        done();
-        if (entry.length === 0) {
-          return res.status(404).send({ message: "Entry can not be found!" });
-        }
-        return res.status(200).send(entry);
-      });
-    });
+    return res.status(200).send(req.entry);
   }
 
 
@@ -203,7 +178,7 @@ export default class EntryController {
       const content = this.setContentForUpdate(req.body.content, req.entry)
 
       const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
-        [title, content, req.params.entryId]);
+        [title, content, req.entry.id]);
 
       const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.params.entryId]);
 
