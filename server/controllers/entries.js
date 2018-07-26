@@ -175,12 +175,12 @@ export default class EntryController {
 
 
       const title = this.setTitleForUpdate(req.body.title, req.entry);
-      const content = this.setContentForUpdate(req.body.content, req.entry)
+      const content = this.setContentForUpdate(req.body, req.entry)
 
       const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
         [title, content, req.entry.id]);
 
-      const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.params.entryId]);
+      const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.entry.id]);
 
       getUpdatedEntry.on('row', (row) => {
         updatedEntry.push(row);

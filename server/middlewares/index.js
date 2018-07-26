@@ -264,7 +264,9 @@ export default class AuthController {
 
     checksIfEntryExist(req, res, next) {
       const entry = [];
-      const entryId = parseInt(req.params.entryId, 10);
+      let entryId = parseInt(req.params.entryId, 10);
+
+      if (isNaN(entryId)) entryId = 0;
   
       pg.connect(connectionString, (err, client, done) => {
         if(err) {
