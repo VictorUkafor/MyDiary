@@ -47,14 +47,17 @@ export default class EntryController {
     }
     
     
-      const getUsers = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+      const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
 
-      getUsers.on('row', (row) => { 
+      getEntries.on('row', (row) => { 
         allEntries.push(row); 
       });
   
-      getUsers.on('end', () => { 
+      getEntries.on('end', () => { 
         done();
+        if(allEntries.length === 0){
+            return res.status(404).send({ message: "You have no entries yet!" });
+        }
         return res.status(200).send(allEntries);
     }); 
    });
@@ -71,16 +74,32 @@ export default class EntryController {
   *  @returns {object} return an object
   */
   getEntry(req, res) {
-    const fetchEntry = this.entries.find(entry => entry.id === req.params.entryId);
+    const token = req.body.token || req.query.token || req.headers['authentication'];
+    const entry = [];
 
-    if (fetchEntry) {
-      return res.status(200).send({
-        message: fetchEntry
-      });
+    pg.connect(connectionString, (err, client, done) => {
+      if(err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
     }
-    return res.status(404).send({
-      message: 'Entry can not be found!'
-    });
+    
+      const getEntry = client.query('SELECT * FROM entry WHERE diaryUserId=($1) AND id=($2);',
+       [req.user.id, req.params.entryId]);
+
+      getEntry.on('row', (row) => { 
+        entry.push(row); 
+      });
+  
+      getEntry.on('end', () => { 
+        done();
+        if(entry.length === 0){
+            return res.status(404).send({ message: "Entry can not be found!" });
+        }
+        return res.status(200).send(entry);
+    }); 
+   });
   }
 
 
