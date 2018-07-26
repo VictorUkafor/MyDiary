@@ -1,20 +1,20 @@
 language: node_js
 node_js:
   - "7"
+addons:
+    code_climate: 
+        repo_token: 
+          secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
 env:
 global:
-- CC_TEST_REPORTER_ID=69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
 - export NODE_ENV=test  
 before_script:
 - npm install
-- yarn global add nyc
-- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-- chmod +x ./cc-test-reporter
-- ./cc-test-reporter before-build
+- npm install codeclimate-test-reporter istanbul -g
 script:
 - npm test
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - codeclimate-test-reporter < ./coverage/Icov.info
 notifications:
   email: false 
 
