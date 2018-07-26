@@ -48,15 +48,15 @@ apiRouter.post(
 
 apiRouter.put(
   '/entries/:entryId',
-  auth.findAnEntry,
   auth.checksIfUserIsAuthenticated,
+  auth.findAnEntry,
   entry.putEntry
 );
 
 apiRouter.delete(
   '/entries/:entryId',
-  auth.findAnEntry,
   auth.checksIfUserIsAuthenticated,
+  auth.findAnEntry,
   entry.deleteEntry
 );
 

@@ -160,6 +160,25 @@ export default class EntryController {
 }
 
 
+  // method for setting the title in postEntry method
+  setTitleForUpdate(title, entry){
+    if (!title) {
+      return entry.title;
+    } else {
+      return title;
+    }
+  }
+
+
+    // method for setting the title in postEntry method
+    setContentForUpdate(content, entry){
+      if (!content) {
+        return entry.content;
+      } else {
+        return content;
+      }
+    }
+
   /** An API for modifying diary entry:
   *  POST: api/v1/entries/<entryId>
   *  Takes 2 parameters
@@ -179,9 +198,12 @@ export default class EntryController {
         });
     }
   
+
+    const title = this.setTitleForUpdate(req.body.title, req.entry);
+    const content = this.setContentForUpdate(req.body.content, req.entry)
     
     const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
-    [req.body.title, req.body.content, req.params.entryId]);
+    [title, content, req.params.entryId]);
   
     const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.params.entryId]);
   
