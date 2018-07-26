@@ -22,6 +22,7 @@ export default class AuthController {
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
     this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
     this.checksForAddEntryRequiredFields = this.checksForAddEntryRequiredFields.bind(this);
+    this.findAnEntry = this.findAnEntry.bind(this);
   }
 
 
@@ -257,6 +258,39 @@ export default class AuthController {
       } else {
         next();
       }
+  
+    }
+
+
+    findAnEntry(req, res, next) {
+      const entry = [];
+  
+      pg.connect(connectionString, (err, client, done) => {
+        if(err) {
+          done();
+          return res.status(500).send({
+            message: 'Server error!'
+          });
+      }
+      
+        const getEntry = client.query('SELECT * FROM entry WHERE id=($1) AND diaryUserId=($2);',
+         [req.params.entryId, req.user.id]);
+  
+        getEntry.on('row', (row) => { 
+          entry.push(row); 
+        });
+    
+        getEntry.on('end', () => { 
+          done();
+          if(entry.length === 0){
+            return res.status(404).send({ message: 'Entry can not be found!' });
+          }
+          
+          req.entry = entry[0];
+          next();
+        });
+          
+        });
   
     }
 

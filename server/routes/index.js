@@ -49,12 +49,14 @@ apiRouter.post(
 apiRouter.put(
   '/entries/:entryId',
   auth.checksIfUserIsAuthenticated,
+  auth.findAnEntry,
   entry.putEntry
 );
 
 apiRouter.delete(
   '/entries/:entryId',
   auth.checksIfUserIsAuthenticated,
+  auth.findAnEntry,
   entry.deleteEntry
 );
 

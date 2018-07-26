@@ -160,6 +160,25 @@ export default class EntryController {
 }
 
 
+  // method for setting the title in postEntry method
+  setTitleForUpdate(title, entry){
+    if (!title) {
+      return entry.title;
+    } else {
+      return title;
+    }
+  }
+
+
+    // method for setting the title in postEntry method
+    setContentForUpdate(content, entry){
+      if (!content) {
+        return entry.content;
+      } else {
+        return content;
+      }
+    }
+
   /** An API for modifying diary entry:
   *  POST: api/v1/entries/<entryId>
   *  Takes 2 parameters
@@ -169,26 +188,45 @@ export default class EntryController {
   *  @returns {object} return an object
   */
   putEntry(req, res) {
-    const entryToModify = this.entries.find(entry => entry.id === req.params.entryId);
-
-    if (entryToModify) {
-
-      if((entryToModify.title = req.body.title ? req.body.title : entryToModify.title) &&
-        (entryToModify.content = req.body.content ? req.body.content : entryToModify.content)){
-          return res.status(200).send({
-        message: ['The entry has been updated successfully', entryToModify]
-      });
-      }
-
-      return res.status(500).send({
-        message: 'Server error: Entry could be updated!'
-      })
-
-
+    const updatedEntry = [];
+  
+    pg.connect(connectionString, (err, client, done) => {
+      if(err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
     }
-    return res.status(404).send({
-      message: 'Entry can not be found!'
+  
+
+    const title = this.setTitleForUpdate(req.body.title, req.entry);
+    const content = this.setContentForUpdate(req.body.content, req.entry)
+    
+    const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
+    [title, content, req.params.entryId]);
+  
+    const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.params.entryId]);
+  
+    getUpdatedEntry.on('row', (row) => { 
+      updatedEntry.push(row); 
     });
+  
+    getUpdatedEntry.on('end', () => { 
+      done();
+      if(update){
+      return res.status(200).send({
+        message: 'The entry has been updated successfully', updatedEntry
+      });
+    }
+  
+    return res.status(500).send({
+        message: 'Server error: Entry could be added!'
+    });
+     
+     });
+    });     
+
+
   }
 
 
