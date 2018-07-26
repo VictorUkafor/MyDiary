@@ -26,7 +26,7 @@ describe('MyDiary API Routes', () => {
     const table = client.query('DELETE * FROM diaryUser');
     table.on('end', () => { client.end(); }); 
     const addUser = client.query(`INSERT INTO diaryUser(firstName, lastName, email, password, confirm_password) 
-    values("john", "doe", "johndoe@gmail.com", encryptedPassword, encryptedPassword)`);
+    values("john", "doe", "victorukafor@gmail.com", encryptedPassword, encryptedPassword)`);
     addUser.on('end', () => { client.end(); });
     done();
   }); 
