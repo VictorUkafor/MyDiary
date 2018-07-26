@@ -120,28 +120,44 @@ export default class EntryController {
   *
   *  @returns {object} return an object
   */
-  postEntry(req, res) {
-    if (req.body.content) {
-      const id = this.id.v4();
-      const { content } = req.body;
-      const title = this.setTitle(req.body.title, content);
+ postEntry(req, res) {
+  const title = this.setTitle(req.body.title, req.body.content);
+  const allEntries = [];
 
-      const entry = { id, title, content };
-      if(this.entries.push(entry)){
-      return res.status(201).send({
-        message: ['A new diary entry has been added successfully', entry]
+  pg.connect(connectionString, (err, client, done) => {
+    if(err) {
+      done();
+      return res.status(500).send({
+        message: 'Server error!'
       });
-    }
-    return res.status(500).send({
-      message: 'Server error: Entry could be added!'
-    })
+  }
 
-    }
-    
-    return res.status(400).send({
-      message: 'Content field is required!'
+  
+  const addEntry = client.query('INSERT INTO entry(diaryUserId, title, content) values($1, $2, $3)',
+  [req.user.id, title, req.body.content]);
+
+  const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+
+  getEntries.on('row', (row) => { 
+    allEntries.push(row); 
+  });
+
+  getEntries.on('end', () => { 
+    done();
+    if(addEntry){
+    return res.status(201).send({
+      message: 'A new diary entry has been added successfully', allEntries
     });
   }
+
+  return res.status(500).send({
+      message: 'Server error: Entry could be added!'
+  });
+   
+   });
+  }); 
+
+}
 
 
   /** An API for modifying diary entry:
