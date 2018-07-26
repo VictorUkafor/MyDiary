@@ -194,7 +194,7 @@ export default class AuthController {
    */
   checksIfUserIsAuthenticated(req, res, next) {
     const token = req.body.token || req.query.token || req.headers['authentication'];
-    const authenticated = [];
+    const authenticatedUser = [];
 
     pg.connect(connectionString, (err, client, done) => {
       if(err) {
