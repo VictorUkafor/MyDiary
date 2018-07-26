@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import key from '../models/key';
 
+const salt = bcrypt.genSaltSync(10);
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_dev';
 
 
@@ -31,7 +32,6 @@ export default class UserController {
   *  @returns {object} return an object
   */
   postUser(req, res) {
-    const salt = bcrypt.genSaltSync(10);
     const registeredUser = [];
     
     pg.connect(connectionString, (err, client, done) => {
@@ -65,21 +65,43 @@ export default class UserController {
   }
 
 
-  // /**
-  //  *  An API for logging into the app
-  //  *  POST: /api/v1/login
-  //  *  Takes 2 parameters
-  //  *  @param {object} req the first parameter
-  //  *  @param  {object} res the second parameter
-  //  *
-  //  *  @returns {object} return an object
-  //  */
-  // loginUser(req, res) {
-  //   if (bcrypt.compareSync(req.body.password, req.user.password)) {
-  //     res.status(201).send({ message: `Welcome! ${req.user.firstName} ${req.user.lastName}` });
-  //   } else {
-  //     res.status(404).send({ message: 'Invalid email or password!' });
-  //   }
-  // }
+  /**
+   *  An API for logging into the app
+   *  POST: /api/v1/login
+   *  Takes 2 parameters
+   *  @param {object} req the first parameter
+   *  @param  {object} res the second parameter
+   *
+   *  @returns {object} return an object
+   */
+  loginUser(req, res) {
+    pg.connect(connectionString, (err, client, done) => {
+      if(err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
+    }
+
+    const token = jwt.sign({ id: req.user.id }, key.secret, { expiresIn: 60 * 60 });
+
+    if (bcrypt.compareSync(req.body.password, req.user.password)) {
+      res.status(200).send({ 
+        message: `Welcome! ${req.user.firstname} ${req.user.lastname}`,
+        token 
+      });
+    } else {
+      res.status(404).send({ message: 'Invalid email or password!' });
+    }
+  
+  
+  });
+
+}
+
+
+
+
+
   
 }

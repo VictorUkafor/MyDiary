@@ -120,16 +120,37 @@ export default class AuthController {
       *  @param  {object} next the third parameter
       *  @returns {object} return an object
       */
-  // checksIfUserExist(req, res, next) {
-  //   const authenticatedUser = this.users.find(user => user.email === req.body.email);
+  checksIfUserExist(req, res, next) {
+    const authenticatedUser = [];
+    
+    pg.connect(connectionString, (err, client, done) => {
+      if(err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
+    }
 
-  //   if (!authenticatedUser) {
-  //     res.status(404).send({ message: 'Invalid email or password!' });
-  //   } else {
-  //     req.user = authenticatedUser;
-  //     next();
-  //   }
-  // }
+    const User = client.query('SELECT * FROM diaryUser WHERE email=($1);', [req.body.email]);
+
+    User.on('row', (row) => { 
+      authenticatedUser.push(row); 
+    });
+
+    User.on('end', () => { 
+      done();
+      if(authenticatedUser.length === 0){
+        return res.status(404).send({ message: 'Invalid email or password!' });
+      } 
+
+      req.user = authenticatedUser[0];
+      next();
+    });
+
+  });    
+
+
+  }
 
   /** A method for checking login required fields:
         *  Takes 3 parameters
