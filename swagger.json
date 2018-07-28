@@ -65,14 +65,14 @@
           "201": {
             "description": "user added successfully",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/diaryUser"
             }
           },
           "400": {
             "description": 
               "required fields must be filled",
               "schema": {
-                "$ref": "#/definitions/Message"
+                "$ref": "#/definitions/diaryUser"
               } 
              }
         }
@@ -97,7 +97,7 @@
             "description": "email of the user",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/diaryUser"
             }
           },
           {
@@ -116,16 +116,16 @@
           "200": {
             "description": "You're welcome",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/diaryUser"
             }
           },
           "400": {
             "description": "required fields must be filled",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/diaryUser"
           },
           "404": {
             "description": "Invalid email or password",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/diaryUser"
           }
         }
       }
@@ -166,21 +166,21 @@
         "responses": {          
           "404": {
             "description": "user cannot be found",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "201": {
             "description": "adds a new entry sucessfully",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           },
           "400": {
             "description": "content fields must be filled",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "500": {
-            "description": "user not registered yet",
-              "$ref": "#/definitions/Message"
+            "description": "server error",
+              "$ref": "#/definitions/Entry"
             }
           }
       },
@@ -193,13 +193,13 @@
           "404": {
             "description": "entries cannot be found",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           },
           "200": {
             "description": "entries found",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           }
       }
@@ -250,21 +250,21 @@
         "responses": {          
           "404": {
             "description": "user cannot be found",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "201": {
             "description": "adds a new entry sucessfully",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           },
           "400": {
             "description": "content fields must be filled",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "500": {
-            "description": "user not registered yet",
-              "$ref": "#/definitions/Message"
+            "description": "server error",
+              "$ref": "#/definitions/Entry"
             }
           }
       },
@@ -285,17 +285,17 @@
         "responses": {          
           "404": {
             "description": "entry cannot be found",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "204": {
             "description": "entry deleted sucessfully",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           },
           "500": {
-            "description": "entry can not be deleted",
-              "$ref": "#/definitions/Message"
+            "description": "server error! Entry can not be deleted",
+              "$ref": "#/definitions/Entry"
             }
           }
       },
@@ -316,12 +316,12 @@
         "responses": {          
           "404": {
             "description": "entry cannot be found",
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
           },
           "200": {
             "description": "entry found sucessfully",
             "schema": {
-              "$ref": "#/definitions/Message"
+              "$ref": "#/definitions/Entry"
             }
           }
           }

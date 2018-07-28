@@ -1,33 +1,12 @@
-import pg from 'pg';
-import bcrypt from 'bcrypt';
 import supertest from 'supertest';
 import { expect } from 'chai';
 import app from '../index';
-import key from '../server/models/key';
 
 const request = supertest(app);
-const connectionStringTest = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_test';
-const client = new pg.Client(connectionStringTest);
-client.connect();
-
-const user = client.query(`CREATE TABLE IF NOT EXISTS diaryUser(id SERIAL PRIMARY KEY,
-  firstName VARCHAR(20) not null,
-  lastName VARCHAR(20) not null, 
-  email VARCHAR(40) not null, 
-  password VARCHAR(255) not null)`);
-user.on('end', () => { client.end(); });  
-
-const salt = bcrypt.genSaltSync(10);
-const encryptedPassword = bcrypt.hashSync("password", salt);
-let token;
 
 describe('MyDiary API Routes', () => {
   beforeEach((done) => {
-    const table = client.query('DELETE * FROM diaryUser');
-    table.on('end', () => { client.end(); }); 
-    const addUser = client.query(`INSERT INTO diaryUser(firstName, lastName, email, password, confirm_password) 
-    values("john", "doe", "victorukafor@gmail.com", encryptedPassword, encryptedPassword)`);
-    addUser.on('end', () => { client.end(); });
+
     done();
   }); 
 
