@@ -1,4 +1,4 @@
-const pg = require('pg');
+import pg from 'pg';
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_dev';
 
 const client = new pg.Client(connectionString);

@@ -1,12 +1,10 @@
-import pg from 'pg';
-import path from 'path';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import key from '../models/key';
-
-const salt = bcrypt.genSaltSync(10);
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_dev';
-
+/**
+ * @fileOverview this JS file contains logic for entry's APIs logic
+ *
+ * @author  Victor Ukafor
+ * @version 1.0.0
+ *
+ */
 
 /**
   *  class EntryController
@@ -33,35 +31,23 @@ export default class EntryController {
   *  @param  {object} res the second parameter
   *
   *  @returns {object} return an object
+  *
+  * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
+  * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   getAllEntries(req, res) {
-    const token = req.body.token || req.query.token || req.headers['authentication'];
     const allEntries = [];
+    const getEntries = req.client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
 
-    pg.connect(connectionString, (err, client, done) => {
-      if (err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
-        });
+    getEntries.on('row', (row) => { allEntries.push(row); });
+
+    getEntries.on('end', () => {
+      req.done();
+      if (allEntries.length === 0) {
+        return res.status(404).send({ message: 'You have no entries yet!' });
       }
-
-
-      const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
-
-      getEntries.on('row', (row) => {
-        allEntries.push(row);
-      });
-
-      getEntries.on('end', () => {
-        done();
-        if (allEntries.length === 0) {
-          return res.status(404).send({ message: "You have no entries yet!" });
-        }
-        return res.status(200).send(allEntries);
-      });
+      return res.status(200).send(allEntries);
     });
-
   }
 
 
@@ -78,13 +64,18 @@ export default class EntryController {
   }
 
 
-  // method for setting the title in postEntry method
+  /** method for setting the title in postEntry method
+  *  Takes 2 parameters
+  *  @param {string} title the first parameter
+  *  @param  {string} content the second parameter
+  *
+  *  @returns {string} return an string
+  */
   setTitle(title, content) {
     if (!title) {
       return content.substring(0, 10);
-    } else {
-      return title;
     }
+    return title;
   }
 
   /** An API for adding a new diary entry:
@@ -94,64 +85,65 @@ export default class EntryController {
   *  @param  {object} res the second parameter
   *
   *  @returns {object} return an object
+  *
+  * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
+  * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   postEntry(req, res) {
     const title = this.setTitle(req.body.title, req.body.content);
     const allEntries = [];
+    const addEntry = req.client.query(
+      'DELETE FROM entry(diaryUserId, title, content) values($1, $2, $3)',
+      [req.user.id, title, req.body.content]
+    );
 
-    pg.connect(connectionString, (err, client, done) => {
-      if (err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
+    const getEntries = req.client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+
+    getEntries.on('row', (row) => {
+      allEntries.push(row);
+    });
+
+    getEntries.on('end', () => {
+      req.done();
+      if (addEntry) {
+        return res.status(201).send({
+          message: 'A new diary entry has been added successfully', allEntries
         });
       }
 
-
-      const addEntry = client.query('DELETE FROM entry(diaryUserId, title, content) values($1, $2, $3)',
-        [req.user.id, title, req.body.content]);
-
-      const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
-
-      getEntries.on('row', (row) => {
-        allEntries.push(row);
-      });
-
-      getEntries.on('end', () => {
-        done();
-        if (addEntry) {
-          return res.status(201).send({
-            message: 'A new diary entry has been added successfully', allEntries
-          });
-        }
-
-        return res.status(500).send({
-          message: 'Server error: Entry could be added!'
-        });
-
+      return res.status(500).send({
+        message: 'Server error: Entry could be added!'
       });
     });
-
   }
 
-
-  // method for setting the title in postEntry method
+  /** method for setting the title in updateEntry method
+  *  Takes 2 parameters
+  *  @param {string} title the first parameter
+  *  @param  {string} entry the second parameter
+  *
+  *  @returns {string} return an string
+  */
   setTitleForUpdate(title, entry) {
     if (!title) {
       return entry.title;
-    } else {
-      return title;
     }
+    return title;
   }
 
 
-  // method for setting the title in postEntry method
+  /** method for setting the content in updateEntry method
+  *  Takes 2 parameters
+  *  @param {string} content the first parameter
+  *  @param  {string} entry the second parameter
+  *
+  *  @returns {string} return an string
+  */
   setContentForUpdate(content, entry) {
     if (!content) {
       return entry.content;
-    } else {
-      return content;
     }
+    return content;
   }
 
   /** An API for modifying diary entry:
@@ -161,47 +153,38 @@ export default class EntryController {
   *  @param  {object} res the second parameter
   *
   *  @returns {object} return an object
+  *
+  * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
+  * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   putEntry(req, res) {
     const updatedEntry = [];
+    const title = this.setTitleForUpdate(req.body.title, req.entry);
+    const content = this.setContentForUpdate(req.body, req.entry);
 
-    pg.connect(connectionString, (err, client, done) => {
-      if (err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
+    const update = req.client.query(
+      'UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
+      [title, content, req.entry.id]
+    );
+
+    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE id=($1);', [req.entry.id]);
+
+    getUpdatedEntry.on('row', (row) => {
+      updatedEntry.push(row);
+    });
+
+    getUpdatedEntry.on('end', () => {
+      req.done();
+      if (update) {
+        return res.status(200).send({
+          message: 'The entry has been updated successfully', updatedEntry
         });
       }
 
-
-      const title = this.setTitleForUpdate(req.body.title, req.entry);
-      const content = this.setContentForUpdate(req.body, req.entry)
-
-      const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
-        [title, content, req.entry.id]);
-
-      const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.entry.id]);
-
-      getUpdatedEntry.on('row', (row) => {
-        updatedEntry.push(row);
-      });
-
-      getUpdatedEntry.on('end', () => {
-        done();
-        if (update) {
-          return res.status(200).send({
-            message: 'The entry has been updated successfully', updatedEntry
-          });
-        }
-
-        return res.status(500).send({
-          message: 'Server error: Entry could be added!'
-        });
-
+      return res.status(500).send({
+        message: 'Server error: Entry could be added!'
       });
     });
-
-
   }
 
 
@@ -212,33 +195,21 @@ export default class EntryController {
   *  @param  {object} res the second parameter
   *
   *  @returns {object} return an object
+  *
+  * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
+  * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   deleteEntry(req, res) {
+    const deleteEntry = req.client.query('DELETE FROM entry WHERE id=($1)', [req.entry.id]);
 
-    pg.connect(connectionString, (err, client, done) => {
-      if (err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
-        });
-      }
-
-      const deleteEntry = client.query('DELETE FROM entry WHERE id=($1)', [req.entry.id]);
-
-        if (deleteEntry) {
-          return res.status(204).send({
-            message: 'The entry has been deleted successfully'
-          });
-        }
-
-        return res.status(500).send({
-          message: 'Server error: Entry could be added!'
-        });
-
+    if (deleteEntry) {
+      return res.status(204).send({
+        message: 'The entry has been deleted successfully'
       });
- 
+    }
+
+    return res.status(500).send({
+      message: 'Server error: Entry could be added!'
+    });
   }
-
-
-
 }
