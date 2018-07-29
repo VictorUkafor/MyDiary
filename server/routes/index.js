@@ -36,6 +36,7 @@ apiRouter.get(
 apiRouter.get(
   '/entries/:entryId',
   auth.checksIfUserIsAuthenticated,
+  auth.checksIfEntryExist,
   entry.getEntry
 );
 
@@ -49,14 +50,14 @@ apiRouter.post(
 apiRouter.put(
   '/entries/:entryId',
   auth.checksIfUserIsAuthenticated,
-  auth.findAnEntry,
+  auth.checksIfEntryExist,
   entry.putEntry
 );
 
 apiRouter.delete(
   '/entries/:entryId',
   auth.checksIfUserIsAuthenticated,
-  auth.findAnEntry,
+  auth.checksIfEntryExist,
   entry.deleteEntry
 );
 

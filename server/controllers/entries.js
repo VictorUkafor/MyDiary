@@ -13,10 +13,10 @@ const connectionString = process.env.DATABASE_URL || 'postgres://postgres:succes
   *
   */
 export default class EntryController {
-/**
-  *  constructor
-  *
-  */
+  /**
+    *  constructor
+    *
+    */
   constructor() {
     this.getAllEntries = this.getAllEntries.bind(this);
     this.getEntry = this.getEntry.bind(this);
@@ -39,29 +39,29 @@ export default class EntryController {
     const allEntries = [];
 
     pg.connect(connectionString, (err, client, done) => {
-      if(err) {
+      if (err) {
         done();
         return res.status(500).send({
           message: 'Server error!'
         });
-    }
-    
-    
+      }
+
+
       const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
 
-      getEntries.on('row', (row) => { 
-        allEntries.push(row); 
+      getEntries.on('row', (row) => {
+        allEntries.push(row);
       });
-  
-      getEntries.on('end', () => { 
+
+      getEntries.on('end', () => {
         done();
-        if(allEntries.length === 0){
-            return res.status(404).send({ message: "You have no entries yet!" });
+        if (allEntries.length === 0) {
+          return res.status(404).send({ message: "You have no entries yet!" });
         }
         return res.status(200).send(allEntries);
-    }); 
-   });
-   
+      });
+    });
+
   }
 
 
@@ -74,37 +74,12 @@ export default class EntryController {
   *  @returns {object} return an object
   */
   getEntry(req, res) {
-    const token = req.body.token || req.query.token || req.headers['authentication'];
-    const entry = [];
-
-    pg.connect(connectionString, (err, client, done) => {
-      if(err) {
-        done();
-        return res.status(500).send({
-          message: 'Server error!'
-        });
-    }
-    
-      const getEntry = client.query('SELECT * FROM entry WHERE diaryUserId=($1) AND id=($2);',
-       [req.user.id, req.params.entryId]);
-
-      getEntry.on('row', (row) => { 
-        entry.push(row); 
-      });
-  
-      getEntry.on('end', () => { 
-        done();
-        if(entry.length === 0){
-            return res.status(404).send({ message: "Entry can not be found!" });
-        }
-        return res.status(200).send(entry);
-    }); 
-   });
+    return res.status(200).send(req.entry);
   }
 
 
   // method for setting the title in postEntry method
-  setTitle(title, content){
+  setTitle(title, content) {
     if (!title) {
       return content.substring(0, 10);
     } else {
@@ -120,48 +95,48 @@ export default class EntryController {
   *
   *  @returns {object} return an object
   */
- postEntry(req, res) {
-  const title = this.setTitle(req.body.title, req.body.content);
-  const allEntries = [];
+  postEntry(req, res) {
+    const title = this.setTitle(req.body.title, req.body.content);
+    const allEntries = [];
 
-  pg.connect(connectionString, (err, client, done) => {
-    if(err) {
-      done();
-      return res.status(500).send({
-        message: 'Server error!'
+    pg.connect(connectionString, (err, client, done) => {
+      if (err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
+      }
+
+
+      const addEntry = client.query('DELETE FROM entry(diaryUserId, title, content) values($1, $2, $3)',
+        [req.user.id, title, req.body.content]);
+
+      const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+
+      getEntries.on('row', (row) => {
+        allEntries.push(row);
       });
-  }
 
-  
-  const addEntry = client.query('INSERT INTO entry(diaryUserId, title, content) values($1, $2, $3)',
-  [req.user.id, title, req.body.content]);
+      getEntries.on('end', () => {
+        done();
+        if (addEntry) {
+          return res.status(201).send({
+            message: 'A new diary entry has been added successfully', allEntries
+          });
+        }
 
-  const getEntries = client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+        return res.status(500).send({
+          message: 'Server error: Entry could be added!'
+        });
 
-  getEntries.on('row', (row) => { 
-    allEntries.push(row); 
-  });
-
-  getEntries.on('end', () => { 
-    done();
-    if(addEntry){
-    return res.status(201).send({
-      message: 'A new diary entry has been added successfully', allEntries
+      });
     });
+
   }
-
-  return res.status(500).send({
-      message: 'Server error: Entry could be added!'
-  });
-   
-   });
-  }); 
-
-}
 
 
   // method for setting the title in postEntry method
-  setTitleForUpdate(title, entry){
+  setTitleForUpdate(title, entry) {
     if (!title) {
       return entry.title;
     } else {
@@ -170,14 +145,14 @@ export default class EntryController {
   }
 
 
-    // method for setting the title in postEntry method
-    setContentForUpdate(content, entry){
-      if (!content) {
-        return entry.content;
-      } else {
-        return content;
-      }
+  // method for setting the title in postEntry method
+  setContentForUpdate(content, entry) {
+    if (!content) {
+      return entry.content;
+    } else {
+      return content;
     }
+  }
 
   /** An API for modifying diary entry:
   *  POST: api/v1/entries/<entryId>
@@ -189,42 +164,42 @@ export default class EntryController {
   */
   putEntry(req, res) {
     const updatedEntry = [];
-  
+
     pg.connect(connectionString, (err, client, done) => {
-      if(err) {
+      if (err) {
         done();
         return res.status(500).send({
           message: 'Server error!'
         });
-    }
-  
+      }
 
-    const title = this.setTitleForUpdate(req.body.title, req.entry);
-    const content = this.setContentForUpdate(req.body.content, req.entry)
-    
-    const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
-    [title, content, req.params.entryId]);
-  
-    const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.params.entryId]);
-  
-    getUpdatedEntry.on('row', (row) => { 
-      updatedEntry.push(row); 
-    });
-  
-    getUpdatedEntry.on('end', () => { 
-      done();
-      if(update){
-      return res.status(200).send({
-        message: 'The entry has been updated successfully', updatedEntry
+
+      const title = this.setTitleForUpdate(req.body.title, req.entry);
+      const content = this.setContentForUpdate(req.body, req.entry)
+
+      const update = client.query('UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
+        [title, content, req.entry.id]);
+
+      const getUpdatedEntry = client.query('SELECT * FROM entry WHERE id=($1);', [req.entry.id]);
+
+      getUpdatedEntry.on('row', (row) => {
+        updatedEntry.push(row);
       });
-    }
-  
-    return res.status(500).send({
-        message: 'Server error: Entry could be added!'
+
+      getUpdatedEntry.on('end', () => {
+        done();
+        if (update) {
+          return res.status(200).send({
+            message: 'The entry has been updated successfully', updatedEntry
+          });
+        }
+
+        return res.status(500).send({
+          message: 'Server error: Entry could be added!'
+        });
+
+      });
     });
-     
-     });
-    });     
 
 
   }
@@ -239,25 +214,31 @@ export default class EntryController {
   *  @returns {object} return an object
   */
   deleteEntry(req, res) {
-    const entryToDelete = this.entries.find(entry => entry.id === req.params.entryId);
 
-    if (entryToDelete) {
-      const index = this.entries.indexOf(entryToDelete);
-
-      if(this.entries.splice(index, 1)){
-        return res.status(204).send({
-          message: ['The entry has been deleted successfully', this.entries]
-      });
+    pg.connect(connectionString, (err, client, done) => {
+      if (err) {
+        done();
+        return res.status(500).send({
+          message: 'Server error!'
+        });
       }
 
-      return res.status(500).send({
-        message: 'Server error: Entry could be deleted!'
-      })
+      const deleteEntry = client.query('DELETE FROM entry WHERE id=($1)', [req.entry.id]);
 
+        if (deleteEntry) {
+          return res.status(204).send({
+            message: 'The entry has been deleted successfully'
+          });
+        }
 
-    }
-    return res.status(404).send({
-      message: 'Entry can not be found!'
-    });
+        return res.status(500).send({
+          message: 'Server error: Entry could be added!'
+        });
+
+      });
+ 
   }
+
+
+
 }

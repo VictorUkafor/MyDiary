@@ -22,7 +22,7 @@ export default class AuthController {
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
     this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
     this.checksForAddEntryRequiredFields = this.checksForAddEntryRequiredFields.bind(this);
-    this.findAnEntry = this.findAnEntry.bind(this);
+    this.checksIfEntryExist = this.checksIfEntryExist.bind(this);
   }
 
 
@@ -262,8 +262,11 @@ export default class AuthController {
     }
 
 
-    findAnEntry(req, res, next) {
+    checksIfEntryExist(req, res, next) {
       const entry = [];
+      let entryId = parseInt(req.params.entryId, 10);
+
+      if (isNaN(entryId)) entryId = 0;
   
       pg.connect(connectionString, (err, client, done) => {
         if(err) {
@@ -274,7 +277,7 @@ export default class AuthController {
       }
       
         const getEntry = client.query('SELECT * FROM entry WHERE id=($1) AND diaryUserId=($2);',
-         [req.params.entryId, req.user.id]);
+         [entryId, req.user.id]);
   
         getEntry.on('row', (row) => { 
           entry.push(row); 
