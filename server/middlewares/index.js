@@ -33,6 +33,7 @@ export default class AuthController {
     this.checksForAddEntryRequiredFields = this.checksForAddEntryRequiredFields.bind(this);
     this.checksIfEntryExist = this.checksIfEntryExist.bind(this);
     this.handlesConnectionToTheDatabase = this.handlesConnectionToTheDatabase.bind(this);
+    this.checksIfEntryCanBeUpdated = this.checksIfEntryCanBeUpdated.bind(this);
   }
 
 
@@ -289,4 +290,36 @@ export default class AuthController {
       next();
     });
   }
+
+
+    /**
+   * A middleware method for checking if an entry can be update
+   * Takes req and res to return the user object
+   * @param {object} req the request object
+   * @param {object} res the response object
+   * @param {object} next the next object
+   * @returns {object} the user object
+   *
+   * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
+   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
+   */
+  checksIfEntryCanBeUpdated(req, res, next) {
+    const twentyFourHoursInMins = 24 * 60;
+    const timeNow = new Date();
+    const timeDifferences = timeNow - req.entry.created_at;
+    const timeDifferencesInMins = timeDifferences/60000;
+
+    if(timeDifferencesInMins > twentyFourHoursInMins){
+      return res.status(500).send({ message: 'Entries can only be Updated within 24 hours of creation!'
+      });
+    }
+
+    next();
+    
+
+
+
+  }
+
+
 }

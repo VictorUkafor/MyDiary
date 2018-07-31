@@ -61,6 +61,7 @@ apiRouter.put(
   auth.handlesConnectionToTheDatabase,
   auth.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
+  auth.checksIfEntryCanBeUpdated,
   entry.putEntry
 );
 
