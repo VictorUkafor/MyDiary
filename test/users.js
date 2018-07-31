@@ -1,14 +1,19 @@
+import pg from 'pg';
 import supertest from 'supertest';
 import { expect } from 'chai';
 import app from '../index';
 
 const request = supertest(app);
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
 
 describe('MyDiary API Routes', () => {
-  beforeEach((done) => {
-
+  after((done) => {
+     pg.connect(connectionString, (err, client, done) => {
+       client.query('TRUNCATE TABLE account CASCADE'); 
+     })
     done();
-  }); 
+  });
+
 
 
     describe('GET /api/v1', () => {
@@ -30,9 +35,9 @@ describe('MyDiary API Routes', () => {
       it('Creates a new user account successfully', (done) => {
         request.post('/api/v1/auth/signup')
           .send({
-            firstName: 'John',
+            firstName: 'Jean',
             lastName: 'Doe',
-            email: 'johndoe@gmail.com',
+            email: 'jeandoe@gmail.com',
             password: 'password',
             confirm_password: 'password',
           })
@@ -56,9 +61,9 @@ describe('MyDiary API Routes', () => {
       it('Passwords did not match', (done) => {
         request.post('/api/v1/auth/signup')
           .send({
-            firstName: 'John',
+            firstName: 'Jean',
             lastName: 'Doe',
-            email: 'johndoe@gmail.com',
+            email: 'jeandoe@gmail.com',
             password: 'password',
             confirm_password: 'password1',
           })
@@ -72,13 +77,13 @@ describe('MyDiary API Routes', () => {
       it('An account with this email has already been registered', (done) => {
         request.post('/api/v1/auth/signup')
           .send({
-            firstName: "Smith",
-            lastName: "Josh",
-            email: "smithjosh@gmail.com",
+            firstName: "Jean",
+            lastName: "Doe",
+            email: "jeandoe@gmail.com",
             password: 'password',
             confirm_password: 'password',
           })
-          .expect(400)
+          .expect(409)
           .end((err) => {
             done(err);
           });
@@ -92,7 +97,7 @@ describe('MyDiary API Routes', () => {
     it('Logs a user into the app successfully', (done) => {
       request.post('/api/v1/auth/login')
         .send({
-          email: "smithjosh@gmail.com",
+          email: "jeandoe@gmail.com",
           password: 'password',
         })
         .expect(200)
@@ -113,9 +118,9 @@ describe('MyDiary API Routes', () => {
 
     // invalid email or password
     it('Invalid email or password', (done) => {
-      request.post('/api/v1/login')
+      request.post('/api/v1/auth/login')
         .send({
-          email: "smithjosh1@gmail.com",
+          email: "jeandoe1@gmail.com",
           password: 'password',
         })
         .expect(404)
@@ -126,9 +131,9 @@ describe('MyDiary API Routes', () => {
 
     // invalid email or password
     it('Invalid email or password', (done) => {
-      request.post('/api/v1/login')
+      request.post('/api/v1/auth/login')
         .send({
-          email: "smithjosh@gmail.com",
+          email: "jeandoe@gmail.com",
           password: 'password1',
         })
         .expect(404)
@@ -137,8 +142,10 @@ describe('MyDiary API Routes', () => {
         });
     });
   });
-    
-
 
 });
+
+
+    
+
   

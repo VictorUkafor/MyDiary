@@ -83,7 +83,7 @@ export default class AuthController {
     User.on('end', () => {
       req.done();
       if (registeredUser.length > 0) {
-        return res.status(400).send({ message: 'An account with this email has already been created!' });
+        return res.status(409).send({ message: 'An account with this email has already been created!' });
       }
 
       next();
