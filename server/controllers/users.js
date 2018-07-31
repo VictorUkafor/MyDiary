@@ -46,12 +46,12 @@ export default class UserController {
     const registeredUser = [];
 
     req.client.query(
-      'INSERT INTO diaryUser(firstName, lastName, email, password) values($1, $2, $3, $4)',
+      'INSERT INTO account(firstName, lastName, email, password) values($1, $2, $3, $4)',
       [req.body.firstName, req.body.lastName, req.body.email,
         this.bcrypt.hashSync(req.body.password, salt)]
     );
 
-    const getUser = req.client.query('SELECT * FROM diaryUser WHERE email=($1);', [req.body.email]);
+    const getUser = req.client.query('SELECT * FROM account WHERE email=($1);', [req.body.email]);
 
     getUser.on('row', (row) => { registeredUser.push(row); });
 
@@ -74,7 +74,7 @@ export default class UserController {
    *  @returns {object} return an object
    */
   loginUser(req, res) {
-    const token = this.jwt.sign({ id: req.user.id }, this.key.secret, { expiresIn: 60 * 60 });
+    const token = this.jwt.sign({ user_id: req.user.user_id }, this.key.secret, { expiresIn: 60 * 60 });
 
     if (this.bcrypt.compareSync(req.body.password, req.user.password)) {
       res.status(200).send({

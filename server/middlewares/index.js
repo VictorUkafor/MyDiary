@@ -47,13 +47,13 @@ export default class AuthController {
       * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
       */
   handlesConnectionToTheDatabase(req, res, next) {
-    const connectionString = process.env.DATABASE_URL || 'postgres://postgres:success4me@localhost:5432/mydiary_dev';
+    const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
 
     this.pg.connect(connectionString, (err, client, done) => {
       if (err) {
         done();
         return res.status(500).send({
-          message: 'Server error: Connection to database failed!'
+          message: 'Server error: Connection to the tdatabase failed!'
         });
       }
 
@@ -75,7 +75,7 @@ export default class AuthController {
       */
   checksIfUserAlreadyExist(req, res, next) {
     const registeredUser = [];
-    const User = req.client.query('SELECT * FROM diaryUser WHERE email=($1);', [req.body.email]);
+    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [req.body.email]);
 
     User.on('row', (row) => { registeredUser.push(row); });
 
@@ -148,7 +148,7 @@ export default class AuthController {
       */
   checksIfUserExist(req, res, next) {
     const authenticatedUser = [];
-    const User = req.client.query('SELECT * FROM diaryUser WHERE email=($1);', [req.body.email]);
+    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [req.body.email]);
 
     User.on('row', (row) => { authenticatedUser.push(row); });
 
@@ -222,7 +222,7 @@ export default class AuthController {
         });
       }
 
-      const getUser = req.client.query('SELECT * FROM diaryUser WHERE id=($1);', [authenticated.id]);
+      const getUser = req.client.query('SELECT * FROM account WHERE user_id=($1)', [authenticated.user_id]);
 
       getUser.on('row', (row) => { authenticatedUser.push(row); });
 
@@ -273,9 +273,8 @@ export default class AuthController {
 
     if (isNaN(entryId)) entryId = 0;
 
-    const getEntry = req.client.query(
-      'SELECT * FROM entry WHERE id=($1) AND diaryUserId=($2);',
-      [entryId, req.user.id]
+    const getEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1) AND entry_user_id=($2);',
+      [entryId, req.user.user_id]
     );
 
     getEntry.on('row', (row) => { entry.push(row); });

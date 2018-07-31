@@ -37,7 +37,7 @@ export default class EntryController {
   */
   getAllEntries(req, res) {
     const allEntries = [];
-    const getEntries = req.client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+    const getEntries = req.client.query('SELECT * FROM entry;');
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -73,7 +73,7 @@ export default class EntryController {
   */
   setTitle(title, content) {
     if (!title) {
-      return content.substring(0, 10);
+      return content.substring(0, 20);
     }
     return title;
   }
@@ -92,12 +92,11 @@ export default class EntryController {
   postEntry(req, res) {
     const title = this.setTitle(req.body.title, req.body.content);
     const allEntries = [];
-    const addEntry = req.client.query(
-      'DELETE FROM entry(diaryUserId, title, content) values($1, $2, $3)',
-      [req.user.id, title, req.body.content]
+    const addEntry = req.client.query('INSERT INTO entry(entry_user_id, title, content) values($1, $2, $3)',
+      [req.user.user_id, title, req.body.content]
     );
 
-    const getEntries = req.client.query('SELECT * FROM entry WHERE diaryUserId=($1);', [req.user.id]);
+    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);', [req.user.user_id]);
 
     getEntries.on('row', (row) => {
       allEntries.push(row);
@@ -160,14 +159,12 @@ export default class EntryController {
   putEntry(req, res) {
     const updatedEntry = [];
     const title = this.setTitleForUpdate(req.body.title, req.entry);
-    const content = this.setContentForUpdate(req.body, req.entry);
+    const content = this.setContentForUpdate(req.body.content, req.entry);
 
-    const update = req.client.query(
-      'UPDATE entry SET title=($1), content=($2) WHERE id=($3)',
-      [title, content, req.entry.id]
-    );
+    const update = req.client.query('UPDATE entry SET title=($1), content=($2) WHERE entry_id=($3)',
+      [title, content, req.entry.entry_id]);
 
-    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE id=($1);', [req.entry.id]);
+    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1);', [req.entry.entry_id]);
 
     getUpdatedEntry.on('row', (row) => {
       updatedEntry.push(row);
@@ -200,7 +197,7 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   deleteEntry(req, res) {
-    const deleteEntry = req.client.query('DELETE FROM entry WHERE id=($1)', [req.entry.id]);
+    const deleteEntry = req.client.query('DELETE FROM entry WHERE entry_id=($1)', [req.entry.entry_id]);
 
     if (deleteEntry) {
       return res.status(204).send({
