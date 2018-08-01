@@ -1,11 +1,15 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
+import pg from 'pg';
+import bcrypt from 'bcrypt';
+import key from '../models/key';
 import UserController from '../controllers/users';
 import EntryController from '../controllers/entries';
 import AuthController from '../middlewares';
 
 const apiRouter = express.Router();
-const auth = new AuthController();
-const user = new UserController();
+const auth = new AuthController(jwt, pg, key);
+const user = new UserController(jwt, bcrypt, key);
 const entry = new EntryController();
 
 apiRouter.get('/', (req, res) => res.status(200).send({
@@ -16,6 +20,7 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 apiRouter.post(
   '/auth/signup',
   auth.checksForSignUpRequiredFields,
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserAlreadyExist,
   user.postUser
 );
@@ -23,18 +28,21 @@ apiRouter.post(
 apiRouter.post(
   '/auth/login',
   auth.checksForLogInRequiredFields,
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserExist,
   user.loginUser
 );
 
 apiRouter.get(
   '/entries',
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserIsAuthenticated,
   entry.getAllEntries
 );
 
 apiRouter.get(
   '/entries/:entryId',
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
   entry.getEntry
@@ -42,6 +50,7 @@ apiRouter.get(
 
 apiRouter.post(
   '/entries',
+  auth.handlesConnectionToTheDatabase,
   auth.checksForAddEntryRequiredFields,
   auth.checksIfUserIsAuthenticated,
   entry.postEntry
@@ -49,13 +58,16 @@ apiRouter.post(
 
 apiRouter.put(
   '/entries/:entryId',
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
+  auth.checksIfEntryCanBeUpdated,
   entry.putEntry
 );
 
 apiRouter.delete(
   '/entries/:entryId',
+  auth.handlesConnectionToTheDatabase,
   auth.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
   entry.deleteEntry
