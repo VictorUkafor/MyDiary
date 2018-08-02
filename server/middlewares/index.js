@@ -54,7 +54,7 @@ export default class AuthController {
       if (err) {
         done();
         return res.status(500).send({
-          message: 'Server error: Connection to the tdatabase failed!'
+          errors: 'Server error: Connection to the database failed!'
         });
       }
 
@@ -83,7 +83,7 @@ export default class AuthController {
     User.on('end', () => {
       req.done();
       if (registeredUser.length > 0) {
-        return res.status(409).send({ message: 'An account with this email has already been created!' });
+        return res.status(409).send({ errors: 'An account with this email has already been created!' });
       }
 
       next();
@@ -131,7 +131,7 @@ export default class AuthController {
 
 
     if (Object.keys(errors).length > 0) {
-      return res.status(400).send({ message: errors });
+      return res.status(400).send({ error: errors });
     }
     next();
   }
@@ -156,7 +156,7 @@ export default class AuthController {
     User.on('end', () => {
       req.done();
       if (authenticatedUser.length === 0) {
-        return res.status(404).send({ message: 'Invalid email or password!' });
+        return res.status(404).send({ errors: 'Invalid email or password!' });
       }
 
       req.user = authenticatedUser[0];
@@ -188,7 +188,7 @@ export default class AuthController {
 
 
     if (Object.keys(errors).length > 0) {
-      res.status(400).send({ message: errors });
+      res.status(400).send({ errors });
     } else {
       next();
     }
@@ -212,14 +212,14 @@ export default class AuthController {
 
     if (!token) {
       return res.status(401).send({
-        authenticated: false, message: 'Token not found!'
+        authenticated: false, errors: 'You are not registered user!'
       });
     }
 
     this.jwt.verify(token, this.key.secret, (err, authenticated) => {
       if (!authenticated) {
         return res.status(500).send({
-          authenticated: false, message: 'You are not registered user!'
+          authenticated: false, errors: 'You are not registered user!'
         });
       }
 
@@ -250,7 +250,7 @@ export default class AuthController {
   checksForAddEntryRequiredFields(req, res, next) {
     if (!req.body.content) {
       return res.status(400).send({
-        message: 'Content field is required!'
+        errors: 'Content field is required!'
       });
     }
     next();
@@ -283,7 +283,7 @@ export default class AuthController {
     getEntry.on('end', () => {
       req.done();
       if (entry.length === 0) {
-        return res.status(404).send({ message: 'Entry can not be found!' });
+        return res.status(404).send({ errors: 'Entry can not be found!' });
       }
 
       req.entry = entry[0];
@@ -310,7 +310,7 @@ export default class AuthController {
     const timeDifferencesInMins = timeDifferences/60000;
 
     if(timeDifferencesInMins > twentyFourHoursInMins){
-      return res.status(500).send({ message: 'Entries can only be Updated within 24 hours of creation!'
+      return res.status(500).send({ errors: 'Entries can only be Updated within 24 hours of creation!'
       });
     }
 
