@@ -11,7 +11,6 @@ function processSignUp(){
     let email = document.forms["signUp"]["email"].value;
     let password = document.forms["signUp"]["password"].value;
     let confirm_password = document.forms["signUp"]["confirm_password"].value;
-    let photograph = document.forms["signUp"]["photograph"].value;
 
     document.getElementById('firstNameError').innerHTML = '';
     document.getElementById('lastNameError').innerHTML = '';
@@ -48,8 +47,6 @@ function processSignUp(){
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(body);
-        console.log(data.errors)
         if(data.errors){
             if(data.errors !== null && typeof data.errors === 'object'){
                 fields.forEach((field) =>{

@@ -26,8 +26,9 @@
 
         <h1 class="page-header">Log In</h1>
 
-        <form name="signIn" class="signup-form" action="all-entries.html" onsubmit="return validateSignInForm()">
-            <div class="form-group">
+        <form name="signIn" class="signup-form" action="all-entries.html" onsubmit="return processLogIn()">
+          <div id="errorMessage"></div>
+          <div class="form-group">
               <label  class="input-label" for="Email">Email</label>
               <input name="email" type="email" class="form-field" id="Email" placeholder="Email">
               <div id="emailError"></div>
@@ -48,8 +49,7 @@
                   Designed & Developed by Victor Ukafor
         </div>
 </footer>
-<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/process-login.js"></script>
 </body>
 </html>
    
