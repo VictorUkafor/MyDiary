@@ -19,7 +19,7 @@ function validateSignUpForm(){
     if(firstName.trim() !== '' && lastName.trim() !== '' && email.trim() !== '' &&
      password.trim() !== '' && confirmPassword.trim() !== '' && photograph.trim() !== '' &&
     confirmPassword.trim() === password.trim()){
-        return processSignUp(body);
+        return processSignUp();
     } else{
 
     if(firstName.trim() === ''){

@@ -131,7 +131,7 @@ export default class AuthController {
 
 
     if (Object.keys(errors).length > 0) {
-      return res.status(400).send({ error: errors });
+      return res.status(400).send({ errors: errors });
     }
     next();
   }
