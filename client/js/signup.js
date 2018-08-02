@@ -16,10 +16,20 @@ function validateSignUpForm(){
     document.getElementById('confirmPasswordError').innerHTML = '';
     document.getElementById('photographError').innerHTML = '';
 
+    const body = {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirm_password,
+        photograph
+    }
+
     if(firstName.trim() !== '' && lastName.trim() !== '' && email.trim() !== '' &&
      password.trim() !== '' && confirmPassword.trim() !== '' && photograph.trim() !== '' &&
     confirmPassword.trim() === password.trim()){
-        return processSignUp(body);
+        //processSignUp(body);
+        console.log('hello')
     } else{
 
     if(firstName.trim() === ''){
@@ -289,10 +299,10 @@ let entries = [
 ];
 
 
-// // on document load
-// entries.forEach((entry) => {
-//     document.getElementById('entries').innerHTML += entry; 
-// })
+// on document load
+entries.forEach((entry) => {
+    document.getElementById('entries').innerHTML += entry; 
+})
 
 
 // deleting entries
