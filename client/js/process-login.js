@@ -35,8 +35,8 @@ function processLogIn(){
             }
             
         }else if(data.message){
-            window.location.href = 'all-entries.html';
-            console.log(data.message);
+            window.localStorage.setItem('token', data.token);
+            window.location.href = 'all-entries.html';   
         }
       })
       .catch((error) => {
