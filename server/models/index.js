@@ -11,8 +11,8 @@ const user = client.query(
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW())`);
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`);
 
 user.on('end', () => { client.end(); });
 
@@ -23,8 +23,8 @@ const entry = client.query(
     entry_user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     content text NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     FOREIGN KEY (entry_user_id) REFERENCES account (user_id))`);
 
 entry.on('end', () => { client.end(); });
