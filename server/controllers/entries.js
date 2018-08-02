@@ -106,12 +106,12 @@ export default class EntryController {
       req.done();
       if (addEntry) {
         return res.status(201).send({
-          message: 'A new diary entry has been added successfully', allEntries
+          success: 'A new diary entry has been added successfully', allEntries
         });
       }
 
       return res.status(500).send({
-        message: 'Server error: Entry could be added!'
+        errors: 'Server error: Entry could be added!'
       });
     });
   }
@@ -175,12 +175,12 @@ export default class EntryController {
       req.done();
       if (update) {
         return res.status(200).send({
-          message: 'The entry has been updated successfully', updatedEntry
+          success: 'The entry has been updated successfully', updatedEntry
         });
       }
 
       return res.status(500).send({
-        message: 'Server error: Entry could be added!'
+        errors: 'Server error: Entry could be added!'
       });
     });
   }
@@ -202,12 +202,12 @@ export default class EntryController {
 
     if (deleteEntry) {
       return res.status(204).send({
-        message: 'The entry has been deleted successfully'
+        success: 'The entry has been deleted successfully'
       });
     }
 
     return res.status(500).send({
-      message: 'Server error: Entry could be added!'
+      errors: 'Server error: Entry could be added!'
     });
   }
 }

@@ -58,7 +58,7 @@ export default class UserController {
     getUser.on('end', () => {
       req.done();
       return res.status(201).send({
-        message: 'User registered successfully', registeredUser
+        success: 'User registered successfully', registeredUser
       });
     });
   }
@@ -81,7 +81,7 @@ export default class UserController {
         message: `Welcome! ${req.user.firstname} ${req.user.lastname}`, token
       });
     } else {
-      res.status(404).send({ message: 'Invalid email or password!' });
+      res.status(404).send({ errors: 'Invalid email or password!' });
     }
   }
 }
