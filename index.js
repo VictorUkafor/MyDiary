@@ -3,7 +3,7 @@ import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
 import swaggerDocument from './swagger.json';
-import apiRouter from './server/routes/index';
+import apiRouter from './server/routes';
 
 const app = express();
 const port = process.env.PORT || 8000;
