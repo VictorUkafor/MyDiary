@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import jwt from 'jsonwebtoken';
 import { expect } from 'chai';
 import bcrypt from 'bcrypt';
-import app from '../index';
+import app from '..';
 import key from '../server/models/key';
 
 

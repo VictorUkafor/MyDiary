@@ -5,14 +5,14 @@ import bcrypt from 'bcrypt';
 import key from '../models/key';
 import UserController from '../controllers/users';
 import EntryController from '../controllers/entries';
-import DatabaseMiddleware from '../middlewares/database-middleware';
+import DatabaseMiddleware from '../middlewares/database-middlewares';
 import UserMidddleware from '../middlewares/user-middlewares';
-import AuthController from '../middlewares';
+import EntryMiddleware from '../middlewares/entry-middlewares'
 
 const apiRouter = express.Router();
-const auth = new AuthController(jwt, pg, key);
 const databaseMiddleware = new DatabaseMiddleware(pg);
 const userMiddleware = new UserMidddleware(jwt, key);
+const entryMiddleware = new EntryMiddleware();
 const user = new UserController(jwt, bcrypt, key);
 const entry = new EntryController();
 
@@ -48,14 +48,14 @@ apiRouter.get(
   '/entries/:entryId',
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
-  auth.checksIfEntryExist,
+  entryMiddleware.checksIfEntryExist,
   entry.getEntry
 );
 
 apiRouter.post(
   '/entries',
   databaseMiddleware.handlesConnectionToTheDatabase,
-  auth.checksForAddEntryRequiredFields,
+  entryMiddleware.checksForAddEntryRequiredFields,
   userMiddleware.checksIfUserIsAuthenticated,
   entry.postEntry
 );
@@ -64,8 +64,8 @@ apiRouter.put(
   '/entries/:entryId',
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
-  auth.checksIfEntryExist,
-  auth.checksIfEntryCanBeUpdated,
+  entryMiddleware.checksIfEntryExist,
+  entryMiddleware.checksIfEntryCanBeUpdated,
   entry.putEntry
 );
 
@@ -73,7 +73,7 @@ apiRouter.delete(
   '/entries/:entryId',
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
-  auth.checksIfEntryExist,
+  entryMiddleware.checksIfEntryExist,
   entry.deleteEntry
 );
 
