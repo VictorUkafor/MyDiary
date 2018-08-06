@@ -1,29 +1,26 @@
 /**
- * @fileOverview this JS file contains logic for middleware methods
+ * @fileOverview this JS file contains logic for user middleware methods
  *
  * @author  Victor Ukafor
  * @requires  NPM:jsonwebtoken
- * @requires  NPM:pg
  * @version 1.0.0
  *
  */
 
 /**
-  *  class AuthController
+  *  class UserMiddleware
   *
   */
  export default class UserMiddleware {
     /**
       *  constructor
-      *  Takes 3 parameters
+      *  Takes 2 parameters
       *  @param {object} jwt the first parameter
-      *  @param  {object} pg the second parameter
       *  @param  {object} key the third parameter
       *
       */
-    constructor(jwt, pg, key) {
+    constructor(jwt, key) {
       this.jwt = jwt;
-      this.pg = pg;
       this.key = key;
       this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
       this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);

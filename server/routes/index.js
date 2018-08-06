@@ -5,12 +5,14 @@ import bcrypt from 'bcrypt';
 import key from '../models/key';
 import UserController from '../controllers/users';
 import EntryController from '../controllers/entries';
+import DatabaseMiddleware from '../middlewares/database-middleware';
 import UserMidddleware from '../middlewares/user-middlewares';
 import AuthController from '../middlewares';
 
 const apiRouter = express.Router();
 const auth = new AuthController(jwt, pg, key);
-const userMiddleware = new UserMidddleware(jwt, bcrypt, key);
+const databaseMiddleware = new DatabaseMiddleware(pg);
+const userMiddleware = new UserMidddleware(jwt, key);
 const user = new UserController(jwt, bcrypt, key);
 const entry = new EntryController();
 
@@ -22,7 +24,7 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 apiRouter.post(
   '/auth/signup',
   userMiddleware.checksForSignUpRequiredFields,
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserAlreadyExist,
   user.postUser
 );
@@ -30,21 +32,21 @@ apiRouter.post(
 apiRouter.post(
   '/auth/login',
   userMiddleware.checksForLogInRequiredFields,
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserExist,
   user.loginUser
 );
 
 apiRouter.get(
   '/entries',
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   entry.getAllEntries
 );
 
 apiRouter.get(
   '/entries/:entryId',
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
   entry.getEntry
@@ -52,7 +54,7 @@ apiRouter.get(
 
 apiRouter.post(
   '/entries',
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   auth.checksForAddEntryRequiredFields,
   userMiddleware.checksIfUserIsAuthenticated,
   entry.postEntry
@@ -60,7 +62,7 @@ apiRouter.post(
 
 apiRouter.put(
   '/entries/:entryId',
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
   auth.checksIfEntryCanBeUpdated,
@@ -69,7 +71,7 @@ apiRouter.put(
 
 apiRouter.delete(
   '/entries/:entryId',
-  auth.handlesConnectionToTheDatabase,
+  databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   auth.checksIfEntryExist,
   entry.deleteEntry
