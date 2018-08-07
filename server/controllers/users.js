@@ -43,15 +43,16 @@ export default class UserController {
   */
   postUser(req, res) {
     const salt = this.bcrypt.genSaltSync(10);
+    const { firstName, lastName, email, password }  = req.body;
     const registeredUser = [];
 
     req.client.query(
       'INSERT INTO account(firstName, lastName, email, password) values($1, $2, $3, $4)',
-      [req.body.firstName, req.body.lastName, req.body.email,
-        this.bcrypt.hashSync(req.body.password, salt)]
+      [firstName.trim(), lastName.trim(), email.trim(),
+      this.bcrypt.hashSync(password.trim(), salt)]
     );
 
-    const getUser = req.client.query('SELECT * FROM account WHERE email=($1);', [req.body.email]);
+    const getUser = req.client.query('SELECT * FROM account WHERE email=($1);', [email.trim()]);
 
     getUser.on('row', (row) => { registeredUser.push(row); });
 
@@ -61,6 +62,7 @@ export default class UserController {
         success: 'User registered successfully', registeredUser
       });
     });
+    
   }
 
 

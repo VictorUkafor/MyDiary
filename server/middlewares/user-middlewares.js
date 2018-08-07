@@ -41,7 +41,8 @@
         */
     checksIfUserAlreadyExist(req, res, next) {
       const registeredUser = [];
-      const User = req.client.query('SELECT * FROM account WHERE email=($1);', [req.body.email]);
+      const email = req.body.email.trim();
+      const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
   
       User.on('row', (row) => { registeredUser.push(row); });
   
@@ -50,9 +51,9 @@
         if (registeredUser.length > 0) {
           return res.status(409).send({ errors: 'An account with this email has already been created!' });
         }
-  
         next();
       });
+      
     }
   
     /** A method for checking if required fields are filled for signup API
@@ -65,15 +66,15 @@
     checksForSignUpRequiredFields(req, res, next) {
       const errors = {};
   
-      if (!req.body.firstName) {
+      if (!req.body.firstName || req.body.firstName.trim() === 0) {
         errors.firstName = 'First Name field is required';
       }
   
-      if (!req.body.lastName) {
+      if (!req.body.lastName || req.body.lastName.trim() === 0) {
         errors.lastName = 'Last Name field is required';
       }
   
-      if (!req.body.email) {
+      if (!req.body.email || req.body.email.trim() === 0) {
         errors.email = 'Email field is required';
       }
   
@@ -81,17 +82,18 @@
         errors.email = 'You\'ve entered an invalid email';
       }
   
-      if (!req.body.password) {
+      if (!req.body.password || req.body.password.trim() === 0) {
         errors.password = 'Password field is required';
       }
   
-      if (!req.body.confirm_password) {
+      if (!req.body.confirm_password || req.body.confirm_password.trim() === 0) {
         errors.confirm_password = 'confirmPassword field is required';
       }
   
-      if (req.body.password && req.body.confirm_password &&
-         req.body.password !== req.body.confirm_password) {
-        errors.confirm_password = 'Passwords do not match';
+      if (req.body.password && req.body.confirm_password){
+        if(req.body.password.trim() !== req.body.confirm_password.trim()){
+          errors.confirm_password = 'Passwords do not match';
+        }
       }
   
   
