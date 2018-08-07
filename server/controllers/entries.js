@@ -37,7 +37,8 @@ export default class EntryController {
   */
   getAllEntries(req, res) {
     const allEntries = [];
-    const getEntries = req.client.query('SELECT * FROM entry;');
+    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);',
+     [req.user.user_id]);
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -90,13 +91,19 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   postEntry(req, res) {
-    const title = this.setTitle(req.body.title, req.body.content);
-    const allEntries = [];
-    const addEntry = req.client.query('INSERT INTO entry(entry_user_id, title, content) values($1, $2, $3)',
-      [req.user.user_id, title, req.body.content]
-    );
 
-    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);', [req.user.user_id]);
+    let title = '';
+    if(req.body.title){
+      title = req.body.title.trim();
+    }
+    const content = req.body.content.trim();
+    const newTitle = this.setTitle(title, content);
+    const allEntries = [];
+    const addEntry = req.client.query(`INSERT INTO entry(entry_user_id, title, content)
+    values($1, $2, $3)`, [req.user.user_id, newTitle, content]);
+
+    const getEntries = req.client.query(`SELECT * FROM entry 
+    WHERE entry_user_id=($1);`, [req.user.user_id]);
 
     getEntries.on('row', (row) => {
       allEntries.push(row);
@@ -111,7 +118,7 @@ export default class EntryController {
       }
 
       return res.status(500).send({
-        errors: 'Server error: Entry could be added!'
+        errors: 'Server error: Entry could not be added!'
       });
     });
   }
@@ -158,18 +165,24 @@ export default class EntryController {
   */
   putEntry(req, res) {
     const updatedEntry = [];
-    const title = this.setTitleForUpdate(req.body.title, req.entry);
-    const content = this.setContentForUpdate(req.body.content, req.entry);
+
+    let title = '';
+    let content = '';
+
+    if(req.body.title){ title = req.body.title.trim(); }
+    if(req.body.content){ title = req.body.content.trim(); }
+
+    const titleUpdated = this.setTitleForUpdate(title, req.entry);
+    const contentUpdated = this.setContentForUpdate(content, req.entry);
     const newDate = new Date();
 
-    const update = req.client.query('UPDATE entry SET title=($1), content=($2), updated_at=($3) WHERE entry_id=($4)',
-      [title, content, newDate, req.entry.entry_id]);
+    const update = req.client.query(`UPDATE entry SET title=($1), content=($2), updated_at=($3)
+     WHERE entry_id=($4)`, [titleUpdated, contentUpdated, newDate, req.entry.entry_id]);
 
-    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1);', [req.entry.entry_id]);
+    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1);',
+     [req.entry.entry_id]);
 
-    getUpdatedEntry.on('row', (row) => {
-      updatedEntry.push(row);
-    });
+    getUpdatedEntry.on('row', (row) => { updatedEntry.push(row); });
 
     getUpdatedEntry.on('end', () => {
       req.done();
@@ -180,7 +193,7 @@ export default class EntryController {
       }
 
       return res.status(500).send({
-        errors: 'Server error: Entry could be added!'
+        errors: 'Server error: Entry could not be updated!'
       });
     });
   }
@@ -201,13 +214,13 @@ export default class EntryController {
     const deleteEntry = req.client.query('DELETE FROM entry WHERE entry_id=($1)', [req.entry.entry_id]);
 
     if (deleteEntry) {
-      return res.status(204).send({
+      return res.status(200).send({
         success: 'The entry has been deleted successfully'
       });
     }
 
     return res.status(500).send({
-      errors: 'Server error: Entry could be added!'
+      errors: 'Server error: Entry could not be deleted!'
     });
   }
 }
