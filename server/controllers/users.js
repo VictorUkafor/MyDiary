@@ -78,7 +78,7 @@ export default class UserController {
   loginUser(req, res) {
     const token = this.jwt.sign({ user_id: req.user.user_id }, this.key.secret, { expiresIn: 60 * 60 });
 
-    if (this.bcrypt.compareSync(req.body.password, req.user.password)) {
+    if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {
       res.status(200).send({
         message: `Welcome! ${req.user.firstname} ${req.user.lastname}`, token
       });
