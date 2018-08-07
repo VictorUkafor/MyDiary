@@ -29,7 +29,7 @@ export default class EntryMiddleware {
       *  @returns {object} return an object
       */
   checksForAddEntryRequiredFields(req, res, next) {
-    if (!req.body.content) {
+    if (!req.body.content || req.body.content.trim() === 0) {
       return res.status(400).send({
         errors: 'Content field is required!'
       });
@@ -53,24 +53,28 @@ export default class EntryMiddleware {
     const entry = [];
     let entryId = parseInt(req.params.entryId, 10);
 
-    if (isNaN(entryId)) entryId = 0;
-
-    const getEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1) AND entry_user_id=($2);',
-      [entryId, req.user.user_id]
-    );
-
-    getEntry.on('row', (row) => { entry.push(row); });
-
-    getEntry.on('end', () => {
-      req.done();
-      if (entry.length === 0) {
-        return res.status(404).send({ errors: 'Entry can not be found!' });
+    if (isNaN(entryId)){
+      return res.status(400).send({ 
+        errors: 'You\'ve entered an invalid entryId: '+ req.params.entryId  
+      });
+    } else {
+      const getEntry = req.client.query(`SELECT * FROM entry WHERE entry_id=($1)
+       AND entry_user_id=($2);`, [entryId, req.user.user_id]);
+       
+       getEntry.on('row', (row) => { entry.push(row); });
+       
+       getEntry.on('end', () => {
+         req.done();
+         if (entry.length === 0) {
+           return res.status(404).send({ errors: 'Entry can not be found!' });
+          }
+          
+          req.entry = entry[0];
+          next();
+        });
       }
-
-      req.entry = entry[0];
-      next();
-    });
-  }
+    
+    }
 
 
     /**
@@ -91,7 +95,8 @@ export default class EntryMiddleware {
     const timeDifferencesInMins = timeDifferences/60000;
 
     if(timeDifferencesInMins > twentyFourHoursInMins){
-      return res.status(500).send({ errors: 'Entries can only be Updated within 24 hours of creation!'
+      return res.status(500).send({ 
+        errors: 'Entries can only be Updated within 24 hours of creation!'
       });
     }
 

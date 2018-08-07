@@ -46,7 +46,7 @@ export default class UserController {
     const { firstName, lastName, email, password }  = req.body;
     const registeredUser = [];
 
-    req.client.query(
+    const addUser = req.client.query(
       'INSERT INTO account(firstName, lastName, email, password) values($1, $2, $3, $4)',
       [firstName.trim(), lastName.trim(), email.trim(),
       this.bcrypt.hashSync(password.trim(), salt)]
@@ -58,8 +58,14 @@ export default class UserController {
 
     getUser.on('end', () => {
       req.done();
-      return res.status(201).send({
-        success: 'User registered successfully', registeredUser
+      if(addUser){
+        return res.status(201).send({ 
+          success: 'User registered successfully', registeredUser
+      });  
+      }
+
+      return res.status(500).send({
+        errors: 'Server error: User could not be added!'
       });
     });
     
