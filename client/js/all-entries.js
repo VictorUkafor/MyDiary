@@ -11,6 +11,11 @@ const pagination = '<div class="pagination">' +
 '<button type="submit" class="pagination-link page-number">4</button>' +                
 '<button type="submit" class="pagination-link last-page">>></button></div>'
 
+function viewEntry(id){
+    window.localStorage.setItem('entryId', id);
+    window.location.href = 'single-entry.html'; 
+}
+
 function entryThumbnail(entry){
     let position = '';
     if(entry.entry_id % 2 === 0){
@@ -26,7 +31,7 @@ function entryThumbnail(entry){
         '<hr class="entry-line"/>' +
         '<p class="entry-text"><a href="single-entry.html">'+ entry.content +'</a></p>' +
          '<div class="actions">' +
-        '<a href="single-entry.html"><button type="submit" class="action-link read-more">Read More</button></a>' +
+        '<a href="single-entry.html"><button onclick="viewEntry('+ entry.entry_id+')" type="submit" class="action-link read-more">Read More</button></a>' +
         '<a href="modify-entry.html"><button type="submit" class="action-link modify-entry">Modify</button></a>' +
         '<a><button type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
         '</div></div></div>';
