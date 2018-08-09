@@ -9,6 +9,7 @@
   <meta name="description" content="Modify entry"/>
   <title>MyDiary - Modify Entry </title>
   <link href="css/styles.css" rel="stylesheet" />
+  <script type="text/javascript" src="js/modify-entry.js"></script>
 </head>
 <body>
 
@@ -28,14 +29,14 @@
 
         <h1 class="page-header">Modify Entry</h1>
 
-        <form name="modifyEntry" class="signup-form" action="single-entry.html" onsubmit="return validateModifyEntryForm()">
+        <form name="modifyEntry" class="signup-form" action="single-entry.html" onsubmit="return processModifyEntry()">
             <div class="form-group">
               <label  class="input-label" for="Title">Title</label>
-              <input type="text" class="form-field" id="Title" value="My First Day in School">
+              <input name="title" type="text" class="form-field" id="title" value="My First Day in School">
             </div>
             <div class="form-group">
               <label  class="input-label" for="Entry_content">Entry Content</label>
-              <textarea type="password" height="50px" class="form-field form-field-textarea" id="Entry_content">Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat
+              <textarea name="content" type="password" height="50px" class="form-field form-field-textarea" id="content">Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat
               </textarea>
               <div id="entryContentError"></div>
             </div>
@@ -50,7 +51,7 @@
                   Designed & Developed by Victor Ukafor
         </div>
 </footer>
-<script type="text/javascript" src="js/script.js"></script>
+
 </body>
 </html>
    

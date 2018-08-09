@@ -1,8 +1,3 @@
-
-function displayErrorInFields(errors, field){
-    document.getElementById(field+'Error').innerHTML = '<h1 class="errorField">'+ errors[field] +'</h1>';
-}
-
 function processAddEntry(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
     const token = localStorage.getItem('token');
