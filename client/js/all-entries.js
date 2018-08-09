@@ -37,6 +37,8 @@ function entryThumbnail(entry){
         '</div></div></div>';
 }
 
+
+
 function getAllEntries(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
     const token = localStorage.getItem('token');

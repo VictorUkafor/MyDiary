@@ -9,6 +9,7 @@
   <meta name="description" content="Add a new entry"/>
   <title>MyDiary - Add Entry </title>
   <link href="css/styles.css" rel="stylesheet" />
+  <script type="text/javascript" src="js/add-entry.js"></script>
 </head>
 <body>
 
@@ -27,14 +28,15 @@
 
         <h1 class="page-header">Add an Entry</h1>
 
-        <form name="addEntry" class="signup-form" action="all-entries.html" onsubmit="return validateAddEntryForm()">
+        <form name="addEntry" class="signup-form" action="all-entries.html" onsubmit="return processAddEntry()">
+            <div id="errorMessage"></div>
             <div class="form-group">
               <label  class="input-label" for="Title">Title</label>
-              <input type="text" class="form-field" id="Title" placeholder="Entry title here . . .">
+              <input name="title" type="text" class="form-field" id="Title" placeholder="Entry title here . . .">
             </div>
             <div class="form-group">
               <label  class="input-label" for="Entry_content">Entry Content</label>
-              <textarea name="entryContent" height="50px" class="form-field form-field-textarea" id="Entry_content" placeholder="Enter your thought . . ."></textarea>
+              <textarea name="content" height="50px" class="form-field form-field-textarea" id="Entry_content" placeholder="Enter your thought . . ."></textarea>
               <div id="entryContentError"></div>
             </div>
             <button type="submit" class="form-button">Save Entry</button>
@@ -48,7 +50,7 @@
                   Designed & Developed by Victor Ukafor
         </div>
 </footer>
-<script type="text/javascript" src="js/script.js"></script>
+
 </body>
 </html>
    
