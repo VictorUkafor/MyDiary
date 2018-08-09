@@ -92,4 +92,28 @@ export default class UserController {
       res.status(404).send({ errors: 'Invalid email or password!' });
     }
   }
+
+  /**
+   *  An API for fetching a single user from the app
+   *  POST: /api/v1/user
+   *  Takes 2 parameters
+   *  @param {object} req the first parameter
+   *  @param  {object} res the second parameter
+   *
+   *  @returns {object} return an object
+   */
+  getAUser(req, res) {
+    const entries = [];
+    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);',
+     [req.user.user_id]);
+
+    getEntries.on('row', (row) => { entries.push(row); });
+    req.user.entries = entries;
+
+    getEntries.on('end', () => {
+      req.done();
+      return res.status(200).send(req.user);
+    });
+  }
+  
 }
