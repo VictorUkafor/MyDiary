@@ -4,8 +4,8 @@ function oneEntry(entry){
     '<p class="date-p">Last Updated:  &nbsp; <span class="single-date">'+ entry.updated_at +'</span></p>' +
     '<hr class="single-line" /><p class="entry-p">'+ entry.content +'</p>' +
     '<div class="actions-2">' +
-    '<a href="modify-entry.html"><button type="submit" class="action-link2 modify-entry">Modify</button></a>' +
-    '<a><button type="submit" class="action-link2 delete-entry">Delete</button></a>' +
+    '<a><button onclick="modifyEntry('+ entry.entry_id+')"  type="submit" class="action-link2 modify-entry">Modify</button></a>' +
+    '<a><button onclick="deleteEntry('+ entry.entry_id+')" type="submit" class="action-link2 delete-entry">Delete</button></a>' +
     '</div></div>';
 }
 

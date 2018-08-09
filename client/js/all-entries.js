@@ -21,9 +21,15 @@ function modifyEntry(id){
     window.location.href = 'modify-entry.html'; 
 }
 
-function entryThumbnail(entry){
+function deleteEntry(id){
+    window.localStorage.setItem('entryId', id);
+    processDeleteEntry();
+}
+
+function entryThumbnail(entry, entries){
+    const index = entries.indexOf(entry);
     let position = '';
-    if(entry.entry_id % 2 === 0){
+    if(index % 2 === 0){
       position = 'left-entry';
     }else{
         position = 'right-entry'; 
@@ -38,7 +44,7 @@ function entryThumbnail(entry){
          '<div class="actions">' +
         '<a href="single-entry.html"><button onclick="viewEntry('+ entry.entry_id+')" type="submit" class="action-link read-more">Read More</button></a>' +
         '<a href="modify-entry.html"><button onclick="modifyEntry('+ entry.entry_id+')" type="submit" class="action-link modify-entry">Modify</button></a>' +
-        '<a><button type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
+        '<a><button onclick="deleteEntry('+ entry.entry_id+')"  type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
         '</div></div></div>';
 }
 
@@ -70,7 +76,7 @@ function getAllEntries(){
             document.getElementById('search').innerHTML = searchField;
             document.getElementById('pagination').innerHTML += pagination;
             data.forEach((entry) => {
-                document.getElementById('entries').innerHTML += entryThumbnail(entry);
+                document.getElementById('entries').innerHTML += entryThumbnail(entry, data);
             })
         } 
 
@@ -83,3 +89,39 @@ function getAllEntries(){
 }
 
 getAllEntries();
+
+
+function processDeleteEntry(){
+    const entryId = localStorage.getItem('entryId');
+    const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + entryId;
+    const token = localStorage.getItem('token');
+    const dataForFetch = { 
+        method: 'DELETE', 
+        headers: { 
+            "Content-Type": "application/json",
+            "authentication": token
+         }
+        }
+
+    fetch(url, dataForFetch)
+    .then((res) => res.json()) 
+    .then((data) => {
+        console.log(data);
+        if(data.authenticated === false){
+            window.location.href = 'sign-in.html';
+            document.getElementById("errorMessage").innerHTML =
+            '<h1 class="errorField"> You have to login! </h1>'; 
+        } else if(data.errors){
+            document.getElementById("errorMessage").innerHTML =
+             '<h1 class="errorField">'+ data.errors +'</h1>';
+        } else {
+            window.location.href = 'all-entries.html';
+        } 
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return false;
+}
