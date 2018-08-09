@@ -38,6 +38,13 @@ apiRouter.post(
 );
 
 apiRouter.get(
+  '/user',
+  databaseMiddleware.handlesConnectionToTheDatabase,
+  userMiddleware.checksIfUserIsAuthenticated,
+  user.getAUser
+);
+
+apiRouter.get(
   '/entries',
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
