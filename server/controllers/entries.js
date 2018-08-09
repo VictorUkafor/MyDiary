@@ -170,7 +170,7 @@ export default class EntryController {
     let content = '';
 
     if(req.body.title){ title = req.body.title.trim(); }
-    if(req.body.content){ title = req.body.content.trim(); }
+    if(req.body.content){ content = req.body.content.trim(); }
 
     const titleUpdated = this.setTitleForUpdate(title, req.entry);
     const contentUpdated = this.setContentForUpdate(content, req.entry);
