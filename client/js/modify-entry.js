@@ -56,14 +56,17 @@ function processModifyEntry(){
     .then((res) => res.json()) 
     .then((data) => {
         console.log(data);
-        if(data.authenticated === false || data.errors){
+        if(data.authenticated === false){
             window.location.href = 'sign-in.html';
             document.getElementById("errorMessage").innerHTML =
             '<h1 class="errorField"> You have to login! </h1>'; 
+        } else if(data.errors){
+            document.getElementById("errorMessage").innerHTML =
+            '<h1 class="errorField">' + data.errors + '</h1>'; 
         } else {
             window.location.href = 'all-entries.html';
         }
-
+ 
       })
       .catch((error) => {
         console.log(error);
