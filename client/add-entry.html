@@ -10,6 +10,7 @@
   <title>MyDiary - Add Entry </title>
   <link href="css/styles.css" rel="stylesheet" />
   <script type="text/javascript" src="js/add-entry.js"></script>
+  <script type="text/javascript" src="js/logout.js"></script>
 </head>
 <body>
 
@@ -20,8 +21,10 @@
             </a>
         </div>
         <ul class="side-button">
+            
             <li><a href="all-entries.html"><input type="submit" class="sign-in" value="All Entries"/></a></li>
             <li><a href="profile.html"><input type="submit" class="sign-in my-profile-button" value="My Profile"/></a></li>
+            <li><a><input onclick="logOut()" type="submit" class="sign-in my-profile-button" value="Log Out"/></a></li>
         </ul>
     </header>
     <div class="body">
