@@ -9,19 +9,19 @@
   <meta name="description" content="View all of your diary entries"/>
   <title>MyDiary - All Entries</title>
   <link href="css/styles.css" rel="stylesheet" />
-  <script type="text/javascript" src="js/all-entries.js"></script>
 </head>
 <body>
 
     <header>
-            <div class="logo"><a href="index.html">
+            <div class="logo"><a onclick="indexPage()">
                     <h1 class="logo-text"><img src="images/logo.png" class="logo-image" />
                     My<span class="text2">Diary</span><h1>                
                     </a>
                 </div>
                 <ul class="side-button">
-                    <li><a href="add-entry.html"><input type="submit" class="sign-in" value="Add an Entry"/></a></li>
-                    <li><a href="profile.html"><input type="submit" class="sign-in my-profile-button" value="My Profile"/></a></li>
+                    <li><a onclick="addEntryPage()"><input type="submit" class="sign-in" value="Add an Entry"/></a></li>
+                    <li><a onclick="profilePage()"><input type="submit" class="sign-in my-profile-button" value="My Profile"/></a></li>
+                    <li><a onclick="logOut()"><input type="submit" class="sign-in my-profile-button" value="Log Out"/></a></li>
                 </ul>        
     </header>
     <div class="body">
@@ -41,8 +41,9 @@
                   Designed & Developed by Victor Ukafor
         </div>
     </footer>
-
-
+    <script type="text/javascript" src="js/events.js"></script>
+    <script type="text/javascript" src="js/all-entries.js"></script>
+    <script type="text/javascript" src="js/delete-entry.js"></script>
 </body>
 </html>
    
