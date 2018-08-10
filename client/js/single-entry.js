@@ -13,6 +13,7 @@ function getEntry(){
     const entryId = localStorage.getItem('entryId');
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + entryId;
     const token = localStorage.getItem('token');
+    const modifyEntry = localStorage.getItem('modifyEntry');
     const dataForFetch = { 
         method: 'GET', 
         headers: { 
@@ -26,11 +27,16 @@ function getEntry(){
     .then((data) => {
         console.log(data);
         if(data.authenticated === false || data.errors){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
+            const login = 'OOP! You have to login';
+            window.localStorage.setItem('login', login);
+            window.location.href = 'sign-in.html'; 
         } else {
+            if(modifyEntry){
+                document.getElementById("successMessage").innerHTML =
+                 '<h1 class="successField">'+ modifyEntry +'</h1>';
+            }
             document.getElementById('single-entry').innerHTML += oneEntry(data);
+            window.localStorage.removeItem('modifyEntry');
         }
 
       })
