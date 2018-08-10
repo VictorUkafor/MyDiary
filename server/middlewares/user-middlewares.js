@@ -74,18 +74,22 @@
         errors.lastName = 'Last Name field is required';
       }
   
+      if(req.body.email){
       if (!req.body.email || req.body.email.trim() === 0) {
         errors.email = 'Email field is required';
       }
+    }
 
   // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
   // to fully understand regular expression in javascript. See the full link below
   // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1" 
       const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
 
+      if(req.body.email){
       if (!emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
+    }
   
       if (!req.body.password || req.body.password.trim() === 0) {
         errors.password = 'Password field is required';
@@ -156,9 +160,11 @@
   // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1" 
       const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
 
+      if(req.body.email){
       if (!emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
+    }
   
       if (!req.body.password || req.body.password.trim() === 0) {
         errors.password = 'Password field is required';

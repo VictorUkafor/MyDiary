@@ -11,21 +11,6 @@ const pagination = '<div class="pagination">' +
 '<button type="submit" class="pagination-link page-number">4</button>' +                
 '<button type="submit" class="pagination-link last-page">>></button></div>'
 
-function viewEntry(id){
-    window.localStorage.setItem('entryId', id);
-    window.location.href = 'single-entry.html'; 
-}
-
-function modifyEntry(id){
-    window.localStorage.setItem('entryId', id);
-    window.location.href = 'modify-entry.html'; 
-}
-
-function deleteEntry(id){
-    window.localStorage.setItem('entryId', id);
-    processDeleteEntry();
-}
-
 function entryThumbnail(entry, entries){
     const index = entries.indexOf(entry);
     let position = '';
@@ -53,6 +38,8 @@ function entryThumbnail(entry, entries){
 function getAllEntries(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
     const token = localStorage.getItem('token');
+    const addEntry = localStorage.getItem('addEntry');
+    const deleteEntry = localStorage.getItem('deleteEntry');
     const dataForFetch = { 
         method: 'GET', 
         headers: { 
@@ -66,20 +53,31 @@ function getAllEntries(){
     .then((data) => {
         console.log(data);
         if(data.authenticated === false || data.errors){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
+            const login = 'OOP! You have to login';
+            window.localStorage.setItem('login', login);
+            window.location.href = 'sign-in.html';   
         } else if(data.message){
             document.getElementById("successMessage").innerHTML =
              '<h1 class="successField">'+ data.message +'</h1>';
         } else {
+            if(addEntry){
+            document.getElementById("successMessage").innerHTML =
+             '<h1 class="successField">'+ addEntry +'</h1>';
+            }
+
+            if(deleteEntry){
+                document.getElementById("successMessage").innerHTML =
+                 '<h1 class="successField">'+ deleteEntry +'</h1>';
+            }
+
             document.getElementById('search').innerHTML = searchField;
             document.getElementById('pagination').innerHTML += pagination;
             data.forEach((entry) => {
                 document.getElementById('entries').innerHTML += entryThumbnail(entry, data);
             })
         } 
-
+        window.localStorage.removeItem('addEntry');
+        window.localStorage.removeItem('deleteEntry');
       })
       .catch((error) => {
         console.log(error);
@@ -89,39 +87,3 @@ function getAllEntries(){
 }
 
 getAllEntries();
-
-
-function processDeleteEntry(){
-    const entryId = localStorage.getItem('entryId');
-    const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + entryId;
-    const token = localStorage.getItem('token');
-    const dataForFetch = { 
-        method: 'DELETE', 
-        headers: { 
-            "Content-Type": "application/json",
-            "authentication": token
-         }
-        }
-
-    fetch(url, dataForFetch)
-    .then((res) => res.json()) 
-    .then((data) => {
-        console.log(data);
-        if(data.authenticated === false){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
-        } else if(data.errors){
-            document.getElementById("errorMessage").innerHTML =
-             '<h1 class="errorField">'+ data.errors +'</h1>';
-        } else {
-            window.location.href = 'all-entries.html';
-        } 
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-      return false;
-}

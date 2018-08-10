@@ -5,9 +5,8 @@ function displayErrorInFields(errors, field){
 
 function processLogIn(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/auth/login';
-    
-    let email = document.forms["signIn"]["email"].value;
-    let password = document.forms["signIn"]["password"].value;
+    const email = document.forms["signIn"]["email"].value;
+    const password = document.forms["signIn"]["password"].value;
 
     document.getElementById('emailError').innerHTML = '';
     document.getElementById('passwordError').innerHTML = '';

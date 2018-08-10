@@ -15,9 +15,9 @@ function userProfile(){
     .then((data) => {
         console.log(data);
         if(data.authenticated === false || data.errors){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
+            const login = 'OOP! You have to login';
+            window.localStorage.setItem('login', login);
+            window.location.href = 'sign-in.html'; 
         } else {
             document.getElementById("firstName").innerHTML = data.firstname;
             document.getElementById("lastName").innerHTML = data.lastname;

@@ -15,11 +15,11 @@ function modifyEntry(){
     .then((data) => {
         console.log(data);
         if(data.authenticated === false || data.errors){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
+            const login = 'OOP! You have to login';
+            window.localStorage.setItem('login', login);
+            window.location.href = 'sign-in.html';  
         } else {
-            window.localStorage.setItem('entryId', entryId);
+            //window.localStorage.setItem('entryId', entryId);
             document.getElementById('title').value = data.title;
             document.getElementById('content').value = data.content;
         }
@@ -57,14 +57,15 @@ function processModifyEntry(){
     .then((data) => {
         console.log(data);
         if(data.authenticated === false){
-            window.location.href = 'sign-in.html';
-            document.getElementById("errorMessage").innerHTML =
-            '<h1 class="errorField"> You have to login! </h1>'; 
+            const login = 'OOP! You have to login';
+            window.localStorage.setItem('login', login);
+            window.location.href = 'sign-in.html'; 
         } else if(data.errors){
             document.getElementById("errorMessage").innerHTML =
             '<h1 class="errorField">' + data.errors + '</h1>'; 
         } else {
-            window.location.href = 'all-entries.html';
+            window.localStorage.setItem('modifyEntry', data.success);
+            window.location.href = 'single-entry.html';
         }
  
       })
