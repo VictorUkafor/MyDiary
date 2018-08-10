@@ -85,9 +85,11 @@
   // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1" 
       const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
 
+      if(req.body.email){
       if (!emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
+    }
   
       if (!req.body.password || req.body.password.trim() === 0) {
         errors.password = 'Password field is required';
