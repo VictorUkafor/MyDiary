@@ -78,7 +78,7 @@ function validateSignInForm(){
     document.getElementById('passwordError').innerHTML = '';
 
     if(email.trim() !== '' && password.trim() !== ''){
-        return true;
+        return processLogIn();
     } else {
 
     if(email.trim() === ''){
