@@ -104,7 +104,7 @@ function validateSignInForm(){
 // onSumbit event for add entry  form
 
 function validateAddEntryForm(){
-    let entryContent = document.forms["addEntry"]["entryContent"].value;
+    const entryContent = document.forms["addEntry"]["content"].value;
 
     document.getElementById('entryContentError').innerHTML = '';
 
@@ -115,7 +115,7 @@ function validateAddEntryForm(){
 
         return false;
     }  else {
-        return true;
+        return processAddEntry();
     } 
 
     return false;
