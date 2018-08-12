@@ -2,11 +2,11 @@
 // onSumbit event for signup form
 
 function validateSignUpForm(){
-    let firstName = document.forms["signUp"]["firstName"].value;
-    let lastName = document.forms["signUp"]["lastName"].value;
-    let email = document.forms["signUp"]["email"].value;
-    let password = document.forms["signUp"]["password"].value;
-    let confirmPassword = document.forms["signUp"]["confirm_password"].value;
+    const firstName = document.forms["signUp"]["firstName"].value;
+    const lastName = document.forms["signUp"]["lastName"].value;
+    const email = document.forms["signUp"]["email"].value;
+    const password = document.forms["signUp"]["password"].value;
+    const confirmPassword = document.forms["signUp"]["confirm_password"].value;
 
     document.getElementById('firstNameError').innerHTML = '';
     document.getElementById('lastNameError').innerHTML = '';
@@ -71,8 +71,8 @@ function validateSignUpForm(){
 // onSumbit event for signin form
 
 function validateSignInForm(){
-    let email = document.forms["signIn"]["email"].value;
-    let password = document.forms["signIn"]["password"].value;
+    const email = document.forms["signIn"]["email"].value;
+    const password = document.forms["signIn"]["password"].value;
 
     document.getElementById('emailError').innerHTML = '';
     document.getElementById('passwordError').innerHTML = '';
@@ -110,7 +110,8 @@ function validateAddEntryForm(){
 
     if(entryContent.trim() === ''){
         const entryContentError = 'You must some entry';
-        document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">'+ entryContentError +'</h1>'; 
+        document.getElementById('entryContentError').innerHTML =
+         '<h1 class="errorField">'+ entryContentError +'</h1>'; 
         document.getElementById('Entry_content').value = "";
 
         return false;
@@ -124,18 +125,19 @@ function validateAddEntryForm(){
 
 
 function validateModifyEntryForm(){
-    let entryContent = document.forms["modifyEntry"]["entryContent"].value;
+    const entryContent = document.forms["modifyEntry"]["content"].value;
 
     document.getElementById('entryContentError').innerHTML = '';
 
     if(entryContent.trim() === ''){
         const entryContentError = 'You must some entry';
-        document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">'+ entryContentError +'</h1>'; 
+        document.getElementById('entryContentError').innerHTML = 
+        '<h1 class="errorField">'+ entryContentError +'</h1>'; 
         document.getElementById('Entry_content').value = "";
 
         return false;
     }  else {
-        return true;
+        return processModifyEntry();
     } 
 
     return false;

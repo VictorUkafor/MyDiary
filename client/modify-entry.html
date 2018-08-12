@@ -29,19 +29,18 @@
 
         <h1 class="page-header">Modify Entry</h1>
 
-        <form name="modifyEntry" class="signup-form" onsubmit="return processModifyEntry()">
+        <form method="POST" name="modifyEntry" class="signup-form">
             <div id="errorMessage"></div>
             <div class="form-group">
               <label  class="input-label" for="Title">Title</label>
-              <input name="title" type="text" class="form-field" id="title" value="My First Day in School">
+              <input name="title" type="text" class="form-field" id="title">
             </div>
             <div class="form-group">
               <label  class="input-label" for="Entry_content">Entry Content</label>
-              <textarea name="content" type="password" height="50px" class="form-field form-field-textarea" id="content">Lorem ipsum dolor sit amet,adipiscing elit. Etiam pulv inar, mauris sit amet interdum feugiat
-              </textarea>
+              <textarea name="content" height="50px" class="form-field form-field-textarea" id="Entry_content"> </textarea>
               <div id="entryContentError"></div>
             </div>
-            <button type="submit" class="form-button">Update Entry</button>
+            <input type="button" class="form-button" value="Update Entry" onclick="validateModifyEntryForm()"/>
           </form>
     </div>
 
@@ -52,6 +51,7 @@
                   Designed & Developed by Victor Ukafor
         </div>
 </footer>
+<script type="text/javascript" src="js/client-validations.js"></script>
 <script type="text/javascript" src="js/events.js"></script>
 <script type="text/javascript" src="js/modify-entry.js"></script>
 </body>

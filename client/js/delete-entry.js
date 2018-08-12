@@ -13,7 +13,6 @@ function processDeleteEntry(){
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(data);
         if(data.authenticated === false){
             window.location.href = 'sign-in.html';
             document.getElementById("errorMessage").innerHTML =
