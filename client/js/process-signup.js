@@ -5,12 +5,13 @@ function displayErrorInFields(errors, field){
 
 function processSignUp(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/auth/signup';
-    
-    let firstName = document.forms["signUp"]["firstName"].value;
-    let lastName = document.forms["signUp"]["lastName"].value;
-    let email = document.forms["signUp"]["email"].value;
-    let password = document.forms["signUp"]["password"].value;
-    let confirm_password = document.forms["signUp"]["confirm_password"].value;
+    const firstName = document.forms["signUp"]["firstName"].value;
+    const lastName = document.forms["signUp"]["lastName"].value;
+    const email = document.forms["signUp"]["email"].value;
+    const password = document.forms["signUp"]["password"].value;
+    const confirm_password = document.forms["signUp"]["confirm_password"].value;
+    const body = { firstName, lastName, email, password, confirm_password };
+    const fields = ['firstName', 'lastName', 'email', 'password', 'confirm_password'];
 
     document.getElementById('firstNameError').innerHTML = '';
     document.getElementById('lastNameError').innerHTML = '';
@@ -18,30 +19,13 @@ function processSignUp(){
     document.getElementById('passwordError').innerHTML = '';
     document.getElementById('confirm_passwordError').innerHTML = '';
     document.getElementById('photographError').innerHTML = '';
-
-    const body = {
-        firstName,
-        lastName,
-        email,
-        password,
-        confirm_password
-    }
-
-    const fields = [
-        'firstName',
-        'lastName',
-        'email',
-        'password',
-        'confirm_password'
-    ]
-
+    document.getElementById('errorMessage').innerHTML = '';
+    document.getElementById('successMessage').innerHTML = '';
     
     const dataForFetch = { 
         method: 'POST', 
         body: JSON.stringify(body),
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
     }
 
     fetch(url, dataForFetch)

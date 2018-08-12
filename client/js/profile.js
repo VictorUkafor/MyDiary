@@ -13,7 +13,6 @@ function userProfile(){
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(data);
         if(data.authenticated === false || data.errors){
             const login = 'OOP! You have to login';
             window.localStorage.setItem('login', login);

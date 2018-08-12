@@ -4,24 +4,21 @@ function modifyEntry(){
     const token = localStorage.getItem('token');
     const dataForFetch = { 
         method: 'GET', 
-        headers: { 
-            "Content-Type": "application/json",
-            "authentication": token
+        headers: { "Content-Type": "application/json",
+        "authentication": token
          }
         }
 
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(data);
         if(data.authenticated === false || data.errors){
             const login = 'OOP! You have to login';
             window.localStorage.setItem('login', login);
             window.location.href = 'sign-in.html';  
         } else {
-            //window.localStorage.setItem('entryId', entryId);
             document.getElementById('title').value = data.title;
-            document.getElementById('content').value = data.content;
+            document.getElementById('Entry_content').value = data.content;
         }
 
       })
@@ -39,9 +36,10 @@ function processModifyEntry(){
     const entryId = localStorage.getItem('entryId');
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + entryId;
     const token = localStorage.getItem('token');
+    const title = document.forms["modifyEntry"]["title"].value;
+    const content = document.forms["modifyEntry"]["content"].value;
 
-    let title = document.forms["modifyEntry"]["title"].value;
-    let content = document.forms["modifyEntry"]["content"].value;
+    document.getElementById('errorMessage').innerHTML = '';
 
     const dataForFetch = { 
         method: 'PUT', 
@@ -55,7 +53,6 @@ function processModifyEntry(){
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(data);
         if(data.authenticated === false){
             const login = 'OOP! You have to login';
             window.localStorage.setItem('login', login);

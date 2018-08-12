@@ -1,9 +1,10 @@
 function processAddEntry(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
     const token = localStorage.getItem('token');
+    const title = document.forms["addEntry"]["title"].value;
+    const content = document.forms["addEntry"]["content"].value;
 
-    let title = document.forms["addEntry"]["title"].value;
-    let content = document.forms["addEntry"]["content"].value;
+    document.getElementById('errorMessage').innerHTML = '';
     
     const dataForFetch = { 
         method: 'POST', 
@@ -17,7 +18,6 @@ function processAddEntry(){
     fetch(url, dataForFetch)
     .then((res) => res.json()) 
     .then((data) => {
-        console.log(data);
         if(data.authenticated === false){
             const login = 'OOP! You have to login';
             window.localStorage.setItem('login', login);

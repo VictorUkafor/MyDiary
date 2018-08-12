@@ -10,6 +10,7 @@ function processLogIn(){
 
     document.getElementById('emailError').innerHTML = '';
     document.getElementById('passwordError').innerHTML = '';
+    document.getElementById('errorMessage').innerHTML = '';
 
     const fields = [ 'email', 'password']
     const dataForFetch = { 
