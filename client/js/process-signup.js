@@ -18,6 +18,8 @@ function processSignUp(){
     document.getElementById('passwordError').innerHTML = '';
     document.getElementById('confirm_passwordError').innerHTML = '';
     document.getElementById('photographError').innerHTML = '';
+    document.getElementById('errorMessage').innerHTML = '';
+    document.getElementById('successMessage').innerHTML = '';
 
     const body = {
         firstName,

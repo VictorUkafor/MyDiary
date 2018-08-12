@@ -26,7 +26,7 @@
 
         <h1 class="page-header">Sign Up Today</h1>
 
-        <form name="signUp" id="signUp" class="signup-form" onsubmit="return processSignUp()">
+        <form name="signUp" id="signUp" class="signup-form" >
           <div id="successMessage"></div>
           <div id="errorMessage"></div>
           <div class="form-group">
@@ -59,7 +59,7 @@
               <input name="photograph" type="file" class="form-field" id="Photograph">
               <div id="photographError"></div>
             </div>
-            <button type="submit" class="form-button">Sign Up</button>
+            <input type="button" class="form-button" value="Sign Up" onclick="validateSignUpForm()"/>
           </form>
     </div>
 
@@ -69,8 +69,10 @@
                   Designed & Developed by Victor Ukafor
         </div>
 </footer>
+<script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/events.js"></script>
 <script type="text/javascript" src="js/process-signup.js"></script>
+
 </body>
 </html>
    
