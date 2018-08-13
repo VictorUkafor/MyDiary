@@ -442,11 +442,12 @@ header{
     margin-top: 10px;
 }
 
+
 footer{
     padding-top: 10px;
+    padding-bottom: 10px;
     width: 100%;
-    height: 25px;
-    background-color: #5c453d;
+    background-color: #234f8e;
 }
 
 .copyright{
