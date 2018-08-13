@@ -65,6 +65,7 @@ header{
     font-weight: bold;
     font-family: candara;
     font-style: italic;
+    outline: none;
 }
 
 .sign-in:hover{
@@ -170,6 +171,7 @@ header{
     font-style: italic;
     font-weight: bold;
     background-color: #fff;
+    outline: none;
 }
 
 .form-field-2{
@@ -183,6 +185,7 @@ header{
     line-height: 35px;
     font-weight: normal;
     font-size: 20px;
+    outline: none;
 }
 
 .form-button {
@@ -197,6 +200,7 @@ header{
     height: 40px;
     border-radius: 20px;
     margin-top: 35px;
+    outline: none;
 }
 
 .form-button:hover {
@@ -480,6 +484,10 @@ footer{
 
 @media screen and (max-width:800px){
 
+    .body .add-entry{
+        margin-left: 5.3%;
+    }
+
     .side-button{
         padding-top: 5px;
     }
@@ -540,6 +548,10 @@ footer{
 }
 
  @media screen and (max-width:600px){
+
+    .body .add-entry{
+        margin-left: 4%;
+    }
 
     header .logo{
         margin-left: 2%;
@@ -615,6 +627,37 @@ footer{
 
 
 @media screen and (min-width:320px) and (max-width:500px){
+
+    .body .form-field-textarea{
+        padding-top: 10px;
+        min-height: 300px;
+        line-height: 25px;
+        font-size: 17px;
+    }
+
+    .body .input-label{
+        font-size:17px;
+        padding-left: 0;
+    }
+    
+    .body .form-field{
+        border-radius: 13px;
+        width: 100%;
+        height: 30px;
+        padding: 6px;
+        padding-left: 12px;
+        font-size: 14px;
+        margin-left: -7%;
+    }
+
+    .body .form-group{
+        margin-bottom: 20px;
+    }
+
+.body .add-entry{
+    margin-left: 4%;
+    width: 73%;
+}
 
 header .logo-image{
     width: 12%;
@@ -763,6 +806,8 @@ footer{
 
 @media screen and (max-width:1024px){
 
+
+
     .side-button{
         margin-top: -58px;
     }
@@ -776,7 +821,10 @@ footer{
         margin-left: 22%;
     }
 
-
+    .add-entry{
+        width: 80%;
+        margin-left: 7%;
+    }
     .entries{
         max-width: 90%;
         margin-left: 5%;
@@ -809,6 +857,12 @@ footer{
 
 @media screen and (min-width:1280px) and (max-width:1300px) {
 
+    .add-entry{
+        margin-left: 7%;
+    }
+
+    
+
     .entry-div{
         margin-top: -161px;
     }
@@ -823,6 +877,10 @@ footer{
 
 
 @media screen and (min-width:1440px){
+
+    .add-entry{
+        margin-left: 7%;
+    }
 
     .entries{
         max-width: 71%;
