@@ -15,8 +15,9 @@ a{
 }
 
 header{
-    margin-top: -22px;
-    padding: 20px 0px;
+    margin-top: -17px; 
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 100%;
     background-color: #234f8e;
 }
@@ -32,7 +33,7 @@ header{
     font-weight: bold;
     color: #fff;
     font-style: italic;
-    margin-left: 7px;
+    margin-left: 5px;
 }
 
 .side-button{
@@ -719,13 +720,12 @@ footer{
 @media screen and (max-width:1024px){
 
     .side-button{
-        margin-top: -68px;
-        margin-right: 7px;
+        margin-top: -58px;
+        margin-left: 55%;
     }
 
     .logo-image{
-        width: 7%;
-        margin-top: -8px;
+        width: 6%;
     }
 
     .signup-form{
@@ -766,15 +766,6 @@ footer{
 
 @media screen and (min-width:1280px) and (max-width:1300px) {
 
-    .logo-image{
-        width: 6%;
-        margin-top: -10px;
-    }
-
-    .side-button{
-        margin-top: -77px;
-    }
-
     .entry-div{
         margin-top: -161px;
     }
@@ -789,14 +780,6 @@ footer{
 
 
 @media screen and (min-width:1440px){
-
-    .logo-image{
-        margin-top: -8px;
-    }
-
-    .side-button{
-        margin-top: -77px;
-    }
 
     .entries{
         max-width: 71%;
