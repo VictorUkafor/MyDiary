@@ -1,12 +1,12 @@
 function oneEntry(entry){
-    return  '<div class="single-entry-image"><img src="images/image1.jpg" />' +
-    '</div><div class="entry-content"><h1>'+ entry.title +'</h1>' +
-    '<p class="date-p">Last Updated:  &nbsp; <span class="single-date">'+ entry.updated_at +'</span></p>' +
-    '<hr class="single-line" /><p class="entry-p">'+ entry.content +'</p>' +
-    '<div class="actions-2">' +
-    '<a><button onclick="modifyEntry('+ entry.entry_id+')"  type="submit" class="action-link2 modify-entry">Modify</button></a>' +
-    '<a><button onclick="deleteEntry('+ entry.entry_id+')" type="submit" class="action-link2 delete-entry">Delete</button></a>' +
-    '</div></div>';
+    return '<div class="entry-container"><div class="entry-content"></div></div>';
+    // return  '<div class="entry-content"><h1>'+ entry.title +'</h1>' +
+    // '<p class="date-p">Last Updated:  &nbsp; <span class="single-date">'+ entry.updated_at +'</span></p>' +
+    // '<hr class="single-line" /><p class="entry-p">'+ entry.content +'</p>' +
+    // '<div class="actions-2">' +
+    // '<a><button onclick="modifyEntry('+ entry.entry_id+')"  type="submit" class="action-link2 modify-entry">Modify</button></a>' +
+    // '<a><button onclick="deleteEntry('+ entry.entry_id+')" type="submit" class="action-link2 delete-entry">Delete</button></a>' +
+    // '</div></div>';
 }
 
 function getEntry(){

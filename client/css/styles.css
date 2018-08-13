@@ -212,6 +212,23 @@ header{
     padding-bottom: 150px;
 }
 
+.entry-container{
+    width: 80%;
+    height: auto;
+    margin-left: 10%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #234f8e;
+}
+
+.entry-content{
+    height: auto;
+    padding: 20px 10px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+
 .entries{
     max-width: 74%;
     margin-left: 10%;
