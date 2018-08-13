@@ -203,6 +203,11 @@ header{
     outline: none;
 }
 
+.button2{
+    width: 42%;
+    margin-left: 5%;
+}
+
 .form-button:hover {
     background-color: #fff;
     color: #234f8e;
@@ -212,22 +217,47 @@ header{
     padding-bottom: 150px;
 }
 
-.entry-container{
+.body .entry-container{
     width: 80%;
     height: auto;
     margin-left: 10%;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-color: #234f8e;
 }
 
-.entry-content{
+.body .entry-body{
+    width: 90%;
     height: auto;
-    padding: 20px 10px;
+    padding: 20px 20px;
     border-radius: 20px;
-    background-color: #fff;
+    margin-left: 3%;
+    background-color: #f9f9f9;
 }
 
+.entry-h1{
+    font-family: candara;
+    font-size: 35px;
+    text-align: center;
+    line-height: 45px;
+    font-weight: bold;
+}
+
+.entryP{
+    width: 94;
+    margin-left: 3%;
+    font-family: candara;
+    font-size: 21px;
+    line-height: 35px;
+}
+
+.entry-hr{
+    height: 4px;
+    width: 94%;
+    margin-left: 3%;
+    background-color: #000;
+    border: 0;
+}
 
 .entries{
     max-width: 74%;
@@ -501,6 +531,11 @@ footer{
 
 @media screen and (max-width:800px){
 
+    .body .entry-body{
+        max-width: 84%;
+        margin-left: 5%;
+    }
+
     .body .add-entry{
         margin-left: 5.3%;
     }
@@ -565,6 +600,11 @@ footer{
 }
 
  @media screen and (max-width:600px){
+
+    .body .entry-body{
+        max-width: 81.5%;
+        margin-left: 5%;
+    }
 
     .body .add-entry{
         margin-left: 4%;
@@ -645,12 +685,44 @@ footer{
 
 @media screen and (min-width:320px) and (max-width:500px){
 
-    .body .form-field-textarea{
-        padding-top: 10px;
-        min-height: 300px;
-        line-height: 25px;
-        font-size: 17px;
+    .body .entry-container{
+        width: 92%;
+        margin-left: 4%;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
+
+    .body .button2{
+        width: 92%;
+        margin-left: 4%;
+        margin-bottom: -5px;
+        margin-top: 20px;
+    }
+
+    .body .entry-body{
+        max-width: 76%;
+        margin-left: 5%;
+    }
+    
+    .entry-h1{
+        font-size: 18px;
+        line-height: 25px;
+    }
+    
+    .entryP{
+        width: 98;
+        margin-left: 1%;
+        font-size: 15px;
+        line-height: 19px;
+    }
+    
+    .entry-hr{
+        height: 2px;
+        width: 98%;
+        margin-left: 1%;
+    }
+
+
 
     .body .input-label{
         font-size:17px;
@@ -823,7 +895,9 @@ footer{
 
 @media screen and (max-width:1024px){
 
-
+    .body .entry-body{
+        width: 89%;
+    }
 
     .side-button{
         margin-top: -58px;
