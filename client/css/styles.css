@@ -127,69 +127,81 @@ header{
 }
 
 .signup-form{
-    width: 50%;
-    margin-left: 25%;
+    width: 40%;
+    margin-left: 30%;
     margin-top: 40px;
     padding: 35px;
-    background-color: #fff;
-    border-radius: 20px;
-    border: 1px solid #eb5d32;
+    background-color: #234f8e;
     margin-bottom: 80px;
 }
 
+.add-entry{
+    width: 80%;
+    margin-left: 10%;
+}
+
 .form-group{
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .input-label{
-	color: #eb5d32;
-	font-family:candara;
-	font-size:18px;
-    font-weight:bold;
+	color: #fff;
+    font-family:candara;
+    font-weight: bold;
+    font-style: oblique;
+    font-size:20px;
+    padding-left: 20px;
     display: inline-block;
     max-width: 100%;
     margin-bottom: 10px;
 }
 
 .form-field{
-    border: 1px solid #eb5d32;
-    border-radius: 2px;
+    border-radius: 13px;
+    border: 1px solid #fff;
     display: block;
     font-family: candara;
-    color: #000;
     width: 95%;
     height: 34px;
     padding: 6px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #feeedf;
-    background-image: none;
+    padding-left: 15px;
+    font-size: 16px;
+    color: #000;
+    font-style: italic;
+    font-weight: bold;
+    background-color: #fff;
 }
 
+.form-field-2{
+    font-size: 24px;
+    height: 52px;
+}
 
 .form-field-textarea{
-    height: 70px;
+    padding-top: 15px;
+    min-height: 500px;
+    line-height: 35px;
+    font-weight: normal;
+    font-size: 20px;
 }
 
 .form-button {
     width: 100%;
-    border: 1px solid #eb5d32;
-    background-color: #eb5d32;
+    border: 2px solid #fff;
+    background-color: #234f8e;
     color: #fff;
     font-family: candara;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     width: 97%;
     height: 40px;
-    border-radius: 2px;
+    border-radius: 20px;
     margin-top: 35px;
 }
 
 .form-button:hover {
-    border: 1px solid #eb5d32;
-    background-color: #feeedf;
-    color: #eb5d32;
+    background-color: #fff;
+    color: #234f8e;
 }
 
 .body{
@@ -425,21 +437,26 @@ header{
 }
 
 .successField{
-    color: #fff;
-    font-size: 16px;
-    background-color:  green;
+    color: #07fc01;
+    font-size: 20px;
     padding: 5px 5px;
     width: 95%;
     margin-top: 10px;
+    text-align: center;
+    font-family: candara;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .errorField{
-    color: #fff;
-    font-size: 16px;
-    background-color:  red;
+    color: red;
+    font-size: 20px;
     padding: 5px 5px;
     width: 95%;
     margin-top: 10px;
+    font-family: candara;
+    font-weight: bold;
+    font-style: italic;
 }
 
 
