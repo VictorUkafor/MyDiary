@@ -54,7 +54,7 @@ header{
 	text-decoration:none;
 }
 
-.sign-in{
+.sign-in, .profile-button{
     border-radius: 15px;
     padding: 5px 20px;
     border: 2px solid #fff;
@@ -68,11 +68,30 @@ header{
     outline: none;
 }
 
+.profile-button{
+    border-radius: 15px;
+    padding: 6px 22px;
+    background-color: #234f8e;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px solid #234f8e;
+    font-family: candara;
+    font-style: italic;
+    outline: none;
+}
+
 .sign-in:hover{
     background-color: #fff;
     color: #234f8e;
 }
 
+.profile-button:hover{
+    border: 2px solid #234f8e;
+    background-color: #fff;
+    color: #234f8e;
+}
 
 .search-box{
     width: 76%;
@@ -120,7 +139,7 @@ header{
     font-family:  candara;
     font-size: 30px;
     text-align: center;
-    color: #eb5d32;
+    color: #234f8e;
     margin-top: 50px;
 }
 
@@ -363,17 +382,6 @@ header{
     
 }
 
-.read-more{
-    background-color: #17a2b8;
-}
-
-.modify-entry{
-    background-color: #eb5d32;
-}
-
-.delete-entry{
-    background-color: red;
-}
 
 .action-link:hover, .action-link2:hover, .action-link3:hover{
     opacity: 0.7;
@@ -417,38 +425,10 @@ header{
     margin-top: 40px;
 }
 
-.date-p{
-    font-family:  candara;
-    font-size: 16px;
-    text-align: right;
-    color:  #eb5d32;
-}
-
-.single-date{
-    color:  #000;
-    font-weight: bold;
-}
-
 .single-line{
     height: 4px;
     background-color: #17a2b8;
     border: 0;
-}
-
-.entry-p{
-    font-family: corbel;
-    font-size: 20px;
-    line-height: 35px;
-}
-
-.action-link2{
-    border: 0;
-    color: #fff;
-    font-family: candara;
-    font-size: 13px;
-    float: right;
-    padding: 6px 16px;
-    
 }
 
 
@@ -468,7 +448,7 @@ header{
     font-family:  candara;
     font-size: 22px;
     font-weight: bold;
-    color:  #17a2b8;   
+    color:  #234f8e;   
 }
 
 .user2{
@@ -508,6 +488,17 @@ header{
     font-family: candara;
     font-weight: bold;
     font-style: italic;
+}
+
+.errorField2{
+    color: red;
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    font-family: candara;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
 }
 
 
@@ -589,11 +580,12 @@ footer{
 
 .profile-image img{
     width: 30%;
-    margin-left: 10%;   
+    margin-left: 8%;   
 }
 
 .profile-div .user-info{
     margin-top: -265px;
+    width: 70%;
 }
 
    
@@ -863,6 +855,10 @@ header .sign-in{
     margin-top: 30px;
     width: 100%;
     margin-left: 10%;
+}
+
+.profile-button{
+    margin-left: 0%;
 }
 
 .user-info p{
