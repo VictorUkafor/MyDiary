@@ -1,6 +1,16 @@
 function indexPage(){
-    window.location.href = 'index.html';
+    const token = localStorage.getItem('token');
+    if(token){
+      window.location.href = 'all-entries.html';  
+    } else {
+        window.location.href = 'index.html';
+    }   
 }
+
+function signUpPage(){
+    window.location.href = 'sign-up.html';
+}
+
 
 function signInPage(){
     window.location.href = 'sign-in.html';

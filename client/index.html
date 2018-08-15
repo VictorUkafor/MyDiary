@@ -18,49 +18,27 @@
         My<span class="text2">Diary</span><h1>                
         </a>
     </div>
-        <ul class="side-button">
-            <li><a onclick="signInPage()"><input type="submit" class="sign-in" value="Sign In"/></a></li>
-        </ul>      
+  
     </header>
     <div class="body">
+      <div class="landing">
+        <div class="image-ad">
+          <img src="images/man1.png" />
+        </div>
+        <div class="add">
+            <img src="images/landing-logo.png" />
+          <h1 class="add-h1">You've got any idea, thought or plan!<br>
+            Pen it down on <span class="x-h1">MyDiary</span> now
+          </h1>
+          <div class="d-buttons">
+            <button onclick="signInPage()" class="direct" type="button">Have an account? Sign In</button>
+            <button onclick="signUpPage()" class="direct" type="button">You don't? Sign up today!</button>
+          </div>
+        </div>
 
-        <h1 class="page-header">Sign Up Today</h1>
+  
+      </div>
 
-        <form  method="POST" name="signUp" id="signUp" class="signup-form signup" >
-          <div id="successMessage"></div>
-          <div id="errorMessage"></div>
-          <div class="form-group">
-              <label class="input-label" for="FirstName">First Name</label>
-              <input name="firstName" type="text" class="form-field" id="FirstName" placeholder="First Name">
-              <div id="firstNameError"></div>
-            </div>
-            <div class="form-group">
-              <label class="input-label" for="LastName">Last Name</label>
-              <input name="lastName" type="text" class="form-field" id="LastName" placeholder="Last Name">
-              <div id="lastNameError"></div>
-            </div>
-            <div class="form-group">
-              <label  class="input-label" for="Email">Email</label>
-              <input name="email" type="email" class="form-field" id="Email" placeholder="Email">
-              <div id="emailError"></div>
-            </div>
-            <div class="form-group">
-              <label  class="input-label" for="Password1">Password</label>
-              <input name="password" type="password" class="form-field" id="Password1" placeholder="Password">
-              <div id="passwordError"></div>
-            </div>
-            <div class="form-group">
-              <label  class="input-label" for="Password2">Confirm Password</label>
-              <input name="confirm_password" type="password" class="form-field" id="Password2" placeholder="Confirm Password">
-              <div id="confirm_passwordError"></div>
-            </div>
-            <div class="">
-              <label  class="input-label" for="InputFile">Photograph</label>
-              <input name="photograph" type="file" class="form-field" id="Photograph">
-              <div id="photographError"></div>
-            </div>
-            <input type="button" class="form-button" value="Sign Up" onclick="validateSignUpForm()"/>
-          </form>
     </div>
 
 <footer>

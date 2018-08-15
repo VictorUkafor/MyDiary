@@ -510,6 +510,77 @@ footer{
     margin-bottom: 190px;
 }
 
+.landing{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.image-ad{
+    width: 50%;
+}
+
+.image-ad img{
+    width: 550px;
+    height: auto;
+    margin-left: 5%;
+    margin-top: 20px;
+    margin-bottom: -37px;
+}
+
+
+.add{
+    width: 50%;
+    margin-top: -300px;
+    margin-left: 45%;
+}
+
+.add img{
+    width: 70%;
+    margin-left: 7%;
+    margin-top: -180px;
+}
+
+
+.add-h1{
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: candara;
+    margin-left: 2%;
+}
+
+.x-h1{
+    color: #234f8e;
+    font-size: 45px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.direct{
+    border-radius: 25px;
+    padding: 15px 60px;
+    border: 2px solid #234f8e;
+    background-color: #234f8e;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: candara;
+    font-style: italic;
+    outline: none;
+}
+
+.direct:hover{
+    border: 2px solid #234f8e;
+    background-color: #fff;
+    color: #234f8e;
+    outline: none;
+    text-decoration: underline;
+}
+
+
+
+
 
 
 
