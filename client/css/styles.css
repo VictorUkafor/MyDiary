@@ -149,7 +149,6 @@ header{
     margin-top: 40px;
     padding: 35px;
     background-color: #234f8e;
-    margin-bottom: 80px;
 }
 
 .add-entry{
@@ -229,10 +228,6 @@ header{
     color: #234f8e;
 }
 
-.body{
-    padding-bottom: 150px;
-}
-
 .body .entry-container{
     width: 80%;
     height: auto;
@@ -278,22 +273,11 @@ header{
 
 .entries{
     margin-top: 60px;
+    margin-bottom: 450px;
 }
 
 .underline:hover{
     text-decoration: underline;
-}
-
-.left-entry{
-    width: 48%;
-    margin-bottom: 40px;
-}
-
-.right-entry{
-    margin-top: -202px;
-    float: right;
-    width: 48%;
-    margin-bottom: 40px;
 }
 
 .image-div{
@@ -346,10 +330,6 @@ header{
     height: 2px;
     background-color: #17a2b8;
     border: 0px;
-}
-
-.date2{
-    color: #eb5d32;
 }
 
 .entry-text{
@@ -477,6 +457,8 @@ header{
     font-family: candara;
     font-weight: bold;
     font-style: italic;
+    
+    
 }
 
 .errorField{
@@ -494,13 +476,12 @@ header{
     color: red;
     font-size: 20px;
     margin-top: 40px;
-    margin-bottom: -20px;
+    margin-bottom: -30px;
     font-family: candara;
     font-weight: bold;
     font-style: italic;
     text-align: center;
 }
-
 
 footer{
     padding-top: 10px;
@@ -517,10 +498,44 @@ footer{
 }
 
 
+.signin, .signup, .add-entry{
+    margin-bottom: 100px;
+}
+
+#single-entry{
+    margin-bottom: 80px;
+}
+
+ .profile-div{
+    margin-bottom: 190px;
+}
+
+
+
 
 
 
 @media screen and (max-width:800px){
+
+    .body #single-entry{
+        margin-bottom: 700px;
+    }
+
+    .body .signin{
+        margin-bottom: 670px;
+    }
+
+    .body .signup{
+        margin-bottom: 370px;
+    }
+
+    .body .add-entry{
+        margin-bottom: 170px;
+    }
+
+    .body .entries{
+        margin-bottom: 1100px;
+    }
 
     .body .entry-body{
         max-width: 84%;
@@ -547,8 +562,8 @@ footer{
    .signup-form{
     min-width: 60%;
     margin-top: 40px;
-    margin-bottom: 50px;
 }
+
 
    .body form{
        margin-left: 17%;
@@ -559,32 +574,12 @@ footer{
        width: 97%;
 }   
 
-.left-entry{
-    width: 61%;
-    margin-left: 15%;
-}
-
-.right-entry{
-    margin-top: 0;
-    padding-top: 200px;
-    float: left;
-    width: 61%;
-    margin-bottom: 40px; 
-    margin-left: 15%;
-}
-
-.pagination{
-    margin-top: 250px;
-    margin-bottom: -80px;
-}
-
-.profile-image img{
-    width: 30%;
-    margin-left: 8%;   
+.body .profile-div{
+    margin-bottom: 850px; 
 }
 
 .profile-div .user-info{
-    margin-top: -265px;
+    margin-top: -205px;
     width: 70%;
 }
 
@@ -593,12 +588,29 @@ footer{
 
  @media screen and (max-width:600px){
 
+    .body #single-entry{
+        margin-bottom: 450px;
+    }
+
+    .body .signin{
+        margin-bottom: 420px;
+    }
+
+    .body .signup{
+        margin-bottom: 150px;
+    }
+
+    .body .entries{
+        margin-bottom: 850px;
+    }
+
     .body .entry-body{
         max-width: 81.5%;
         margin-left: 5%;
     }
 
     .body .add-entry{
+        margin-bottom: 170px;
         margin-left: 4%;
     }
 
@@ -632,7 +644,6 @@ footer{
     .signup-form{
         min-width: 70%;
         margin-top: 40px;
-        margin-bottom: 20px;
     }
     
     .body form{
@@ -644,27 +655,15 @@ footer{
         width: 87%;
  } 
 
- .left-entry{
-    width: 81%;
-    margin-left: 8%;
-}
-
-.right-entry{
-    margin-top: 0;
-    padding-top: 200px;
-    float: left;
-    width: 81%;
-    margin-bottom: 40px; 
-    margin-left: 8%;
-}
 
 .profile-image img{
     width: 30%;
     margin-left: 10%;   
 }
 
-.profile-div{
+.body .profile-div{
     margin-left: -5%;
+    margin-bottom: 570px;
 }
 
 .profile-div .user-info{
@@ -676,6 +675,18 @@ footer{
 
 
 @media screen and (min-width:320px) and (max-width:500px){
+
+    .body #single-entry{
+        margin-bottom: 150px;
+    }
+
+    .body .signin, .body .signup{
+        margin-bottom: 100px;
+    }
+
+    .body .entries{
+        margin-bottom: 450px;
+    }
 
     .body .entry-container{
         width: 92%;
@@ -799,13 +810,6 @@ header .sign-in{
     width: 0;
 }
 
-.body .entries{
-    max-width: 96%;
-    margin-left: 2%;
-    margin-top: 50px;
-}
-
-
 .pagination-link{
     font-size: 13px;
     padding: 7px 12px;
@@ -847,8 +851,9 @@ header .sign-in{
     margin-left: 30%;   
 }
 
-.profile-div{
+.body .profile-div{
     margin-left: -5%;
+    margin-bottom: 80px;
 }
 
 .profile-div .user-info{
@@ -886,6 +891,22 @@ footer{
 
 
 @media screen and (max-width:1024px){
+
+    #single-entry{
+        margin-bottom: 180px;
+    }
+
+    .signin, .signup, .add-entry{
+        margin-bottom: 160px;
+    }
+    
+     .profile-div{
+        margin-bottom: 310px;
+    }
+
+    .entries{
+        margin-bottom: 570px;
+    }
 
     .body .entry-body{
         width: 89%;
@@ -936,11 +957,21 @@ footer{
 
 @media screen and (min-width:1280px) and (max-width:1300px) {
 
+    #single-entry{
+        margin-bottom: 210px;
+    }
+
+    .signin, .signup, .add-entry{
+        margin-bottom: 190px;
+    }
+
+    .profile-div{
+        margin-bottom: 350px;
+    }
+
     .add-entry{
         margin-left: 7%;
     }
-
-    
 
     .entry-div{
         margin-top: -161px;
@@ -951,6 +982,26 @@ footer{
 
 
 @media screen and (min-width:1440px){
+
+    #single-entry{
+        margin-bottom: 300px;
+    }
+
+    .body .signin, .signup, .add-entry{
+        margin-bottom: 290px;
+    }
+
+    .profile-div{
+        margin-bottom: 420px;
+    }
+
+    .entries{
+        margin-bottom: 700px;
+    }
+
+    .signup-form{
+        margin-bottom: 130px;
+    }
 
     .add-entry{
         margin-left: 7%;

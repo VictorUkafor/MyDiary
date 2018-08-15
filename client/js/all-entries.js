@@ -61,10 +61,10 @@ function getAllEntries(){
             }
 
             document.getElementById('search').innerHTML = searchField;
-            document.getElementById('pagination').innerHTML += pagination;
             data.forEach((entry) => {
                 document.getElementById('entries').innerHTML += entryThumbnail(entry);
             })
+            document.getElementById('entries').innerHTML += pagination;
         } 
         window.localStorage.removeItem('addEntry');
         window.localStorage.removeItem('deleteEntry');
