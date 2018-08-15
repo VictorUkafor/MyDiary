@@ -13,6 +13,8 @@ function validateSignUpForm(){
     document.getElementById('emailError').innerHTML = '';
     document.getElementById('passwordError').innerHTML = '';
     document.getElementById('confirm_passwordError').innerHTML = '';
+    document.getElementById('errorMessage').innerHTML = '';
+    document.getElementById('successMessage').innerHTML = '';
 
     if(firstName.trim() !== '' && lastName.trim() !== '' && email.trim() !== '' &&
      password.trim() !== '' && confirmPassword.trim() !== '' &&

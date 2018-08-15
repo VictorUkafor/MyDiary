@@ -1,6 +1,6 @@
 const searchField = '<div class="search-box">'+
 '<form class="form-inline"><div class="">' +
-'<input type="text" class="search-field" placeholder="Enter entry title . . .">' +
+'<input type="text" class="search-field" placeholder="Enter your term . . .">' +
 '</div><button type="submit" class="search-button">Search</button></form></div>';
 
 const pagination = '<div class="pagination">' +
@@ -11,29 +11,20 @@ const pagination = '<div class="pagination">' +
 '<button type="submit" class="pagination-link page-number">4</button>' +                
 '<button type="submit" class="pagination-link last-page">>></button></div>'
 
-function entryThumbnail(entry, entries){
-    const index = entries.indexOf(entry);
-    let position = '';
-    if(index % 2 === 0){
-      position = 'left-entry';
-    }else{
-        position = 'right-entry'; 
+
+function entryThumbnail(entry){
+    let content = entry.content;
+    if(entry.content.length > 100){
+        content = entry.content.substring(0, 20) + ' . . . Read More';
     }
-    return '<div class=' + position +'><div class="image-div">' +
-        '<a href="single-entry.html"><img src="images/image1.jpg" class="entry-image" /></a>' + 
-        '</div><div class="entry-div">' +
-        '<h3 class="entry-heading"><a href="single-entry.html">'+ entry.title +'</a></h3>' +
-        '<p class="date">Last Updated: <span class="date2">'+ entry.updated_at +'</span></p>' +
-        '<hr class="entry-line"/>' +
-        '<p class="entry-text"><a href="single-entry.html">'+ entry.content +'</a></p>' +
-         '<div class="actions">' +
-        '<a href="single-entry.html"><button onclick="viewEntry('+ entry.entry_id+')" type="submit" class="action-link read-more">Read More</button></a>' +
-        '<a href="modify-entry.html"><button onclick="modifyEntry('+ entry.entry_id+')" type="submit" class="action-link modify-entry">Modify</button></a>' +
-        '<a><button onclick="deleteEntry('+ entry.entry_id+')"  type="submit" id="entry1" class="action-link delete-entry" onclick="deleteEntry()">Delete</button></a>' +
-        '</div></div></div>';
+    return '<div class="entry-container">'+
+    '<div class="entry-body"><a onclick="viewEntry('+ entry.entry_id+')">'+
+    '<h1 class="entry-h1 underline">'+ entry.title +'</h1>'+
+    '<hr class="entry-hr"/><p class="entryP underline">'+ content +'</p></a></div>'+
+    '<button onclick="modifyEntry('+ entry.entry_id+')"  type="submit" class="form-button button2">Modify</button>' +
+    '<button onclick="deleteEntry('+ entry.entry_id+')" type="submit" class="form-button button2">Delete</button>' +
+    '</div>';
 }
-
-
 
 function getAllEntries(){
     const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
@@ -70,10 +61,10 @@ function getAllEntries(){
             }
 
             document.getElementById('search').innerHTML = searchField;
-            document.getElementById('pagination').innerHTML += pagination;
             data.forEach((entry) => {
-                document.getElementById('entries').innerHTML += entryThumbnail(entry, data);
+                document.getElementById('entries').innerHTML += entryThumbnail(entry);
             })
+            document.getElementById('entries').innerHTML += pagination;
         } 
         window.localStorage.removeItem('addEntry');
         window.localStorage.removeItem('deleteEntry');
