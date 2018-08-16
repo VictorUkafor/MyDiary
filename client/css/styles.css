@@ -510,12 +510,109 @@ footer{
     margin-bottom: 190px;
 }
 
+.landing{
+    padding-top: 50px;
+    padding-bottom: 100px;
+}
+
+.image-ad{
+    width: 50%;
+}
+
+.image-ad img{
+    width: 550px;
+    height: auto;
+    margin-left: 5%;
+    margin-top: 20px;
+    margin-bottom: -35px;
+}
+
+
+.add{
+    width: 50%;
+    margin-top: -300px;
+    margin-left: 45%;
+}
+
+.add img{
+    width: 70%;
+    margin-left: 7%;
+    margin-top: -180px;
+}
+
+
+.add-h1{
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: candara;
+    margin-left: 2%;
+}
+
+.x-h1{
+    color: #234f8e;
+    font-size: 45px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.direct{
+    border-radius: 25px;
+    padding: 15px 60px;
+    border: 2px solid #234f8e;
+    background-color: #234f8e;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: candara;
+    font-style: italic;
+    outline: none;
+}
+
+.direct:hover{
+    border: 2px solid #234f8e;
+    background-color: #fff;
+    color: #234f8e;
+    outline: none;
+    text-decoration: underline;
+}
+
+
+
+
 
 
 
 
 
 @media screen and (max-width:800px){
+
+    .body .landing{
+        padding-top: 20px;
+        padding-bottom: 0px;
+        margin-bottom: 710px;
+    }
+
+    .body .add{
+        width: 90%;
+        margin-top: -900px;
+        margin-left: 5%;
+    }
+
+    .body .image-ad{
+        width: 90%;
+        margin-left: 5%;
+    }
+    
+    .body .image-ad img{
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+        margin-top: 520px;
+        margin-bottom: -20px;
+    }
+
 
     .body #single-entry{
         margin-bottom: 700px;
@@ -587,6 +684,28 @@ footer{
 }
 
  @media screen and (max-width:600px){
+
+    .body .landing{
+        padding-top: 0px;
+        margin-bottom: 510px;
+    }
+
+    .body .add{
+        width: 90%;
+        margin-top: -550px;
+        margin-left: 5%;
+    }
+
+    .body .image-ad img{
+        margin-top: 450px;
+        margin-bottom: -165px;
+    }
+
+    .body .add-h1{
+        color: #000;
+        font-size: 33px;
+    }
+    
 
     .body #single-entry{
         margin-bottom: 450px;
@@ -675,6 +794,21 @@ footer{
 
 
 @media screen and (min-width:320px) and (max-width:500px){
+
+   .body .landing{
+       padding-top: 130px;
+     margin-bottom: 322px;
+    }
+
+    .body .image-ad img{
+        margin-top: 400px;
+        margin-bottom: -165px;
+    }
+
+    .body .direct{
+        margin-bottom: 30px;
+    }
+    
 
     .body #single-entry{
         margin-bottom: 150px;
@@ -892,6 +1026,40 @@ footer{
 
 @media screen and (max-width:1024px){
 
+    .landing{
+        padding-bottom: 0px;
+        padding-top: 0px;
+        margin-bottom: 200px;
+    }
+    
+    .image-ad img{
+        width: 500px;
+        margin-left: 3%;
+        margin-top: 220px;
+        margin-bottom: -73px;
+    }
+    
+    
+    .add{
+        width: 60%;
+        margin-top: -337px;
+        margin-left: 40%;
+    }
+    
+    .add img{
+        width: 60%;
+        margin-left: 7%;
+        margin-top: -180px;
+    }
+
+    .add-h1{
+        font-size: 35px;
+    }
+
+    .direct{
+        padding: 10px 30px;
+    }
+    
     #single-entry{
         margin-bottom: 180px;
     }
@@ -957,6 +1125,29 @@ footer{
 
 @media screen and (min-width:1280px) and (max-width:1300px) {
 
+    .landing{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 180px
+    }
+
+    .add{
+        width: 70%;
+        margin-top: -250px;
+        margin-bottom: 100px;
+    }
+
+    .add img{
+        width: 55%;
+    }
+
+    .image-ad img{
+        width: 600px;
+        margin-left: 3%;
+        margin-top: 210px;
+        margin-bottom: -165px;
+    }
+
     #single-entry{
         margin-bottom: 210px;
     }
@@ -982,6 +1173,16 @@ footer{
 
 
 @media screen and (min-width:1440px){
+
+    .landing{
+        padding-top: 260px;
+        margin-bottom: 120px;
+    }
+
+    .image-ad img{
+        width: 580px;
+        margin-bottom: -153px;
+    }
 
     #single-entry{
         margin-bottom: 300px;
