@@ -51,33 +51,31 @@ export default class EntryMiddleware {
    */
   checksIfEntryExist(req, res, next) {
     const entry = [];
-    let entryId = parseInt(req.params.entryId, 10);
+    const entryId = parseInt(req.params.entryId, 10);
 
-    if (isNaN(entryId)){
-      return res.status(400).send({ 
-        errors: 'You\'ve entered an invalid entryId: '+ req.params.entryId  
+    if (isNaN(entryId)) {
+      return res.status(400).send({
+        errors: `You've entered an invalid entryId: ${req.params.entryId}`
       });
-    } else {
-      const getEntry = req.client.query(`SELECT * FROM entry WHERE entry_id=($1)
-       AND entry_user_id=($2);`, [entryId, req.user.user_id]);
-       
-       getEntry.on('row', (row) => { entry.push(row); });
-       
-       getEntry.on('end', () => {
-         req.done();
-         if (entry.length === 0) {
-           return res.status(404).send({ errors: 'Entry can not be found!' });
-          }
-          
-          req.entry = entry[0];
-          next();
-        });
-      }
-    
     }
+    const getEntry = req.client.query(`SELECT * FROM entry WHERE entry_id=($1)
+       AND entry_user_id=($2);`, [entryId, req.user.user_id]);
+
+    getEntry.on('row', (row) => { entry.push(row); });
+
+    getEntry.on('end', () => {
+      req.done();
+      if (entry.length === 0) {
+        return res.status(404).send({ errors: 'Entry can not be found!' });
+      }
+
+      req.entry = entry[0];
+      next();
+    });
+  }
 
 
-    /**
+  /**
    * A middleware method for checking if an entry can be updated
    * Takes req and res to return the user object
    * @param {object} req the request object
@@ -92,15 +90,14 @@ export default class EntryMiddleware {
     const twentyFourHoursInMins = 24 * 60;
     const timeNow = new Date();
     const timeDifferences = timeNow - req.entry.created_at;
-    const timeDifferencesInMins = timeDifferences/60000;
+    const timeDifferencesInMins = timeDifferences / 60000;
 
-    if(timeDifferencesInMins > twentyFourHoursInMins){
-      return res.status(500).send({ 
+    if (timeDifferencesInMins > twentyFourHoursInMins) {
+      return res.status(500).send({
         errors: 'Entries can only be Updated within 24 hours of creation!'
       });
     }
 
     next();
   }
-
 }

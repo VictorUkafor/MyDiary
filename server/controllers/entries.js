@@ -37,8 +37,20 @@ export default class EntryController {
   */
   getAllEntries(req, res) {
     const allEntries = [];
-    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);',
-     [req.user.user_id]);
+    let page = parseInt(req.query.page, 10);
+    
+    if(!req.query.page){ page = 1 }
+    if (isNaN(page) || page === 0) {
+      return res.status(400).send({
+        errors: `You've entered an invalid page: ${req.query.page}`
+      });
+    }
+
+    const getEntries = req.client.query(
+      `SELECT * FROM entry WHERE entry_user_id=($1)
+      ORDER BY entry_id DESC LIMIT 5 OFFSET ($2);`,
+      [req.user.user_id, (page-1) * 5]
+    );
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -91,9 +103,8 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   postEntry(req, res) {
-
     let title = '';
-    if(req.body.title){
+    if (req.body.title) {
       title = req.body.title.trim();
     }
     const content = req.body.content.trim();
@@ -169,8 +180,8 @@ export default class EntryController {
     let title = '';
     let content = '';
 
-    if(req.body.title){ title = req.body.title.trim(); }
-    if(req.body.content){ content = req.body.content.trim(); }
+    if (req.body.title) { title = req.body.title.trim(); }
+    if (req.body.content) { content = req.body.content.trim(); }
 
     const titleUpdated = this.setTitleForUpdate(title, req.entry);
     const contentUpdated = this.setContentForUpdate(content, req.entry);
@@ -179,8 +190,10 @@ export default class EntryController {
     const update = req.client.query(`UPDATE entry SET title=($1), content=($2), updated_at=($3)
      WHERE entry_id=($4)`, [titleUpdated, contentUpdated, newDate, req.entry.entry_id]);
 
-    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1);',
-     [req.entry.entry_id]);
+    const getUpdatedEntry = req.client.query(
+      'SELECT * FROM entry WHERE entry_id=($1);',
+      [req.entry.entry_id]
+    );
 
     getUpdatedEntry.on('row', (row) => { updatedEntry.push(row); });
 

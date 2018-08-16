@@ -7,7 +7,7 @@ import UserController from '../controllers/users';
 import EntryController from '../controllers/entries';
 import DatabaseMiddleware from '../middlewares/database-middlewares';
 import UserMidddleware from '../middlewares/user-middlewares';
-import EntryMiddleware from '../middlewares/entry-middlewares'
+import EntryMiddleware from '../middlewares/entry-middlewares';
 
 const apiRouter = express.Router();
 const databaseMiddleware = new DatabaseMiddleware(pg);

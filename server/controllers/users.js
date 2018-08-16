@@ -43,13 +43,15 @@ export default class UserController {
   */
   postUser(req, res) {
     const salt = this.bcrypt.genSaltSync(10);
-    const { firstName, lastName, email, password }  = req.body;
+    const {
+      firstName, lastName, email, password
+    } = req.body;
     const registeredUser = [];
 
     const addUser = req.client.query(
       'INSERT INTO account(firstName, lastName, email, password) values($1, $2, $3, $4)',
       [firstName.trim(), lastName.trim(), email.trim(),
-      this.bcrypt.hashSync(password.trim(), salt)]
+        this.bcrypt.hashSync(password.trim(), salt)]
     );
 
     const getUser = req.client.query('SELECT * FROM account WHERE email=($1);', [email.trim()]);
@@ -58,17 +60,16 @@ export default class UserController {
 
     getUser.on('end', () => {
       req.done();
-      if(addUser){
-        return res.status(201).send({ 
+      if (addUser) {
+        return res.status(201).send({
           success: 'User registered successfully', registeredUser
-      });  
+        });
       }
 
       return res.status(500).send({
         errors: 'Server error: User could not be added!'
       });
     });
-    
   }
 
 
@@ -82,7 +83,10 @@ export default class UserController {
    *  @returns {object} return an object
    */
   loginUser(req, res) {
-    const token = this.jwt.sign({ user_id: req.user.user_id }, this.key.secret, { expiresIn: 60 * 60 });
+    const token = this.jwt.sign(
+      { user_id: req.user.user_id },
+      this.key.secret, { expiresIn: 60 * 60 }
+    );
 
     if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {
       res.status(200).send({
@@ -104,8 +108,10 @@ export default class UserController {
    */
   getAUser(req, res) {
     const entries = [];
-    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);',
-     [req.user.user_id]);
+    const getEntries = req.client.query(
+      'SELECT * FROM entry WHERE entry_user_id=($1);',
+      [req.user.user_id]
+    );
 
     getEntries.on('row', (row) => { entries.push(row); });
     req.user.entries = entries;
@@ -115,5 +121,4 @@ export default class UserController {
       return res.status(200).send(req.user);
     });
   }
-  
 }

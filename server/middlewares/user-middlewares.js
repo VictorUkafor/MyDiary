@@ -11,25 +11,25 @@
   *  class UserMiddleware
   *
   */
- export default class UserMiddleware {
-    /**
+export default class UserMiddleware {
+  /**
       *  constructor
       *  Takes 2 parameters
       *  @param {object} jwt the first parameter
       *  @param  {object} key the third parameter
       *
       */
-    constructor(jwt, key) {
-      this.jwt = jwt;
-      this.key = key;
-      this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
-      this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
-      this.checksIfUserExist = this.checksIfUserExist.bind(this);
-      this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
-      this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
-    }
-  
-    /** A middleware method for checking if user already exist
+  constructor(jwt, key) {
+    this.jwt = jwt;
+    this.key = key;
+    this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
+    this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
+    this.checksIfUserExist = this.checksIfUserExist.bind(this);
+    this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
+    this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
+  }
+
+  /** A middleware method for checking if user already exist
         *  Takes 3 parameters
         *  @param {object} req the first parameter
         *  @param  {object} res the second parameter
@@ -39,81 +39,80 @@
         * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
         * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
         */
-    checksIfUserAlreadyExist(req, res, next) {
-      const registeredUser = [];
-      const email = req.body.email.trim();
-      const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
-  
-      User.on('row', (row) => { registeredUser.push(row); });
-  
-      User.on('end', () => {
-        req.done();
-        if (registeredUser.length > 0) {
-          return res.status(409).send({ errors: 'An account with this email has already been created!' });
-        }
-        next();
-      });
-      
-    }
-  
-    /** A method for checking if required fields are filled for signup API
+  checksIfUserAlreadyExist(req, res, next) {
+    const registeredUser = [];
+    const email = req.body.email.trim();
+    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
+
+    User.on('row', (row) => { registeredUser.push(row); });
+
+    User.on('end', () => {
+      req.done();
+      if (registeredUser.length > 0) {
+        return res.status(409).send({ errors: 'An account with this email has already been created!' });
+      }
+      next();
+    });
+  }
+
+  /** A method for checking if required fields are filled for signup API
         *  Takes 3 parameters
         *  @param {object} req the first parameter
         *  @param  {object} res the second parameter
         *  @param  {object} next the third parameter
         *  @returns {object} return an object
         */
-    checksForSignUpRequiredFields(req, res, next) {
-      const errors = {};
-  
-      if (!req.body.firstName || req.body.firstName.trim() === 0) {
-        errors.firstName = 'First Name field is required';
-      }
-  
-      if (!req.body.lastName || req.body.lastName.trim() === 0) {
-        errors.lastName = 'Last Name field is required';
-      }
-  
-      if(req.body.email){
+  checksForSignUpRequiredFields(req, res, next) {
+    const errors = {};
+
+    if (!req.body.firstName || req.body.firstName.trim() === 0) {
+      errors.firstName = 'First Name field is required';
+    }
+
+    if (!req.body.lastName || req.body.lastName.trim() === 0) {
+      errors.lastName = 'Last Name field is required';
+    }
+
+    if (req.body.email) {
       if (!req.body.email || req.body.email.trim() === 0) {
         errors.email = 'Email field is required';
       }
     }
 
-  // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
-  // to fully understand regular expression in javascript. See the full link below
-  // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1" 
-      const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
+    // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
+    // to fully understand regular expression in javascript. See the full link below
+    // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
+    const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
 
-      if(req.body.email){
+    if (req.body.email) {
       if (!emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
     }
-  
-      if (!req.body.password || req.body.password.trim() === 0) {
-        errors.password = 'Password field is required';
-      }
-  
-      if (!req.body.confirm_password || req.body.confirm_password.trim() === 0) {
-        errors.confirm_password = 'confirmPassword field is required';
-      }
-  
-      if (req.body.password && req.body.confirm_password){
-        if(req.body.password.trim() !== req.body.confirm_password.trim()){
-          errors.confirm_password = 'Passwords do not match';
-        }
-      }
-  
-  
-      if (Object.keys(errors).length > 0) {
-        return res.status(400).send({ errors: errors });
-      }
-      next();
+
+    if (!req.body.password || req.body.password.trim() === 0) {
+      errors.password = 'Password field is required';
     }
-  
-  
-    /** A method for checking if user exist
+
+    if (!req.body.confirm_password || req.body.confirm_password.trim() === 0) {
+      errors.confirm_password = 'confirmPassword field is required';
+    }
+
+    if (req.body.password && req.body.confirm_password) {
+      if (req.body.password.trim() !== req.body.confirm_password.trim()) {
+        errors.confirm_password = 'Passwords do not match';
+      }
+    }
+
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).send({ errors });
+    }
+    next();
+  }
+
+
+  /** A method for checking if user exist
         *  Takes 3 parameters
         *  @param {object} req the first parameter
         *  @param  {object} res the second parameter
@@ -123,62 +122,62 @@
         * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
         * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
         */
-    checksIfUserExist(req, res, next) {
-      const authenticatedUser = [];
-      const email = req.body.email.trim();
-      const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
-  
-      User.on('row', (row) => { authenticatedUser.push(row); });
-  
-      User.on('end', () => {
-        req.done();
-        if (authenticatedUser.length === 0) {
-          return res.status(404).send({ errors: 'Invalid email or password!' });
-        }
-  
-        req.user = authenticatedUser[0];
-        next();
-      });
-    }
-  
-    /** A middleware method for checking  if login required fields are filled
+  checksIfUserExist(req, res, next) {
+    const authenticatedUser = [];
+    const email = req.body.email.trim();
+    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
+
+    User.on('row', (row) => { authenticatedUser.push(row); });
+
+    User.on('end', () => {
+      req.done();
+      if (authenticatedUser.length === 0) {
+        return res.status(404).send({ errors: 'Invalid email or password!' });
+      }
+
+      req.user = authenticatedUser[0];
+      next();
+    });
+  }
+
+  /** A middleware method for checking  if login required fields are filled
           *  Takes 3 parameters
           *  @param {object} req the first parameter
           *  @param  {object} res the second parameter
           *  @param  {object} next the third parameter
           *  @returns {object} return an object
           */
-    checksForLogInRequiredFields(req, res, next) {
-      const errors = {};
-  
-      if (!req.body.email || req.body.email.trim() === 0) {
-        errors.email = 'Email field is required';
-      }
+  checksForLogInRequiredFields(req, res, next) {
+    const errors = {};
 
-  // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
-  // to fully understand regular expression in javascript. See the full link below
-  // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1" 
-      const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
+    if (!req.body.email || req.body.email.trim() === 0) {
+      errors.email = 'Email field is required';
+    }
 
-      if(req.body.email){
+    // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
+    // to fully understand regular expression in javascript. See the full link below
+    // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
+    const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
+
+    if (req.body.email) {
       if (!emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
     }
-  
-      if (!req.body.password || req.body.password.trim() === 0) {
-        errors.password = 'Password field is required';
-      }
-  
-      if (Object.keys(errors).length > 0) {
-        res.status(400).send({ errors });
-      } else {
-        next();
-      }
+
+    if (!req.body.password || req.body.password.trim() === 0) {
+      errors.password = 'Password field is required';
     }
-  
-  
-    /**
+
+    if (Object.keys(errors).length > 0) {
+      res.status(400).send({ errors });
+    } else {
+      next();
+    }
+  }
+
+
+  /**
      * A middleware method for checking if user is authenticated
      * Takes req and res to return the user object
      * @param {object} req the request object
@@ -189,38 +188,37 @@
      * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
      * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
      */
-    checksIfUserIsAuthenticated(req, res, next) {
-      const token = req.body.token || req.query.token || req.headers.authentication;
-      const authenticatedUser = [];
-  
-      if (!token) {
-        return res.status(401).send({
+  checksIfUserIsAuthenticated(req, res, next) {
+    const token = req.body.token || req.query.token || req.headers.authentication;
+    const authenticatedUser = [];
+
+    if (!token) {
+      return res.status(401).send({
+        authenticated: false, errors: 'You are not registered user!'
+      });
+    }
+
+    this.jwt.verify(token, this.key.secret, (err, authenticated) => {
+      if (!authenticated) {
+        return res.status(500).send({
           authenticated: false, errors: 'You are not registered user!'
         });
       }
-  
-      this.jwt.verify(token, this.key.secret, (err, authenticated) => {
-        if (!authenticated) {
-          return res.status(500).send({
-            authenticated: false, errors: 'You are not registered user!'
-          });
+
+      const getUser = req.client.query('SELECT * FROM account WHERE user_id=($1)', [authenticated.user_id]);
+
+      getUser.on('row', (row) => { authenticatedUser.push(row); });
+
+      getUser.on('end', () => {
+        req.done();
+        if (authenticatedUser.length === 0) {
+          return res.status(404).send({ message: 'User can not be found!' });
         }
-  
-        const getUser = req.client.query('SELECT * FROM account WHERE user_id=($1)', [authenticated.user_id]);
-  
-        getUser.on('row', (row) => { authenticatedUser.push(row); });
-  
-        getUser.on('end', () => {
-          req.done();
-          if (authenticatedUser.length === 0) {
-            return res.status(404).send({ message: 'User can not be found!' });
-          }
-  
-          req.user = authenticatedUser[0];
-          next();
-        });
+
+        req.user = authenticatedUser[0];
+        next();
       });
-    } 
-  
+    });
   }
-  
+}
+
