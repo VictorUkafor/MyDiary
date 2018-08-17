@@ -1,6 +1,6 @@
 import pg from 'pg';
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
+const connectionString = process.env.DATABASE_TEST_URL
 
 const client = new pg.Client(connectionString);
 client.connect();

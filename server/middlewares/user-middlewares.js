@@ -16,12 +16,12 @@ export default class UserMiddleware {
       *  constructor
       *  Takes 2 parameters
       *  @param {object} jwt the first parameter
-      *  @param  {object} key the third parameter
+      *  @param  {object} env the second parameter
       *
       */
-  constructor(jwt, key) {
+  constructor(jwt, env) {
     this.jwt = jwt;
-    this.key = key;
+    this.env = env;
     this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
     this.checksIfUserExist = this.checksIfUserExist.bind(this);
@@ -198,7 +198,7 @@ export default class UserMiddleware {
       });
     }
 
-    this.jwt.verify(token, this.key.secret, (err, authenticated) => {
+    this.jwt.verify(token, this.env.SECRET_KEY, (err, authenticated) => {
       if (!authenticated) {
         return res.status(500).send({
           authenticated: false, errors: 'You are not registered user!'

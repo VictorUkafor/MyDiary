@@ -18,13 +18,13 @@ export default class UserController {
   *  Takes 3 parameters
   *  @param {object} jwt the first parameter
   *  @param  {object} bcrypt the second parameter
-  *  @param  {object} key the third parameter
+  *  @param  {object} env the third parameter
   *
   */
-  constructor(jwt, bcrypt, key) {
+  constructor(jwt, bcrypt, env) {
     this.jwt = jwt;
     this.bcrypt = bcrypt;
-    this.key = key;
+    this.env = env;
     this.postUser = this.postUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
   }
@@ -85,7 +85,7 @@ export default class UserController {
   loginUser(req, res) {
     const token = this.jwt.sign(
       { user_id: req.user.user_id },
-      this.key.secret, { expiresIn: 60 * 60 }
+      this.env.SECRET_KEY, { expiresIn: 60 * 60 }
     );
 
     if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {

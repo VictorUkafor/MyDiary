@@ -14,12 +14,14 @@
 export default class DatabaseMiddleware {
   /**
     *  constructor
-    *  Takes 1 parameters
-    *  @param  {object} pg the second parameter
+    *  Takes 2 parameters
+    *  @param  {object} pg the first parameter
+    * @param  {object} env the second parameter
     *
     */
-  constructor(pg) {
+  constructor(pg, env) {
     this.pg = pg;
+    this.env = env;
     this.handlesConnectionToTheDatabase = this.handlesConnectionToTheDatabase.bind(this);
   }
 
@@ -35,7 +37,7 @@ export default class DatabaseMiddleware {
       * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
       */
   handlesConnectionToTheDatabase(req, res, next) {
-    const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
+    const connectionString = this.env.DATABASE_DEV_URL;
 
     this.pg.connect(connectionString, (err, client, done) => {
       if (err) {
