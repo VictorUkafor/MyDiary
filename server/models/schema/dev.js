@@ -1,8 +1,9 @@
 import pg from 'pg';
+import {} from 'dotenv/config';
 
 const connectionString = process.env.DATABASE_DEV_URL
-
 const client = new pg.Client(connectionString);
+
 client.connect();
 
 const user = client.query(`CREATE TABLE IF NOT EXISTS account(

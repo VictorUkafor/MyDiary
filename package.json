@@ -41,7 +41,9 @@
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "eslint": "eslint --fix server",
     "showcoverage": "start coverage/lcov-report/index.html",
-    "schema": "babel-node server/models/index.js"
+    "schema-dev": "babel-node server/models/schema/dev.js",
+    "schema-test": "babel-node server/models/schema/test.js",
+    "schema-pro": "babel-node server/models/schema/pro.js"
   },
   "repository": {
     "type": "git",
