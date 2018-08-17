@@ -1,3 +1,5 @@
+import allEntries from '../models/queries/index';
+
 /**
  * @fileOverview this JS file contains logic for entry's APIs logic
  *
@@ -16,11 +18,8 @@ export default class EntryController {
     *
     */
   constructor() {
-    this.getAllEntries = this.getAllEntries.bind(this);
-    this.getEntry = this.getEntry.bind(this);
     this.postEntry = this.postEntry.bind(this);
     this.putEntry = this.putEntry.bind(this);
-    this.deleteEntry = this.deleteEntry.bind(this);
   }
 
 
@@ -38,19 +37,21 @@ export default class EntryController {
   getAllEntries(req, res) {
     const allEntries = [];
     let page = parseInt(req.query.page, 10);
-    
-    if(!req.query.page){ page = 1 }
+
+    if (!req.query.page) { page = 1; }
     if (isNaN(page) || page === 0) {
       return res.status(400).send({
         errors: `You've entered an invalid page: ${req.query.page}`
       });
     }
 
-    const getEntries = req.client.query(
-      `SELECT * FROM entry WHERE entry_user_id=($1)
-      ORDER BY entry_id DESC LIMIT 5 OFFSET ($2);`,
-      [req.user.user_id, (page-1) * 5]
-    );
+    const getEntries = allEntries(req);
+    
+    // req.client.query(
+    //   `SELECT * FROM entry WHERE entry_user_id=($1)
+    //   ORDER BY entry_id DESC LIMIT 5 OFFSET ($2);`,
+    //   [req.user.user_id, (page - 1) * 5]
+    // );
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 

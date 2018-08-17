@@ -16,9 +16,7 @@ export default class EntryMiddleware {
     *
     */
   constructor() {
-    this.checksForAddEntryRequiredFields = this.checksForAddEntryRequiredFields.bind(this);
-    this.checksIfEntryExist = this.checksIfEntryExist.bind(this);
-    this.checksIfEntryCanBeUpdated = this.checksIfEntryCanBeUpdated.bind(this);
+
   }
 
   /** A middleware method for checking if required field for add entry is filled

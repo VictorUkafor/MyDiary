@@ -22,9 +22,12 @@ export default class UserMiddleware {
   constructor(jwt, env) {
     this.jwt = jwt;
     this.env = env;
-    this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
+
+    // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
+    // to fully understand regular expression in javascript. See the full link below
+    // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
+    this.emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
-    this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
     this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
   }
@@ -55,6 +58,37 @@ export default class UserMiddleware {
     });
   }
 
+  /** A middleware method for checking  if login required fields are filled
+    *  Takes 3 parameters
+    *  @param {object} req the first parameter
+    *  @param  {object} errors the second parameter
+    *  @param  {string} field the third parameter
+    *  @param  {string} fieldName the fourth parameter
+    *  @returns {object} return an object
+    */  
+  fieldIsEmpty(req, errors, field, fieldName){
+    if (!req.body[field] || req.body[field].trim() === 0) {
+      errors[field] = fieldName + ' field is required';
+    }
+  }
+
+
+/** A middleware method for checking  if login required fields are filled
+  *  Takes 3 parameters
+  *  @param {object} req the first parameter
+  *  @param  {object} errors the second parameter
+  *  @returns {object} return an object
+  */
+  emailIsValid(req, errors){
+    if (req.body.email) {
+      if (!this.emailFormat.test(req.body.email.trim())) {
+        errors.email = 'You\'ve entered an invalid email';
+      }
+    }
+
+  }
+
+
   /** A method for checking if required fields are filled for signup API
         *  Takes 3 parameters
         *  @param {object} req the first parameter
@@ -65,38 +99,12 @@ export default class UserMiddleware {
   checksForSignUpRequiredFields(req, res, next) {
     const errors = {};
 
-    if (!req.body.firstName || req.body.firstName.trim() === 0) {
-      errors.firstName = 'First Name field is required';
-    }
-
-    if (!req.body.lastName || req.body.lastName.trim() === 0) {
-      errors.lastName = 'Last Name field is required';
-    }
-
-    if (req.body.email) {
-      if (!req.body.email || req.body.email.trim() === 0) {
-        errors.email = 'Email field is required';
-      }
-    }
-
-    // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
-    // to fully understand regular expression in javascript. See the full link below
-    // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
-    const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
-
-    if (req.body.email) {
-      if (!emailFormat.test(req.body.email.trim())) {
-        errors.email = 'You\'ve entered an invalid email';
-      }
-    }
-
-    if (!req.body.password || req.body.password.trim() === 0) {
-      errors.password = 'Password field is required';
-    }
-
-    if (!req.body.confirm_password || req.body.confirm_password.trim() === 0) {
-      errors.confirm_password = 'confirmPassword field is required';
-    }
+    this.fieldIsEmpty(req, errors, 'firstName', 'First Name');
+    this.fieldIsEmpty(req, errors, 'lastName', 'Last Name');
+    this.fieldIsEmpty(req, errors, 'email', 'Email');
+    this.fieldIsEmpty(req, errors, 'password', 'Password');
+    this.fieldIsEmpty(req, errors, 'confirm_password', 'Confirm Password');
+    this.emailIsValid(req, errors);
 
     if (req.body.password && req.body.confirm_password) {
       if (req.body.password.trim() !== req.body.confirm_password.trim()) {
@@ -150,24 +158,9 @@ export default class UserMiddleware {
   checksForLogInRequiredFields(req, res, next) {
     const errors = {};
 
-    if (!req.body.email || req.body.email.trim() === 0) {
-      errors.email = 'Email field is required';
-    }
-
-    // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
-    // to fully understand regular expression in javascript. See the full link below
-    // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
-    const emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
-
-    if (req.body.email) {
-      if (!emailFormat.test(req.body.email.trim())) {
-        errors.email = 'You\'ve entered an invalid email';
-      }
-    }
-
-    if (!req.body.password || req.body.password.trim() === 0) {
-      errors.password = 'Password field is required';
-    }
+    this.fieldIsEmpty(req, errors, 'email', 'Email');
+    this.fieldIsEmpty(req, errors, 'password', 'Password');
+    this.emailIsValid(req, errors);
 
     if (Object.keys(errors).length > 0) {
       res.status(400).send({ errors });

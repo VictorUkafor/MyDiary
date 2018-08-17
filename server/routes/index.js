@@ -18,7 +18,6 @@ const user = new UserController(jwt, bcrypt, env);
 const entry = new EntryController();
 
 
-
 apiRouter.get('/', (req, res) => res.status(200).send({
   message: 'Welcome to MyDiary app!',
 }));

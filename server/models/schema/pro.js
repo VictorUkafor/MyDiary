@@ -1,7 +1,7 @@
 import pg from 'pg';
 import {} from 'dotenv/config';
 
-const connectionString = process.env.DATABASE_PRO_URL
+const connectionString = process.env.DATABASE_PRO_URL;
 const client = new pg.Client(connectionString);
 
 client.connect();
