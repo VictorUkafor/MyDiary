@@ -21,10 +21,11 @@ export default class UserController {
   *  @param  {object} env the third parameter
   *
   */
-  constructor(jwt, bcrypt, env) {
+  constructor(jwt, bcrypt, env, queries) {
     this.jwt = jwt;
     this.bcrypt = bcrypt;
     this.env = env;
+    this.queries = queries;
     this.postUser = this.postUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
   }
@@ -43,18 +44,9 @@ export default class UserController {
   */
   postUser(req, res) {
     const salt = this.bcrypt.genSaltSync(10);
-    const {
-      firstName, lastName, email, password
-    } = req.body;
     const registeredUser = [];
-
-    const addUser = req.client.query(
-      'INSERT INTO account(firstName, lastName, email, password) values($1, $2, $3, $4)',
-      [firstName.trim(), lastName.trim(), email.trim(),
-        this.bcrypt.hashSync(password.trim(), salt)]
-    );
-
-    const getUser = req.client.query('SELECT * FROM account WHERE email=($1);', [email.trim()]);
+    const addUser = this.queries.insertUser(req, salt, this.bcrypt);
+    const getUser = this.queries.getAUser(req);
 
     getUser.on('row', (row) => { registeredUser.push(row); });
 
@@ -83,8 +75,7 @@ export default class UserController {
    *  @returns {object} return an object
    */
   loginUser(req, res) {
-    const token = this.jwt.sign(
-      { user_id: req.user.user_id },
+    const token = this.jwt.sign({ user_id: req.user.user_id },
       this.env.SECRET_KEY, { expiresIn: 60 * 60 }
     );
 

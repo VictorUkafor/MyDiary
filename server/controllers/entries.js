@@ -1,5 +1,3 @@
-import allEntries from '../models/queries/index';
-
 /**
  * @fileOverview this JS file contains logic for entry's APIs logic
  *
@@ -17,9 +15,12 @@ export default class EntryController {
     *  constructor
     *
     */
-  constructor() {
+  constructor(queries) {
+    this.queries = queries;
+    this.getAllEntries = this.getAllEntries.bind(this);
     this.postEntry = this.postEntry.bind(this);
     this.putEntry = this.putEntry.bind(this);
+    this.deleteEntry = this.deleteEntry.bind(this);
   }
 
 
@@ -45,13 +46,7 @@ export default class EntryController {
       });
     }
 
-    const getEntries = allEntries(req);
-    
-    // req.client.query(
-    //   `SELECT * FROM entry WHERE entry_user_id=($1)
-    //   ORDER BY entry_id DESC LIMIT 5 OFFSET ($2);`,
-    //   [req.user.user_id, (page - 1) * 5]
-    // );
+    const getEntries = this.queries.getEntriesWithPag(req, page)
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -111,11 +106,8 @@ export default class EntryController {
     const content = req.body.content.trim();
     const newTitle = this.setTitle(title, content);
     const allEntries = [];
-    const addEntry = req.client.query(`INSERT INTO entry(entry_user_id, title, content)
-    values($1, $2, $3)`, [req.user.user_id, newTitle, content]);
-
-    const getEntries = req.client.query(`SELECT * FROM entry 
-    WHERE entry_user_id=($1);`, [req.user.user_id]);
+    const addEntry = this.queries.insertEntry(req, newTitle, content);
+    const getEntries = this.queries.getAllEntries(req);
 
     getEntries.on('row', (row) => {
       allEntries.push(row);
@@ -187,14 +179,9 @@ export default class EntryController {
     const titleUpdated = this.setTitleForUpdate(title, req.entry);
     const contentUpdated = this.setContentForUpdate(content, req.entry);
     const newDate = new Date();
+    const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate)
+    const getUpdatedEntry = this.queries.getAnEntry(req);
 
-    const update = req.client.query(`UPDATE entry SET title=($1), content=($2), updated_at=($3)
-     WHERE entry_id=($4)`, [titleUpdated, contentUpdated, newDate, req.entry.entry_id]);
-
-    const getUpdatedEntry = req.client.query(
-      'SELECT * FROM entry WHERE entry_id=($1);',
-      [req.entry.entry_id]
-    );
 
     getUpdatedEntry.on('row', (row) => { updatedEntry.push(row); });
 
@@ -225,7 +212,7 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   deleteEntry(req, res) {
-    const deleteEntry = req.client.query('DELETE FROM entry WHERE entry_id=($1)', [req.entry.entry_id]);
+    const deleteEntry = this.queries.deleteEntry(req);
 
     if (deleteEntry) {
       return res.status(200).send({

@@ -19,14 +19,17 @@ export default class UserMiddleware {
       *  @param  {object} env the second parameter
       *
       */
-  constructor(jwt, env) {
+  constructor(jwt, env, queries) {
     this.jwt = jwt;
     this.env = env;
+    this.queries = queries;
 
     // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
     // to fully understand regular expression in javascript. See the full link below
     // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
-    this.emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
+    this.emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/; 
+    this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
+    this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
     this.checksForLogInRequiredFields = this.checksForLogInRequiredFields.bind(this);
     this.checksIfUserIsAuthenticated = this.checksIfUserIsAuthenticated.bind(this);
@@ -44,8 +47,7 @@ export default class UserMiddleware {
         */
   checksIfUserAlreadyExist(req, res, next) {
     const registeredUser = [];
-    const email = req.body.email.trim();
-    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
+    const User = this.queries.getAUser(req);
 
     User.on('row', (row) => { registeredUser.push(row); });
 
@@ -132,8 +134,7 @@ export default class UserMiddleware {
         */
   checksIfUserExist(req, res, next) {
     const authenticatedUser = [];
-    const email = req.body.email.trim();
-    const User = req.client.query('SELECT * FROM account WHERE email=($1);', [email]);
+    const User = this.queries.getAUser(req);
 
     User.on('row', (row) => { authenticatedUser.push(row); });
 
@@ -198,7 +199,7 @@ export default class UserMiddleware {
         });
       }
 
-      const getUser = req.client.query('SELECT * FROM account WHERE user_id=($1)', [authenticated.user_id]);
+      const getUser = this.queries.getAUserById(req, authenticated);
 
       getUser.on('row', (row) => { authenticatedUser.push(row); });
 

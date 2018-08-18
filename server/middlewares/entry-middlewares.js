@@ -15,8 +15,9 @@ export default class EntryMiddleware {
     *  constructor
     *
     */
-  constructor() {
-
+  constructor(queries) {
+    this.queries = queries;
+    this.checksIfEntryExist = this.checksIfEntryExist.bind(this);
   }
 
   /** A middleware method for checking if required field for add entry is filled
@@ -56,8 +57,7 @@ export default class EntryMiddleware {
         errors: `You've entered an invalid entryId: ${req.params.entryId}`
       });
     }
-    const getEntry = req.client.query(`SELECT * FROM entry WHERE entry_id=($1)
-       AND entry_user_id=($2);`, [entryId, req.user.user_id]);
+    const getEntry = this.queries.getAnEntry(req);
 
     getEntry.on('row', (row) => { entry.push(row); });
 
