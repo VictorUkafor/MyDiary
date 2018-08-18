@@ -46,7 +46,7 @@ export default class EntryController {
       });
     }
 
-    const getEntries = this.queries.getEntriesWithPag(req, page)
+    const getEntries = this.queries.getEntriesWithPag(req, page);
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -105,19 +105,19 @@ export default class EntryController {
     }
     const content = req.body.content.trim();
     const newTitle = this.setTitle(title, content);
-    const allEntries = [];
+    const newEntry = [];
     const addEntry = this.queries.insertEntry(req, newTitle, content);
-    const getEntries = this.queries.getAllEntries(req);
+    //const getEntries = this.queries.getAllEntries(req);
 
-    getEntries.on('row', (row) => {
-      allEntries.push(row);
+    addEntry.on('row', (row) => {
+      newEntry.push(row);
     });
 
-    getEntries.on('end', () => {
+    addEntry.on('end', () => {
       req.done();
       if (addEntry) {
         return res.status(201).send({
-          success: 'A new diary entry has been added successfully', allEntries
+          success: 'A new diary entry has been added successfully', newEntry
         });
       }
 
@@ -179,7 +179,7 @@ export default class EntryController {
     const titleUpdated = this.setTitleForUpdate(title, req.entry);
     const contentUpdated = this.setContentForUpdate(content, req.entry);
     const newDate = new Date();
-    const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate)
+    const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate);
     const getUpdatedEntry = this.queries.getAnEntry(req);
 
 

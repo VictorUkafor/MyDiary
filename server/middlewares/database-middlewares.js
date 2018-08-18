@@ -38,8 +38,9 @@ export default class DatabaseMiddleware {
       */
   handlesConnectionToTheDatabase(req, res, next) {
     const connectionString = this.env.DATABASE_DEV_URL;
+    const pool = new this.pg.Pool({ connectionString });
 
-    this.pg.connect(connectionString, (err, client, done) => {
+    pool.connect((err, client, done) => {
       if (err) {
         done();
         return res.status(500).send({

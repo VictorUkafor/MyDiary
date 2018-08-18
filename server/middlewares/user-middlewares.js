@@ -27,7 +27,7 @@ export default class UserMiddleware {
     // The regular expression used here is a code snippet from  stackoverflow.com. I'm yet
     // to fully understand regular expression in javascript. See the full link below
     // "https://stackoverflow.com/questions/940577/javascript-regular-expression-email-validation?lq=1"
-    this.emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/; 
+    this.emailFormat = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     this.checksIfUserAlreadyExist = this.checksIfUserAlreadyExist.bind(this);
     this.checksIfUserExist = this.checksIfUserExist.bind(this);
     this.checksForSignUpRequiredFields = this.checksForSignUpRequiredFields.bind(this);
@@ -67,27 +67,26 @@ export default class UserMiddleware {
     *  @param  {string} field the third parameter
     *  @param  {string} fieldName the fourth parameter
     *  @returns {object} return an object
-    */  
-  fieldIsEmpty(req, errors, field, fieldName){
+    */
+  fieldIsEmpty(req, errors, field, fieldName) {
     if (!req.body[field] || req.body[field].trim() === 0) {
-      errors[field] = fieldName + ' field is required';
+      errors[field] = `${fieldName} field is required`;
     }
   }
 
 
-/** A middleware method for checking  if login required fields are filled
+  /** A middleware method for checking  if login required fields are filled
   *  Takes 3 parameters
   *  @param {object} req the first parameter
   *  @param  {object} errors the second parameter
   *  @returns {object} return an object
   */
-  emailIsValid(req, errors){
+  emailIsValid(req, errors) {
     if (req.body.email) {
       if (!this.emailFormat.test(req.body.email.trim())) {
         errors.email = 'You\'ve entered an invalid email';
       }
     }
-
   }
 
 

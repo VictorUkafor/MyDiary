@@ -46,11 +46,10 @@ export default class UserController {
     const salt = this.bcrypt.genSaltSync(10);
     const registeredUser = [];
     const addUser = this.queries.insertUser(req, salt, this.bcrypt);
-    const getUser = this.queries.getAUser(req);
 
-    getUser.on('row', (row) => { registeredUser.push(row); });
+    addUser.on('row', (row) => { registeredUser.push(row); });
 
-    getUser.on('end', () => {
+    addUser.on('end', () => {
       req.done();
       if (addUser) {
         return res.status(201).send({
