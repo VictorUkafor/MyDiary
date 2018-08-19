@@ -26,6 +26,7 @@ apiRouter.get('/', (req, res) => res.status(200).send({
 apiRouter.post(
   '/auth/signup',
   userMiddleware.checksForSignUpRequiredFields,
+  userMiddleware.checksIfPhotoIsUploaded,
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserAlreadyExist,
   user.postUser

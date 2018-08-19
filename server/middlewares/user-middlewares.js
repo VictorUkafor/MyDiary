@@ -170,6 +170,32 @@ export default class UserMiddleware {
   }
 
 
+
+  /**
+   *  A middleware method for checking  if login required fields are filled
+   * Takes 3 parameters
+   *  @param {object} req the first parameter
+   *  @param  {object} res the second parameter
+   *  @param  {object} next the third parameter
+   *  @returns {object} return an object
+   */
+  checksIfPhotoIsUploaded(req, res, next) {
+  if (!req.files){
+    next();
+  }else{
+    if(req.files.photograph.mimetype !==  'image/jpeg' &&
+       req.files.photograph.mimetype !== 'image/png' &&
+       req.files.photograph.mimetype !== 'image/gif' ){
+      return res.status(400).send({ 
+        errors: 'Uploaded file must be an image type of png, jpg or gif' });
+    }
+
+    next();
+  }
+}
+
+
+
   /**
      * A middleware method for checking if user is authenticated
      * Takes req and res to return the user object
