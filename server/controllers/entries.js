@@ -107,7 +107,6 @@ export default class EntryController {
     const newTitle = this.setTitle(title, content);
     const newEntry = [];
     const addEntry = this.queries.insertEntry(req, newTitle, content);
-    //const getEntries = this.queries.getAllEntries(req);
 
     addEntry.on('row', (row) => {
       newEntry.push(row);
@@ -180,12 +179,9 @@ export default class EntryController {
     const contentUpdated = this.setContentForUpdate(content, req.entry);
     const newDate = new Date();
     const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate);
-    const getUpdatedEntry = this.queries.getAnEntry(req);
 
-
-    getUpdatedEntry.on('row', (row) => { updatedEntry.push(row); });
-
-    getUpdatedEntry.on('end', () => {
+    update.on('row', (row) => { updatedEntry.push(row); });
+    update.on('end', () => {
       req.done();
       if (update) {
         return res.status(200).send({

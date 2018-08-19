@@ -31,7 +31,7 @@ export default class UserController {
   }
 
 
-  /** An API for adding a new user:
+/** An API for adding a new user:
   *  POST: api/v1/auth/signup
   *  Takes 2 parameters
   *  @param {object} req the first parameter
@@ -48,7 +48,6 @@ export default class UserController {
     const addUser = this.queries.insertUser(req, salt, this.bcrypt);
 
     addUser.on('row', (row) => { registeredUser.push(row); });
-
     addUser.on('end', () => {
       req.done();
       if (addUser) {

@@ -182,16 +182,23 @@ export default class UserMiddleware {
   checksIfPhotoIsUploaded(req, res, next) {
   if (!req.files){
     next();
-  }else{
+  } else {
     if(req.files.photograph.mimetype !==  'image/jpeg' &&
        req.files.photograph.mimetype !== 'image/png' &&
        req.files.photograph.mimetype !== 'image/gif' ){
       return res.status(400).send({ 
         errors: 'Uploaded file must be an image type of png, jpg or gif' });
-    }
+    } else {
+    let photograph = req.files.photograph;
+    photograph.mv(`./client/images/users/${photograph.name}`, (err) => {
+      if (err) return res.status(500).send({ 
+        errors: 'Server error! Photograph can not be saved' });
 
-    next();
+      next();
+    });
   }
+}
+
 }
 
 
