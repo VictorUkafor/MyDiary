@@ -22,10 +22,8 @@ function getAnEntry(req) {
 
 function getAllEntries(req) {
   return req.client.query(
-    `SELECT * FROM entry 
-  WHERE entry_user_id=($1) ORDER BY entry_id DESC;`,
-    [req.user.user_id]
-  );
+    'SELECT * FROM entry WHERE entry_user_id=($1) ORDER BY entry_id DESC;',
+    [req.user.user_id]);
 }
 
 
