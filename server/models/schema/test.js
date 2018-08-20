@@ -1,24 +1,25 @@
 import pg from 'pg';
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
+import {} from 'dotenv/config';
 
+const connectionString = process.env.DATABASE_TEST_URL;
 const client = new pg.Client(connectionString);
+
 client.connect();
 
-const user = client.query(
-  `CREATE TABLE IF NOT EXISTS account(
+const user = client.query(`CREATE TABLE IF NOT EXISTS account(
     user_id SERIAL PRIMARY KEY, 
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    photograph VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`);
 
 user.on('end', () => { client.end(); });
 
 
-const entry = client.query(
-  `CREATE TABLE IF NOT EXISTS entry(
+const entry = client.query(`CREATE TABLE IF NOT EXISTS entry(
     entry_id SERIAL PRIMARY KEY,
     entry_user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,

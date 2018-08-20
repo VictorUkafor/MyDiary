@@ -1,4 +1,5 @@
 import pg from 'pg';
+import {} from 'dotenv/config';
 import supertest from 'supertest';
 import jwt from 'jsonwebtoken';
 import { expect } from 'chai';
@@ -8,7 +9,7 @@ import key from '../server/models/key';
 
 
 const request = supertest(app);
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
+const connectionString = process.env.DATABASE_TEST_URL;
 const salt = bcrypt.genSaltSync(10);
 const password = bcrypt.hashSync('password', salt)
 

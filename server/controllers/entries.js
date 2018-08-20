@@ -15,9 +15,9 @@ export default class EntryController {
     *  constructor
     *
     */
-  constructor() {
+  constructor(queries) {
+    this.queries = queries;
     this.getAllEntries = this.getAllEntries.bind(this);
-    this.getEntry = this.getEntry.bind(this);
     this.postEntry = this.postEntry.bind(this);
     this.putEntry = this.putEntry.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
@@ -37,8 +37,16 @@ export default class EntryController {
   */
   getAllEntries(req, res) {
     const allEntries = [];
-    const getEntries = req.client.query('SELECT * FROM entry WHERE entry_user_id=($1);',
-     [req.user.user_id]);
+    let page = parseInt(req.query.page, 10);
+
+    if (!req.query.page) { page = 1; }
+    if (isNaN(page) || page === 0) {
+      return res.status(400).send({
+        errors: `You've entered an invalid page: ${req.query.page}`
+      });
+    }
+
+    const getEntries = this.queries.getEntriesWithPag(req, page);
 
     getEntries.on('row', (row) => { allEntries.push(row); });
 
@@ -91,29 +99,24 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   postEntry(req, res) {
-
     let title = '';
-    if(req.body.title){
+    if (req.body.title) {
       title = req.body.title.trim();
     }
     const content = req.body.content.trim();
     const newTitle = this.setTitle(title, content);
-    const allEntries = [];
-    const addEntry = req.client.query(`INSERT INTO entry(entry_user_id, title, content)
-    values($1, $2, $3)`, [req.user.user_id, newTitle, content]);
+    const newEntry = [];
+    const addEntry = this.queries.insertEntry(req, newTitle, content);
 
-    const getEntries = req.client.query(`SELECT * FROM entry 
-    WHERE entry_user_id=($1);`, [req.user.user_id]);
-
-    getEntries.on('row', (row) => {
-      allEntries.push(row);
+    addEntry.on('row', (row) => {
+      newEntry.push(row);
     });
 
-    getEntries.on('end', () => {
+    addEntry.on('end', () => {
       req.done();
       if (addEntry) {
         return res.status(201).send({
-          success: 'A new diary entry has been added successfully', allEntries
+          success: 'A new diary entry has been added successfully', newEntry
         });
       }
 
@@ -169,22 +172,16 @@ export default class EntryController {
     let title = '';
     let content = '';
 
-    if(req.body.title){ title = req.body.title.trim(); }
-    if(req.body.content){ content = req.body.content.trim(); }
+    if (req.body.title) { title = req.body.title.trim(); }
+    if (req.body.content) { content = req.body.content.trim(); }
 
     const titleUpdated = this.setTitleForUpdate(title, req.entry);
     const contentUpdated = this.setContentForUpdate(content, req.entry);
     const newDate = new Date();
+    const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate);
 
-    const update = req.client.query(`UPDATE entry SET title=($1), content=($2), updated_at=($3)
-     WHERE entry_id=($4)`, [titleUpdated, contentUpdated, newDate, req.entry.entry_id]);
-
-    const getUpdatedEntry = req.client.query('SELECT * FROM entry WHERE entry_id=($1);',
-     [req.entry.entry_id]);
-
-    getUpdatedEntry.on('row', (row) => { updatedEntry.push(row); });
-
-    getUpdatedEntry.on('end', () => {
+    update.on('row', (row) => { updatedEntry.push(row); });
+    update.on('end', () => {
       req.done();
       if (update) {
         return res.status(200).send({
@@ -211,7 +208,7 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   deleteEntry(req, res) {
-    const deleteEntry = req.client.query('DELETE FROM entry WHERE entry_id=($1)', [req.entry.entry_id]);
+    const deleteEntry = this.queries.deleteEntry(req);
 
     if (deleteEntry) {
       return res.status(200).send({

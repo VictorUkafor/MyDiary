@@ -1,10 +1,11 @@
 import pg from 'pg';
+import {} from 'dotenv/config';
 import supertest from 'supertest';
 import { expect } from 'chai';
 import app from '..';
 
 const request = supertest(app);
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/mydiary_dev';
+const connectionString = process.env.DATABASE_TEST_URL;
 
 describe('MyDiary API Routes', () => {
   after((done) => {
