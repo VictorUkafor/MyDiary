@@ -378,6 +378,7 @@ header{
     font-size: 15px;
     padding: 7px 12px;
     margin-left: -3px;
+    border: 1px solid #234f8e;
     background-color: #234f8e;
     font-weight: bold;
 }
@@ -578,6 +579,23 @@ footer{
     text-decoration: underline;
 }
 
+.active{
+    color: #234f8e;
+    border: 1px solid #234f8e;
+    background-color: #fff;
+}
+
+.ast{
+    color: red;
+}
+
+.required{
+    color: #fff;
+    font-family: candara;
+    font-size: 12px;
+    margin-left: 5%;
+    margin-top: 20px;
+}
 
 
 

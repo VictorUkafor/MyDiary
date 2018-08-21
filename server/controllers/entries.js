@@ -51,8 +51,9 @@ export default class EntryController {
     const getEntriesWithNoPag = this.queries.getAllEntries(req);
 
     getEntries.on('row', (row) => { allEntries.push(row); });
-     getEntriesWithNoPag.on('row', (row) => {
-        allEntriesWithNoPag.push(row); });
+    getEntriesWithNoPag.on('row', (row) => {
+      allEntriesWithNoPag.push(row);
+    });
 
     getEntries.on('end', () => {
       req.done();
@@ -60,12 +61,13 @@ export default class EntryController {
         return res.status(404).send({ message: 'You have no entries yet!' });
       }
 
-    getEntriesWithNoPag.on('end', () => {
-        req.done();   
-        
-      return res.status(200).send({ 
-        allEntries,
-        total: allEntriesWithNoPag.length });
+      getEntriesWithNoPag.on('end', () => {
+        req.done();
+
+        return res.status(200).send({
+          allEntries,
+          total: allEntriesWithNoPag.length
+        });
       });
     });
   }
