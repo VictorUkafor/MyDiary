@@ -28,10 +28,11 @@ export default class UserController {
     this.queries = queries;
     this.postUser = this.postUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
+    this.getAUser = this.getAUser.bind(this);
   }
 
 
-/** An API for adding a new user:
+  /** An API for adding a new user:
   *  POST: api/v1/auth/signup
   *  Takes 2 parameters
   *  @param {object} req the first parameter
@@ -73,7 +74,8 @@ export default class UserController {
    *  @returns {object} return an object
    */
   loginUser(req, res) {
-    const token = this.jwt.sign({ user_id: req.user.user_id },
+    const token = this.jwt.sign(
+      { user_id: req.user.user_id },
       this.env.SECRET_KEY, { expiresIn: 60 * 60 }
     );
 
@@ -97,10 +99,7 @@ export default class UserController {
    */
   getAUser(req, res) {
     const entries = [];
-    const getEntries = req.client.query(
-      'SELECT * FROM entry WHERE entry_user_id=($1);',
-      [req.user.user_id]
-    );
+    const getEntries = this.queries.getAllEntries(req);
 
     getEntries.on('row', (row) => { entries.push(row); });
     req.user.entries = entries;

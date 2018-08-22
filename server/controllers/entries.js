@@ -37,6 +37,7 @@ export default class EntryController {
   */
   getAllEntries(req, res) {
     const allEntries = [];
+    const allEntriesWithNoPag = [];
     let page = parseInt(req.query.page, 10);
 
     if (!req.query.page) { page = 1; }
@@ -47,15 +48,27 @@ export default class EntryController {
     }
 
     const getEntries = this.queries.getEntriesWithPag(req, page);
+    const getEntriesWithNoPag = this.queries.getAllEntries(req);
 
     getEntries.on('row', (row) => { allEntries.push(row); });
+    getEntriesWithNoPag.on('row', (row) => {
+      allEntriesWithNoPag.push(row);
+    });
 
     getEntries.on('end', () => {
       req.done();
       if (allEntries.length === 0) {
         return res.status(404).send({ message: 'You have no entries yet!' });
       }
-      return res.status(200).send(allEntries);
+
+      getEntriesWithNoPag.on('end', () => {
+        req.done();
+
+        return res.status(200).send({
+          allEntries,
+          total: allEntriesWithNoPag.length
+        });
+      });
     });
   }
 

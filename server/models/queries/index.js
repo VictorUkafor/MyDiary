@@ -22,8 +22,7 @@ function getAnEntry(req) {
 
 function getAllEntries(req) {
   return req.client.query(
-    `SELECT * FROM entry 
-  WHERE entry_user_id=($1) ORDER BY entry_id DESC;`,
+    'SELECT * FROM entry WHERE entry_user_id=($1) ORDER BY entry_id DESC;',
     [req.user.user_id]
   );
 }
@@ -40,12 +39,13 @@ function getEntriesWithPag(req, page) {
 
 function insertUser(req, salt, bcrypt) {
   let photo = '';
-  if(req.files){ photo = req.files.photograph.name; }
+  if (req.files) { photo = req.files.photograph.name; }
   return req.client.query(
     `INSERT INTO account(firstName, lastName, email, password,
     photograph) values($1, $2, $3, $4, $5) RETURNING *`,
     [req.body.firstName.trim(), req.body.lastName.trim(), req.body.email.trim(),
-    bcrypt.hashSync(req.body.password.trim(), salt), photo]);
+      bcrypt.hashSync(req.body.password.trim(), salt), photo]
+  );
 }
 
 
@@ -62,9 +62,7 @@ function updateEntry(req, title, content, date) {
 
 
 function deleteEntry(req) {
-  return req.client.query(
-    'DELETE FROM entry WHERE entry_id=($1) RETURNING *', [req.entry.entry_id]
-  );
+  return req.client.query('DELETE FROM entry WHERE entry_id=($1) RETURNING *', [req.entry.entry_id]);
 }
 
 
