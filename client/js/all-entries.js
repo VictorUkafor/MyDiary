@@ -57,12 +57,13 @@ function entryThumbnail(entry) {
 }
 
 function getAllEntries() {
-  const entriesPage = localStorage.getItem('entriesPage'); 
+  const entriesPage = localStorage.getItem('entriesPage');
+  console.log(entriesPage); 
 
   if(entriesPage === 'search'){
     return getAllEntriesBySearch();
   } else {
-    return getAllEntriesDefault();
+    return getAllEntriesDefault()
   }
 
 }

@@ -4,15 +4,16 @@ function getAllEntriesBySearch() {
     const token = localStorage.getItem('token');
     const deleteEntry = localStorage.getItem('deleteEntry');
 
-    const search = document.forms.searchBar.search.value;
+    const search = document.getElementById('search').value;
     const dataForFetch = {
       method: 'POST',
-      headers: {
+      body: JSON.stringify({ search }),
+      headers: { 
         'Content-Type': 'application/json',
-        body: JSON.stringify({ search }),
-        authentication: token
+        authentication: token 
       }
     };
+
   
     fetch(url, dataForFetch)
       .then(res => res.json())

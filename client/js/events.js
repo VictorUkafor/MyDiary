@@ -21,11 +21,13 @@ function addEntryPage() {
 }
 
 function setEntriesPage() {
+  window.localStorage.setItem('page', 1);
   window.localStorage.setItem('entriesPage', 'search');
   window.location.href = 'all-entries.html';
 }
 
 function allEntriesPage() {
+  window.localStorage.setItem('page', 1);
   window.localStorage.setItem('entriesPage', 'default');
   window.location.href = 'all-entries.html';
 }
