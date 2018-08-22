@@ -34,6 +34,7 @@ function processLogIn() {
                  = `<h1 class="errorField">${data.errors}</h1>`;
         }
       } else if (data.message) {
+        window.localStorage.setItem('entriesPage', 'default');
         window.localStorage.setItem('page', '1');
         window.localStorage.setItem('token', data.token);
         window.location.href = 'all-entries.html';
