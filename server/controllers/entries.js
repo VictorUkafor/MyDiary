@@ -91,6 +91,7 @@ export default class EntryController {
   let page = parseInt(req.query.page, 10);
 
   if (!req.query.page) { page = 1; }
+  if (!req.body.search) { req.body.search = ''; }
   if (isNaN(page) || page === 0) {
     return res.status(400).send({
       errors: `You've entered an invalid page: ${req.query.page}`

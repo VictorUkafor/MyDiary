@@ -1,6 +1,7 @@
 function indexPage() {
   const token = localStorage.getItem('token');
   if (token) {
+    window.localStorage.setItem('entriesPage', 'default');
     window.location.href = 'all-entries.html';
   } else {
     window.location.href = 'index.html';
@@ -19,7 +20,17 @@ function addEntryPage() {
   window.location.href = 'add-entry.html';
 }
 
+function setEntriesPage() {
+  const search = document.forms.searchBar.search.value;
+  window.localStorage.setItem('search', search);
+  window.localStorage.setItem('page', 1);
+  window.localStorage.setItem('entriesPage', 'search');
+  window.location.href = 'all-entries.html';
+}
+
 function allEntriesPage() {
+  window.localStorage.setItem('page', 1);
+  window.localStorage.setItem('entriesPage', 'default');
   window.location.href = 'all-entries.html';
 }
 

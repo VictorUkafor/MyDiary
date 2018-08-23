@@ -11,6 +11,5 @@ if (logout) {
      `<h1 class="successField">${logout}</h1>`;
 }
 
-window.localStorage.removeItem('login');
-window.localStorage.removeItem('logout');
+window.localStorage.clear();
 

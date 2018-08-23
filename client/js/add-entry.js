@@ -26,6 +26,7 @@ function processAddEntry() {
         document.getElementById('errorMessage').innerHTML =
             `<h1 class="errorField">${data.errors}</h1>`;
       } else {
+        window.localStorage.setItem('entriesPage', 'default');
         window.localStorage.setItem('addEntry', data.success);
         window.location.href = 'all-entries.html';
       }

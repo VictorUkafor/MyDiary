@@ -93,6 +93,7 @@ function validateSignUpForm() {
 function validateSignInForm() {
   const email = document.forms.signIn.email.value;
   const password = document.forms.signIn.password.value;
+  console.log(email);
 
   document.getElementById('emailError').innerHTML = '';
   document.getElementById('passwordError').innerHTML = '';

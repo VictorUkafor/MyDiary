@@ -1,7 +1,7 @@
-const searchField = '<div class="search-box">' +
-'<form class="form-inline"><div class="">' +
-'<input type="text" class="search-field" placeholder="Enter your term . . .">' +
-'</div><button type="submit" class="search-button">Search</button></form></div>';
+ const searchField = '<div class="search-box">' +
+ '<form method="POST" name="searchBar" class="form-inline"><div class="">' +
+ '<input name="search" type="text" class="search-field" placeholder="Enter your term . . .">' +
+ '</div><button onclick="setEntriesPage()" type="submit" class="search-button">Search</button></form></div>';
 
 
 function navBackward(page) {
@@ -57,56 +57,21 @@ function entryThumbnail(entry) {
 }
 
 function getAllEntries() {
-  const page = localStorage.getItem('page');
-  const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries?page=${page}`;
-  const token = localStorage.getItem('token');
-  const addEntry = localStorage.getItem('addEntry');
-  const deleteEntry = localStorage.getItem('deleteEntry');
-  const dataForFetch = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      authentication: token
-    }
-  };
+  const welcome = localStorage.getItem('welcome');
+  if(welcome){
+  document.getElementById('successMessage').innerHTML =
+  `<h1 class="successField">${welcome}</h1>`;
+}
+  window.localStorage.removeItem('welcome');
 
-  fetch(url, dataForFetch)
-    .then(res => res.json())
-    .then((data) => {
-      if (data.authenticated === false || data.errors) {
-        const login = 'oop! You have to login';
-        window.localStorage.setItem('login', login);
-        window.location.href = 'sign-in.html';
-      } else if (data.message) {
-        document.getElementById('successMessage').innerHTML =
-             `<h1 class="successField">${data.message}</h1>`;
-      } else {
-        if (addEntry) {
-          document.getElementById('successMessage').innerHTML =
-             `<h1 class="successField">${addEntry}</h1>`;
-        }
+  const entriesPage = localStorage.getItem('entriesPage');
 
-        if (deleteEntry) {
-          document.getElementById('successMessage').innerHTML =
-                 `<h1 class="successField">${deleteEntry}</h1>`;
-        }
+  if(entriesPage === 'search'){
+    return getAllEntriesBySearch();
+  } else {
+    return getAllEntriesDefault()
+  }
 
-        document.getElementById('search').innerHTML = searchField;
-        data.allEntries.forEach((entry) => {
-          document.getElementById('entries').innerHTML += entryThumbnail(entry);
-        });
-        if (data.total > data.allEntries.length) {
-          document.getElementById('entries').innerHTML += pagination(page, data.total);
-        }
-      }
-      window.localStorage.removeItem('addEntry');
-      window.localStorage.removeItem('deleteEntry');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  return false;
 }
 
 getAllEntries();
