@@ -24,7 +24,7 @@ function searchEntriesWithPag(req, page) {
   const search = `%${req.body.search.trim()}%`;
   return req.client.query(
     `SELECT * FROM entry WHERE entry_user_id=($1) AND title LIKE ($2)
-    OR content LIKE ($2) ORDER BY entry_id DESC LIMIT 5 OFFSET ($3);`, 
+    OR content LIKE ($2) ORDER BY entry_id DESC LIMIT 5 OFFSET ($3);`,
     [req.user.user_id, search, (page - 1) * 5]
   );
 }
@@ -32,10 +32,8 @@ function searchEntriesWithPag(req, page) {
 
 function searchEntries(req) {
   const search = `%${req.body.search.trim()}%`;
-  return req.client.query(
-    `SELECT * FROM entry WHERE entry_user_id=($1) AND title LIKE ($2)
-    OR content LIKE ($2) ORDER BY entry_id DESC;`, [req.user.user_id, search]
-  );
+  return req.client.query(`SELECT * FROM entry WHERE entry_user_id=($1) AND title LIKE ($2)
+    OR content LIKE ($2) ORDER BY entry_id DESC;`, [req.user.user_id, search]);
 }
 
 

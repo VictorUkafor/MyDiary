@@ -6,10 +6,11 @@ import app from '..';
 
 const request = supertest(app);
 const connectionString = process.env.DATABASE_TEST_URL;
+const pool = new pg.Pool({ connectionString });
 
 describe('MyDiary API Routes', () => {
-  after((done) => {
-    pg.connect(connectionString, (err, client, done) => {
+  before((done) => {
+    pool.connect((err, client, done) => {
       client.query('TRUNCATE TABLE account CASCADE');
     });
     done();

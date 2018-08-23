@@ -74,7 +74,7 @@ export default class EntryController {
   }
 
 
-/** An API for searching for specific entries:
+  /** An API for searching for specific entries:
   *  POST: api/v1/entries/search?page=pageNumber
   *  Takes 2 parameters
   *  @param {object} req the first parameter
@@ -85,45 +85,43 @@ export default class EntryController {
   * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
- searchEntries(req, res) {
-  const allEntries = [];
-  const allEntriesWithNoPag = [];
-  let page = parseInt(req.query.page, 10);
+  searchEntries(req, res) {
+    const allEntries = [];
+    const allEntriesWithNoPag = [];
+    let page = parseInt(req.query.page, 10);
 
-  if (!req.query.page) { page = 1; }
-  if (!req.body.search) { req.body.search = ''; }
-  if (isNaN(page) || page === 0) {
-    return res.status(400).send({
-      errors: `You've entered an invalid page: ${req.query.page}`
-    });
-  }
-
-  const getEntries = this.queries.searchEntriesWithPag(req, page);
-  const getEntriesWithNoPag = this.queries.searchEntries(req);
-
-  getEntries.on('row', (row) => { allEntries.push(row); });
-  getEntriesWithNoPag.on('row', (row) => {
-    allEntriesWithNoPag.push(row);
-  });
-
-  getEntries.on('end', () => {
-    req.done();
-    if (allEntries.length === 0) {
-      return res.status(404).send({ message: 'You have no entries yet!' });
+    if (!req.query.page) { page = 1; }
+    if (!req.body.search) { req.body.search = ''; }
+    if (isNaN(page) || page === 0) {
+      return res.status(400).send({
+        errors: `You've entered an invalid page: ${req.query.page}`
+      });
     }
 
-    getEntriesWithNoPag.on('end', () => {
-      req.done();
+    const getEntries = this.queries.searchEntriesWithPag(req, page);
+    const getEntriesWithNoPag = this.queries.searchEntries(req);
 
-      return res.status(200).send({
-        allEntries,
-        total: allEntriesWithNoPag.length
+    getEntries.on('row', (row) => { allEntries.push(row); });
+    getEntriesWithNoPag.on('row', (row) => {
+      allEntriesWithNoPag.push(row);
+    });
+
+    getEntries.on('end', () => {
+      req.done();
+      if (allEntries.length === 0) {
+        return res.status(404).send({ message: 'You have no entries yet!' });
+      }
+
+      getEntriesWithNoPag.on('end', () => {
+        req.done();
+
+        return res.status(200).send({
+          allEntries,
+          total: allEntriesWithNoPag.length
+        });
       });
     });
-  });
-  
-}
-
+  }
 
 
   /** An API for fetching a single entries:

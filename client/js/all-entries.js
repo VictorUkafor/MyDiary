@@ -1,4 +1,4 @@
- const searchField = '<div class="search-box">' +
+const searchField = '<div class="search-box">' +
  '<form method="POST" name="searchBar" class="form-inline"><div class="">' +
  '<input name="search" type="text" class="search-field" placeholder="Enter your term . . .">' +
  '</div><button onclick="setEntriesPage()" type="submit" class="search-button">Search</button></form></div>';
@@ -58,20 +58,18 @@ function entryThumbnail(entry) {
 
 function getAllEntries() {
   const welcome = localStorage.getItem('welcome');
-  if(welcome){
-  document.getElementById('successMessage').innerHTML =
+  if (welcome) {
+    document.getElementById('successMessage').innerHTML =
   `<h1 class="successField">${welcome}</h1>`;
-}
+  }
   window.localStorage.removeItem('welcome');
 
   const entriesPage = localStorage.getItem('entriesPage');
 
-  if(entriesPage === 'search'){
+  if (entriesPage === 'search') {
     return getAllEntriesBySearch();
-  } else {
-    return getAllEntriesDefault()
   }
-
+  return getAllEntriesDefault();
 }
 
 getAllEntries();

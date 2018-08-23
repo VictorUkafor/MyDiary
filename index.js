@@ -7,6 +7,7 @@ import {} from 'dotenv/config';
 import swaggerDocument from './swagger.json';
 import apiRouter from './server/routes';
 
+
 const app = express();
 const port = process.env.PORT;
 

@@ -68,13 +68,13 @@ function deleteEntry(id) {
   processDeleteEntry();
 }
 
-function backwardNav(page){
-  window.localStorage.setItem('page', page-1);
+function backwardNav(page) {
+  window.localStorage.setItem('page', page - 1);
   window.location.href = 'all-entries.html';
 }
 
-function forwardNav(page){
-  window.localStorage.setItem('page', page+1);
+function forwardNav(page) {
+  window.localStorage.setItem('page', page + 1);
   window.location.href = 'all-entries.html';
 }
 

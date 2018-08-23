@@ -19,7 +19,7 @@ function userProfile() {
         window.location.href = 'sign-in.html';
       } else {
         photo = data.photograph;
-        if(data.photograph === ''){
+        if (data.photograph === '') {
           photo = 'no-image.png';
         }
         document.getElementById('profile-image').src = `images/users/${photo}`;

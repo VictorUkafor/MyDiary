@@ -22,18 +22,18 @@ function validateSignUpForm() {
      password.trim() !== '' && confirmPassword.trim() !== '' &&
     confirmPassword.trim() === password.trim()) {
     return processSignUp();
-  } else {
+  }
 
   if (firstName.trim() === '') {
     const firstNameError = 'First Name field is required';
-    document.getElementById('firstNameError').innerHTML = 
+    document.getElementById('firstNameError').innerHTML =
     `<h1 class="errorField">${firstNameError}</h1>`;
     document.getElementById('FirstName').value = '';
   }
 
   if (lastName.trim() === '') {
     const lastNameError = 'Last Name field is required';
-    document.getElementById('lastNameError').innerHTML = 
+    document.getElementById('lastNameError').innerHTML =
     `<h1 class="errorField">${lastNameError}</h1>`;
     document.getElementById('LastName').value = '';
   }
@@ -54,7 +54,7 @@ function validateSignUpForm() {
 
   if (confirmPassword.trim() === '') {
     const confirmPasswordError = 'Confirm Password field is required';
-    document.getElementById('confirm_passwordError').innerHTML = 
+    document.getElementById('confirm_passwordError').innerHTML =
     `<h1 class="errorField">${confirmPasswordError}</h1>`;
     document.getElementById('Password2').value = '';
   }
@@ -71,7 +71,7 @@ function validateSignUpForm() {
   const fileExt = photograph.split('.').pop();
 
   if (photograph) {
-    if (fileExt !== 'jpg' && fileExt !== 'png' && 
+    if (fileExt !== 'jpg' && fileExt !== 'png' &&
     fileExt !== 'jpeg' && fileExt !== 'gif') {
       const photographError = 'File must be an image';
       document.getElementById('photographError').innerHTML =
@@ -81,7 +81,6 @@ function validateSignUpForm() {
   }
 
   return false;
-}
 
 
   return false;

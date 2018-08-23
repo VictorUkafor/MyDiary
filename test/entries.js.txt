@@ -5,9 +5,8 @@ import jwt from 'jsonwebtoken';
 import { expect } from 'chai';
 import bcrypt from 'bcrypt';
 import app from '..';
-import key from '../server/models/key';
 
-
+const key = process.env.SECRET_KEY;
 const request = supertest(app);
 const connectionString = process.env.DATABASE_TEST_URL;
 const salt = bcrypt.genSaltSync(10);
@@ -34,7 +33,7 @@ describe('MyDiary API Routes', () => {
               client.query('SELECT * FROM entry WHERE entry_user_id=($1);', [userId])
                 .then((entry) => {
                   entryId = entry.rows[0].entry_id;
-                  token = jwt.sign({ user_id: user.user_id }, key.secret, { expiresIn: 60 * 60 });
+                  token = jwt.sign({ user_id: user.user_id }, key, { expiresIn: 60 * 60 });
                   console.log('tokennnnnnnnn', token);
                   console.log('entryIddddd', entryId);
                 }).catch((err) => {
