@@ -21,7 +21,13 @@ function getAllEntriesDefault() {
           window.location.href = 'sign-in.html';
         } else if (data.message) {
           document.getElementById('successMessage').innerHTML =
-               `<h1 class="successField">${data.message}</h1>`;
+               `<h1 class="successField">${deleteEntry}</h1>`;
+
+          if (deleteEntry === null ) {
+            document.getElementById('successMessage').innerHTML =
+             `<h1 class="successField">${data.message}</h1>`;
+            }
+
         } else {
           if (addEntry) {
             document.getElementById('successMessage').innerHTML =

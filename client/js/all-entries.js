@@ -1,7 +1,7 @@
-const searchField = '<div class="search-box">' +
-'<form method="POST" name="searchBar" class="form-inline"><div class="">' +
-'<input name="search" type="text" class="search-field" placeholder="Enter your term . . .">' +
-'</div><button onclick="setEntriesPage()" type="submit" class="search-button">Search</button></form></div>';
+ const searchField = '<div class="search-box">' +
+ '<form method="POST" name="searchBar" class="form-inline"><div class="">' +
+ '<input name="search" type="text" class="search-field" placeholder="Enter your term . . .">' +
+ '</div><button onclick="setEntriesPage()" type="submit" class="search-button">Search</button></form></div>';
 
 
 function navBackward(page) {
@@ -57,8 +57,14 @@ function entryThumbnail(entry) {
 }
 
 function getAllEntries() {
+  const welcome = localStorage.getItem('welcome');
+  if(welcome){
+  document.getElementById('successMessage').innerHTML =
+  `<h1 class="successField">${welcome}</h1>`;
+}
+  window.localStorage.removeItem('welcome');
+
   const entriesPage = localStorage.getItem('entriesPage');
-  console.log(entriesPage); 
 
   if(entriesPage === 'search'){
     return getAllEntriesBySearch();

@@ -3,8 +3,9 @@ function getAllEntriesBySearch() {
     const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/search?page=${page}`;
     const token = localStorage.getItem('token');
     const deleteEntry = localStorage.getItem('deleteEntry');
+    const search = localStorage.getItem('search');
 
-    const search = document.getElementById('search').value;
+    console.log('gbhh',search);
     const dataForFetch = {
       method: 'POST',
       body: JSON.stringify({ search }),
@@ -23,8 +24,15 @@ function getAllEntriesBySearch() {
           window.localStorage.setItem('login', login);
           window.location.href = 'sign-in.html';
         } else if (data.message) {
+
+            document.getElementById('successMessage').innerHTML =
+                   `<h1 class="successField">${deleteEntry}</h1>`;
+
+        if(deleteEntry  === null) {        
           document.getElementById('successMessage').innerHTML =
                `<h1 class="successField">${data.message}</h1>`;
+              }
+
         } else {
 
           if (deleteEntry) {

@@ -21,6 +21,8 @@ function addEntryPage() {
 }
 
 function setEntriesPage() {
+  const search = document.forms.searchBar.search.value;
+  window.localStorage.setItem('search', search);
   window.localStorage.setItem('page', 1);
   window.localStorage.setItem('entriesPage', 'search');
   window.location.href = 'all-entries.html';
