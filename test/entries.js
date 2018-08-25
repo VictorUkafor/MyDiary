@@ -3,11 +3,12 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import {} from 'dotenv/config';
 import supertest from 'supertest';
+import queries from '../server/models/queries';
 import app from '..';
 
 const request = supertest(app);
 const salt = bcrypt.genSaltSync(10);
-const password = bcrypt.hashSync('password', salt)
+const password = bcrypt.hashSync('password', salt);
 const connectionString = process.env.DATABASE_TEST_URL;
 const client = new pg.Client(connectionString);
 
@@ -15,57 +16,12 @@ client.connect();
 
 describe('MyDiary API Routes', () => {
   before((done) => {
-    const beforeQueries = () => {
-      const queries = `
-      DROP TABLE IF EXISTS account CASCADE;
-      
-      DROP TABLE IF EXISTS entry CASCADE;
-      
-      CREATE TABLE IF NOT EXISTS account (
-        user_id SERIAL PRIMARY KEY, 
-        firstName VARCHAR(255) NOT NULL,
-        lastName VARCHAR(255) NOT NULL,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        photograph VARCHAR(255),
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW() );
-        
-        CREATE TABLE IF NOT EXISTS entry (
-          entry_id SERIAL PRIMARY KEY,
-          entry_user_id INTEGER NOT NULL,
-          title VARCHAR(255) NOT NULL,
-          content text NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-          FOREIGN KEY (entry_user_id) REFERENCES account (user_id) );
-          
-          INSERT INTO account (firstName, lastName, email,
-          password) values('Kenny', 'Andrew', 'kenandrew@gmail.com', '${password}' );
-          
-          INSERT INTO entry (entry_user_id, title, content) values 
-          ('1', 'It all started when', 'It all started when I was still  . . .' );` 
-
-          client.query(queries, (err) => {
-            if (err) {
-              return err.message;
-            }
-            client.end();
-          }
-          );
-        };
-        beforeQueries();
+    queries.beforeQueriesForEntries(client, password);
     done();
   });
 
-  
   const entryId = 1;
-  const token = jwt.sign({ user_id: '1' },
-    process.env.SECRET_KEY, { expiresIn: 60 * 60 }
-  );
-
-console.log(password);
-console.log(token);
+  const token = jwt.sign({ user_id: '1' },process.env.SECRET_KEY, { expiresIn: 60 * 60 });
 
   // Testing for GET /api/v1/entries
   describe('GET /api/v1/entries', () => {
@@ -103,7 +59,7 @@ console.log(token);
 
     // Gets a single entry
     it('Gets a single entry', (done) => {
-      request.get(`/api/v1/entries/1`)
+      request.get('/api/v1/entries/1')
         .set('authentication', token)
         .expect(200)
         .end((err) => {
@@ -241,6 +197,5 @@ console.log(token);
         });
     });
   });
-  
 });
 

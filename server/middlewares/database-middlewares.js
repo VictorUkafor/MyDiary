@@ -38,8 +38,8 @@ export default class DatabaseMiddleware {
       */
   handlesConnectionToTheDatabase(req, res, next) {
     let connectionString = this.env.DATABASE_DEV_URL;
-    if ( this.env.NODE_ENV === 'test' ) { 
-      connectionString = this.env.DATABASE_TEST_URL;  
+    if (this.env.NODE_ENV === 'test') {
+      connectionString = this.env.DATABASE_TEST_URL;
     }
     const pool = new this.pg.Pool({ connectionString });
 
