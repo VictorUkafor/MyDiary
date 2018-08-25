@@ -9,7 +9,7 @@ env:
 global:
 - export NODE_ENV=test  
 before_script:
-- psql -C 'create database mydiary_dev;' -U postgres
+- psql -c 'create database mydiary_dev;' -U postgres
 - npm run schema
 - npm install
 - npm install codeclimate-test-reporter istanbul -g
