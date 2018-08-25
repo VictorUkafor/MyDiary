@@ -2,20 +2,22 @@ import pg from 'pg';
 import {} from 'dotenv/config';
 import supertest from 'supertest';
 import { expect } from 'chai';
+import queries from '../server/models/queries';
 import app from '..';
 
 const request = supertest(app);
 const connectionString = process.env.DATABASE_TEST_URL;
+const client = new pg.Client(connectionString);
+
+client.connect();
 
 describe('MyDiary API Routes', () => {
-  after((done) => {
-    pg.connect(connectionString, (err, client, done) => {
-      client.query('TRUNCATE TABLE account CASCADE');
-    });
+  before((done) => {
+    queries.beforeQueryForUser(client);
     done();
   });
 
-
+  // Displays 'Welcome to MyDiary app!'
   describe('GET /api/v1', () => {
     it('Displays the welcome message', (done) => {
       request.get('/api/v1')

@@ -1,7 +1,5 @@
-
 // onSumbit event for signup form
-
-function validateSignUpForm() {
+const validateSignUpForm = () => {
   const firstName = document.forms.signUp.firstName.value;
   const lastName = document.forms.signUp.lastName.value;
   const email = document.forms.signUp.email.value;
@@ -22,18 +20,18 @@ function validateSignUpForm() {
      password.trim() !== '' && confirmPassword.trim() !== '' &&
     confirmPassword.trim() === password.trim()) {
     return processSignUp();
-  } else {
+  }
 
   if (firstName.trim() === '') {
     const firstNameError = 'First Name field is required';
-    document.getElementById('firstNameError').innerHTML = 
+    document.getElementById('firstNameError').innerHTML =
     `<h1 class="errorField">${firstNameError}</h1>`;
     document.getElementById('FirstName').value = '';
   }
 
   if (lastName.trim() === '') {
     const lastNameError = 'Last Name field is required';
-    document.getElementById('lastNameError').innerHTML = 
+    document.getElementById('lastNameError').innerHTML =
     `<h1 class="errorField">${lastNameError}</h1>`;
     document.getElementById('LastName').value = '';
   }
@@ -54,7 +52,7 @@ function validateSignUpForm() {
 
   if (confirmPassword.trim() === '') {
     const confirmPasswordError = 'Confirm Password field is required';
-    document.getElementById('confirm_passwordError').innerHTML = 
+    document.getElementById('confirm_passwordError').innerHTML =
     `<h1 class="errorField">${confirmPasswordError}</h1>`;
     document.getElementById('Password2').value = '';
   }
@@ -71,7 +69,7 @@ function validateSignUpForm() {
   const fileExt = photograph.split('.').pop();
 
   if (photograph) {
-    if (fileExt !== 'jpg' && fileExt !== 'png' && 
+    if (fileExt !== 'jpg' && fileExt !== 'png' &&
     fileExt !== 'jpeg' && fileExt !== 'gif') {
       const photographError = 'File must be an image';
       document.getElementById('photographError').innerHTML =
@@ -84,16 +82,10 @@ function validateSignUpForm() {
 }
 
 
-  return false;
-}
-
-
 // onSumbit event for signin form
-
-function validateSignInForm() {
+const validateSignInForm = () => {
   const email = document.forms.signIn.email.value;
   const password = document.forms.signIn.password.value;
-  console.log(email);
 
   document.getElementById('emailError').innerHTML = '';
   document.getElementById('passwordError').innerHTML = '';
@@ -115,15 +107,11 @@ function validateSignInForm() {
   }
 
   return false;
-
-
-  return false;
 }
 
 
 // onSumbit event for add entry  form
-
-function validateAddEntryForm() {
+const validateAddEntryForm = () => {
   const entryContent = document.forms.addEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
@@ -136,14 +124,12 @@ function validateAddEntryForm() {
 
     return false;
   }
+
   return processAddEntry();
-
-
-  return false;
 }
 
 
-function validateModifyEntryForm() {
+const validateModifyEntryForm = () => {
   const entryContent = document.forms.modifyEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
@@ -156,9 +142,7 @@ function validateModifyEntryForm() {
 
     return false;
   }
+  
   return processModifyEntry();
-
-
-  return false;
 }
 

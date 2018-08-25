@@ -1,60 +1,30 @@
 import pg from 'pg';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import {} from 'dotenv/config';
 import supertest from 'supertest';
-import jwt from 'jsonwebtoken';
-import { expect } from 'chai';
-import bcrypt from 'bcrypt';
+import queries from '../server/models/queries';
 import app from '..';
-import key from '../server/models/key';
-
 
 const request = supertest(app);
-const connectionString = process.env.DATABASE_TEST_URL;
 const salt = bcrypt.genSaltSync(10);
 const password = bcrypt.hashSync('password', salt);
+const connectionString = process.env.DATABASE_TEST_URL;
+const client = new pg.Client(connectionString);
 
+client.connect();
 
-let token;
-let entryId;
 describe('MyDiary API Routes', () => {
-// let token;
-// let entryId;
   before((done) => {
-    pg.connect(connectionString, (err, client, done) => {
-      client.query('TRUNCATE TABLE account CASCADE');
-      client.query('TRUNCATE TABLE entry')
-        .then(() => {
-          client.query(`INSERT INTO account(firstName, lastName, email, password) 
-          values($1, $2, $3, $4)`, ['Ken', 'David', 'kendavid1@gmail.com', password]);
-          client.query('SELECT * FROM account WHERE email=($1);', ['kendavid1@gmail.com'])
-            .then((user) => {
-              const userId = user.rows[0].user_id;
-              client.query(`INSERT INTO entry(entry_user_id, title, content) 
-              values('${userId}', 'My first day at Bootcamp', 'It all started when . . .')`);
-              client.query('SELECT * FROM entry WHERE entry_user_id=($1);', [userId])
-                .then((entry) => {
-                  entryId = entry.rows[0].entry_id;
-                  token = jwt.sign({ user_id: user.user_id }, key.secret, { expiresIn: 60 * 60 });
-                  console.log('tokennnnnnnnn', token);
-                  console.log('entryIddddd', entryId);
-                }).catch((err) => {
-                  console.log(err);
-                });
-            }).catch((err) => {
-              console.log(err);
-            });
-        }).catch((err) => {
-          console.log(err);
-        });
-    });
+    queries.beforeQueriesForEntries(client, password);
     done();
   });
 
+  const entryId = 1;
+  const token = jwt.sign({ user_id: '1' },process.env.SECRET_KEY, { expiresIn: 60 * 60 });
 
   // Testing for GET /api/v1/entries
   describe('GET /api/v1/entries', () => {
-    console.log('token', token);
-    console.log('entryId', entryId);
     it('Gets all entries', (done) => {
       request.get('/api/v1/entries')
         .set('authentication', token)
@@ -64,25 +34,57 @@ describe('MyDiary API Routes', () => {
         });
     });
 
-    it('Gets all entries', (done) => {
-      request.get('/api/v1/entries')
-        .set('authentication', token)
-        .expect(200)
-        .end((err) => {
-          done(err);
-        });
-    });
-
-    // User cannot be found
-    it('Entries cannot be found', (done) => {
+    // User not authenticated to view entries
+    it('User not authenticated to view entries', (done) => {
       request.get('/api/v1/entries')
         .set('authentication', '12376t567fryf')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
     });
   });
+
+    // Testing for POST /api/v1/entries/search
+    describe('POST /api/v1/entries/search', () => {
+      it('Searches for entries', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', token)
+          .send({
+            search: 'It all',
+          })
+          .expect(200)
+          .end((err) => {
+            done(err);
+          });
+      });
+  
+      // User not authenticated to search for entries
+      it('User not authenticated to search for entries', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', '12376t567fryf')
+          .send({
+            search: 'It all',
+          })
+          .expect(401)
+          .end((err) => {
+            done(err);
+          });
+      });
+
+      // Entries not be found
+      it('Entries not be found', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', token)
+          .send({
+            search: 'zzzzzzzzzzzzzzzzzz',
+          })
+          .expect(404)
+          .end((err) => {
+            done(err);
+          });
+      });      
+    });
 
   // Testing for GET /api/v1/entries/<entryId>
   describe('GET /api/v1/entries/<entryId>', () => {
@@ -98,7 +100,7 @@ describe('MyDiary API Routes', () => {
 
     // Gets a single entry
     it('Gets a single entry', (done) => {
-      request.get(`/api/v1/entries/${entryId}`)
+      request.get('/api/v1/entries/1')
         .set('authentication', token)
         .expect(200)
         .end((err) => {
@@ -110,7 +112,7 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to view an entry', (done) => {
       request.get(`/api/v1/entries/${entryId}`)
         .set('authentication', 'token')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -151,7 +153,10 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to post an entry', (done) => {
       request.post('/api/v1/entries')
         .set('authentication', '165575gvfcghc')
-        .expect(404)
+        .send({
+          content: 'My first bootcamp experience'
+        })
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -193,7 +198,7 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to modify an entry', (done) => {
       request.put(`/api/v1/entries/${entryId}`)
         .set('authentication', 'NBCFNDB34Y7B')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -227,11 +232,23 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to delete an entry', (done) => {
       request.delete(`/api/v1/entries/${entryId}`)
         .set('authentication', '376gdbjyh')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
     });
+  });
+  
+  // Testing for 'GET /api/v1/user'
+  describe('GET /api/v1/user', () => {
+    it('Returns user\'s profile', (done) => {
+      request.get('/api/v1/user')
+      .set('authentication', token)
+      .expect(200)
+      .end((err) => {
+        done(err);
+      });
+    }); 
   });
 });
 

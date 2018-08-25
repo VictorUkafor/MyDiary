@@ -2,10 +2,10 @@
  * @fileOverview this JS file contains logic for database middleware methods
  *
  * @author  Victor Ukafor
- * @requires  NPM:pg
  * @version 1.0.0
  *
  */
+
 
 /**
   *  class DatabaseMiddleware
@@ -37,7 +37,10 @@ export default class DatabaseMiddleware {
       * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
       */
   handlesConnectionToTheDatabase(req, res, next) {
-    const connectionString = this.env.DATABASE_DEV_URL;
+    let connectionString = this.env.DATABASE_DEV_URL;
+    if (this.env.NODE_ENV === 'test') {
+      connectionString = this.env.DATABASE_TEST_URL;
+    }
     const pool = new this.pg.Pool({ connectionString });
 
     pool.connect((err, client, done) => {

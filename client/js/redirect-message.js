@@ -8,7 +8,7 @@ if (login) {
 
 if (logout) {
   document.getElementById('successMessage2').innerHTML =
-     `<h1 class="successField">${logout}</h1>`;
+  `<h1 class="successField">${logout}</h1>`;
 }
 
 window.localStorage.clear();

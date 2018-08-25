@@ -1,4 +1,4 @@
-function processAddEntry() {
+const processAddEntry = () => {
   const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries';
   const token = localStorage.getItem('token');
   const title = document.forms.addEntry.title.value;
@@ -19,7 +19,7 @@ function processAddEntry() {
     .then(res => res.json())
     .then((data) => {
       if (data.authenticated === false) {
-        const login = 'OOP! You have to login';
+        const login = 'oop! You have to login';
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else if (data.errors) {

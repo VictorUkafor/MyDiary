@@ -1,9 +1,9 @@
-
-function displayErrorInFields(errors, field) {
-  document.getElementById(`${field}Error`).innerHTML = `<h1 class="errorField">${errors[field]}</h1>`;
+const displayErrorInFields = (errors, field) => {
+  document.getElementById(`${field}Error`).innerHTML =
+  `<h1 class="errorField">${errors[field]}</h1>`;
 }
 
-function processLogIn() {
+const processLogIn = () => {
   const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/auth/login';
   const email = document.forms.signIn.email.value;
   const password = document.forms.signIn.password.value;
@@ -30,8 +30,8 @@ function processLogIn() {
             }
           });
         } else {
-          document.getElementById('errorMessage').innerHTML
-                 = `<h1 class="errorField">${data.errors}</h1>`;
+          document.getElementById('errorMessage').innerHTML =
+          `<h1 class="errorField">${data.errors}</h1>`;
         }
       } else if (data.message) {
         window.localStorage.setItem('entriesPage', 'default');

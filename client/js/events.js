@@ -1,4 +1,4 @@
-function indexPage() {
+const indexPage = () => {
   const token = localStorage.getItem('token');
   if (token) {
     window.localStorage.setItem('entriesPage', 'default');
@@ -8,19 +8,19 @@ function indexPage() {
   }
 }
 
-function signUpPage() {
+const signUpPage = () => {
   window.location.href = 'sign-up.html';
 }
 
-function signInPage() {
+const signInPage = () => {
   window.location.href = 'sign-in.html';
 }
 
-function addEntryPage() {
+const addEntryPage = () => {
   window.location.href = 'add-entry.html';
 }
 
-function setEntriesPage() {
+const setEntriesPage = () => {
   const search = document.forms.searchBar.search.value;
   window.localStorage.setItem('search', search);
   window.localStorage.setItem('page', 1);
@@ -28,57 +28,56 @@ function setEntriesPage() {
   window.location.href = 'all-entries.html';
 }
 
-function allEntriesPage() {
+const allEntriesPage = () => {
   window.localStorage.setItem('page', 1);
   window.localStorage.setItem('entriesPage', 'default');
   window.location.href = 'all-entries.html';
 }
 
-function modifyEntryPage() {
+const modifyEntryPage = () => {
   window.location.href = 'modify-entry.html';
 }
 
-function profilePage() {
+const profilePage = () => {
   window.location.href = 'profile.html';
 }
 
-function singleEntryPage() {
+const singleEntryPage = () => {
   window.location.href = 'single-entry.html';
 }
 
-
-function logOut() {
+const logOut = () => {
   window.localStorage.removeItem('token');
   window.localStorage.setItem('logout', 'You\'re now logged out!');
   window.location.href = 'sign-in.html';
 }
 
-function viewEntry(id) {
+const viewEntry = (id) => {
   window.localStorage.setItem('entryId', id);
   window.location.href = 'single-entry.html';
 }
 
-function modifyEntry(id) {
+const modifyEntry = (id) => {
   window.localStorage.setItem('entryId', id);
   window.location.href = 'modify-entry.html';
 }
 
-function deleteEntry(id) {
+const deleteEntry = (id) => {
   window.localStorage.setItem('entryId', id);
   processDeleteEntry();
 }
 
-function backwardNav(page){
-  window.localStorage.setItem('page', page-1);
+const backwardNav = (page) => {
+  window.localStorage.setItem('page', page - 1);
   window.location.href = 'all-entries.html';
 }
 
-function forwardNav(page){
-  window.localStorage.setItem('page', page+1);
+const forwardNav = (page) => {
+  window.localStorage.setItem('page', page + 1);
   window.location.href = 'all-entries.html';
 }
 
-function setPage(newpage) {
+const setPage = (newpage) => {
   window.localStorage.setItem('page', newpage);
   window.location.href = 'all-entries.html';
 }

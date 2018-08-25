@@ -222,7 +222,7 @@ export default class UserMiddleware {
 
     this.jwt.verify(token, this.env.SECRET_KEY, (err, authenticated) => {
       if (!authenticated) {
-        return res.status(500).send({
+        return res.status(401).send({
           authenticated: false, errors: 'You are not registered user!'
         });
       }
