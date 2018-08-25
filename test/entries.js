@@ -45,6 +45,47 @@ describe('MyDiary API Routes', () => {
     });
   });
 
+    // Testing for POST /api/v1/entries/search
+    describe('POST /api/v1/entries/search', () => {
+      it('Searches for entries', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', token)
+          .send({
+            search: 'It all',
+          })
+          .expect(200)
+          .end((err) => {
+            done(err);
+          });
+      });
+  
+      // User not authenticated to search for entries
+      it('User not authenticated to search for entries', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', '12376t567fryf')
+          .send({
+            search: 'It all',
+          })
+          .expect(401)
+          .end((err) => {
+            done(err);
+          });
+      });
+
+      // Entries not be found
+      it('Entries not be found', (done) => {
+        request.post('/api/v1/entries/search')
+          .set('authentication', token)
+          .send({
+            search: 'zzzzzzzzzzzzzzzzzz',
+          })
+          .expect(404)
+          .end((err) => {
+            done(err);
+          });
+      });      
+    });
+
   // Testing for GET /api/v1/entries/<entryId>
   describe('GET /api/v1/entries/<entryId>', () => {
     // Entry can not be found
@@ -196,6 +237,18 @@ describe('MyDiary API Routes', () => {
           done(err);
         });
     });
+  });
+  
+  // Testing for 'GET /api/v1/user'
+  describe('GET /api/v1/user', () => {
+    it('Returns user\'s profile', (done) => {
+      request.get('/api/v1/user')
+      .set('authentication', token)
+      .expect(200)
+      .end((err) => {
+        done(err);
+      });
+    }); 
   });
 });
 
