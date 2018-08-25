@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --require babel-register",
+    "test": "nyc --reporter=html --reporter=text mocha --exit --require babel-register",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "eslint": "eslint --fix ./",
     "showcoverage": "start coverage/lcov-report/index.html",
