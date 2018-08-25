@@ -1,6 +1,18 @@
 language: node_js
 node_js:
   - "7"
+addons:
+    code_climate: 
+        repo_token: 
+          secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
+env:
+  global:
+- DATABASE_DEV_URL=postgres://qvhrfhos:R92ZHmRTiUMwk2QQzHtUOx--lkbSHQch@elmer.db.elephantsql.com:5432/qvhrfhos
+- DATABASE_PRO_URL=postgres://azdnhfvg:xTpqBlzBTSy5YmR4pzEJwq6iYKqDYXVH@elmer.db.elephantsql.com:5432/azdnhfvg
+- DATABASE_TEST_URL=postgres://xegrhukp:Skght2ghy6Wp271pku4FGBK5rr5MpyaT@elmer.db.elephantsql.com:5432/xegrhukp
+- PORT=8000
+- SECRET_KEY=123@^udqSxzzSSC54*&_.HH
+- NODE_ENV=development
 before_script:
 - npm install
 - npm run schema
