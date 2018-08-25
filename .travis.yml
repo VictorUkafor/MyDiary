@@ -12,7 +12,7 @@ env:
 - DATABASE_TEST_URL=postgres://xegrhukp:Skght2ghy6Wp271pku4FGBK5rr5MpyaT@elmer.db.elephantsql.com:5432/xegrhukp
 - PORT=8000
 - SECRET_KEY=123@^udqSxzzSSC54*&_.HH
-- NODE_ENV=development
+- NODE_ENV=test
 before_script:
 - npm install
 - npm run schema
