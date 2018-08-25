@@ -2,7 +2,7 @@
 
 MyDiary is an online journal where users can pen down their thoughts and feelings.
 
-[![Build Status](https://travis-ci.org/VictorUkafor/MyDiary.svg?branch=travis)](https://travis-ci.org/VictorUkafor/MyDiary) [![Coverage Status](https://coveralls.io/repos/github/VictorUkafor/MyDiary/badge.svg?branch=travis)](https://coveralls.io/github/VictorUkafor/MyDiary?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/maintainability)](https://codeclimate.com/github/VictorUkafor/MyDiary/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/test_coverage)](https://codeclimate.com/github/VictorUkafor/MyDiary/test_coverage)
+[![Build Status](https://travis-ci.org/VictorUkafor/MyDiary.svg?branch=develop)](https://travis-ci.org/VictorUkafor/MyDiary) [![Coverage Status](https://coveralls.io/repos/github/VictorUkafor/MyDiary/badge.svg?branch=develop)](https://coveralls.io/github/VictorUkafor/MyDiary?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/maintainability)](https://codeclimate.com/github/VictorUkafor/MyDiary/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/47ae678c6a8d217ca7f3/test_coverage)](https://codeclimate.com/github/VictorUkafor/MyDiary/test_coverage)
 
 
 # Motivation
