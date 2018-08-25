@@ -1,4 +1,4 @@
-function processDeleteEntry() {
+const processDeleteEntry = () => {
   const entryId = localStorage.getItem('entryId');
   const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${entryId}`;
   const token = localStorage.getItem('token');

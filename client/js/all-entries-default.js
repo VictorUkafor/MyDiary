@@ -1,4 +1,4 @@
-function getAllEntriesDefault() {
+const getAllEntriesDefault = () => {
   const page = localStorage.getItem('page');
   const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries?page=${page}`;
   const token = localStorage.getItem('token');
@@ -20,22 +20,22 @@ function getAllEntriesDefault() {
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else if (data.message) {
-        document.getElementById('successMessage').innerHTML =
-               `<h1 class="successField">${deleteEntry}</h1>`;
+        document.getElementById('successMessage').innerHTML = 
+        `<h1 class="successField">${deleteEntry}</h1>`;
 
         if (deleteEntry === null) {
           document.getElementById('successMessage').innerHTML =
-             `<h1 class="successField">${data.message}</h1>`;
+          `<h1 class="successField">${data.message}</h1>`;
         }
       } else {
         if (addEntry) {
           document.getElementById('successMessage').innerHTML =
-               `<h1 class="successField">${addEntry}</h1>`;
+          `<h1 class="successField">${addEntry}</h1>`;
         }
 
         if (deleteEntry) {
           document.getElementById('successMessage').innerHTML =
-                   `<h1 class="successField">${deleteEntry}</h1>`;
+          `<h1 class="successField">${deleteEntry}</h1>`;
         }
 
         document.getElementById('search').innerHTML = searchField;

@@ -1,4 +1,4 @@
-function oneEntry(entry) {
+const oneEntry = (entry) => {
   return `${'<div class="entry-container">' +
     '<div class="entry-body"><h1 class="entry-h1">'}${entry.title}</h1>` +
     `<hr class="entry-hr"/><p class="entryP">${entry.content}</p></div>` +
@@ -7,7 +7,7 @@ function oneEntry(entry) {
     '</div>';
 }
 
-function getEntry() {
+const getEntry = () => {
   const entryId = localStorage.getItem('entryId');
   const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${entryId}`;
   const token = localStorage.getItem('token');
@@ -24,13 +24,13 @@ function getEntry() {
     .then(res => res.json())
     .then((data) => {
       if (data.authenticated === false || data.errors) {
-        const login = 'OOP! You have to login';
+        const login = 'oop! You have to login';
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else {
         if (modifyEntry) {
           document.getElementById('successMessage').innerHTML =
-                 `<h1 class="successField">${modifyEntry}</h1>`;
+          `<h1 class="successField">${modifyEntry}</h1>`;
         }
         document.getElementById('single-entry').innerHTML += oneEntry(data);
         window.localStorage.removeItem('modifyEntry');

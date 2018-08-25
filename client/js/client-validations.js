@@ -1,7 +1,5 @@
-
 // onSumbit event for signup form
-
-function validateSignUpForm() {
+const validateSignUpForm = () => {
   const firstName = document.forms.signUp.firstName.value;
   const lastName = document.forms.signUp.lastName.value;
   const email = document.forms.signUp.email.value;
@@ -81,18 +79,13 @@ function validateSignUpForm() {
   }
 
   return false;
-
-
-  return false;
 }
 
 
 // onSumbit event for signin form
-
-function validateSignInForm() {
+const validateSignInForm = () => {
   const email = document.forms.signIn.email.value;
   const password = document.forms.signIn.password.value;
-  console.log(email);
 
   document.getElementById('emailError').innerHTML = '';
   document.getElementById('passwordError').innerHTML = '';
@@ -114,15 +107,11 @@ function validateSignInForm() {
   }
 
   return false;
-
-
-  return false;
 }
 
 
 // onSumbit event for add entry  form
-
-function validateAddEntryForm() {
+const validateAddEntryForm = () => {
   const entryContent = document.forms.addEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
@@ -135,14 +124,12 @@ function validateAddEntryForm() {
 
     return false;
   }
+
   return processAddEntry();
-
-
-  return false;
 }
 
 
-function validateModifyEntryForm() {
+const validateModifyEntryForm = () => {
   const entryContent = document.forms.modifyEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
@@ -155,9 +142,7 @@ function validateModifyEntryForm() {
 
     return false;
   }
+  
   return processModifyEntry();
-
-
-  return false;
 }
 

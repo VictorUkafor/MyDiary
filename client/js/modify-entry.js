@@ -1,4 +1,4 @@
-function modifyEntry() {
+const modifyEntry = () => {
   const entryId = localStorage.getItem('entryId');
   const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${entryId}`;
   const token = localStorage.getItem('token');
@@ -14,7 +14,7 @@ function modifyEntry() {
     .then(res => res.json())
     .then((data) => {
       if (data.authenticated === false || data.errors) {
-        const login = 'OOP! You have to login';
+        const login = 'oop! You have to login';
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else {
@@ -32,7 +32,7 @@ function modifyEntry() {
 modifyEntry();
 
 
-function processModifyEntry() {
+const processModifyEntry = () => {
   const entryId = localStorage.getItem('entryId');
   const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${entryId}`;
   const token = localStorage.getItem('token');
@@ -54,12 +54,12 @@ function processModifyEntry() {
     .then(res => res.json())
     .then((data) => {
       if (data.authenticated === false) {
-        const login = 'OOP! You have to login';
+        const login = 'oop! You have to login';
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else if (data.errors) {
         document.getElementById('errorMessage').innerHTML =
-            `<h1 class="errorField">${data.errors}</h1>`;
+        `<h1 class="errorField">${data.errors}</h1>`;
       } else {
         window.localStorage.setItem('modifyEntry', data.success);
         window.location.href = 'single-entry.html';

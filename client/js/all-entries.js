@@ -3,8 +3,7 @@ const searchField = '<div class="search-box">' +
  '<input name="search" type="text" class="search-field" placeholder="Enter your term . . .">' +
  '</div><button onclick="setEntriesPage()" type="submit" class="search-button">Search</button></form></div>';
 
-
-function navBackward(page) {
+const navBackward = (page) => {
   if (page === '1') {
     return '';
   }
@@ -12,7 +11,7 @@ function navBackward(page) {
    class="pagination-link first-page"><<</button>`;
 }
 
-function navForward(page, total) {
+const navForward = (page, total) => {
   const lastPage = total / 5;
   if (lastPage > page) {
     return `<button onclick="forwardNav(${page})" type="submit"
@@ -21,8 +20,7 @@ function navForward(page, total) {
   return '';
 }
 
-
-function pagination(page, total) {
+const pagination = (page, total) => {
   let pagPage = '';
   let counter = 0;
   let active = '';
@@ -41,8 +39,7 @@ function pagination(page, total) {
     </div>`;
 }
 
-
-function entryThumbnail(entry) {
+const entryThumbnail = (entry) => {
   let content = entry.content;
   if (entry.content.length > 100) {
     content = `${entry.content.substring(0, 20)} . . . Read More`;
@@ -56,7 +53,7 @@ function entryThumbnail(entry) {
     '</div>';
 }
 
-function getAllEntries() {
+const getAllEntries = () => {
   const welcome = localStorage.getItem('welcome');
   if (welcome) {
     document.getElementById('successMessage').innerHTML =

@@ -1,4 +1,4 @@
-function userProfile() {
+const userProfile = () => {
   const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/user';
   const token = localStorage.getItem('token');
 
@@ -14,7 +14,7 @@ function userProfile() {
     .then(res => res.json())
     .then((data) => {
       if (data.authenticated === false || data.errors) {
-        const login = 'OOP! You have to login';
+        const login = 'oop! You have to login';
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else {
