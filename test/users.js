@@ -6,13 +6,23 @@ import app from '..';
 
 const request = supertest(app);
 const connectionString = process.env.DATABASE_TEST_URL;
-const pool = new pg.Pool({ connectionString });
+const client = new pg.Client(connectionString);
+
+client.connect();
 
 describe('MyDiary API Routes', () => {
   before((done) => {
-    pool.connect((err, client, done) => {
-      client.query('TRUNCATE TABLE account CASCADE');
-    });
+    const beforeQuery = () => {
+      const query = `TRUNCATE TABLE account CASCADE`;
+      client.query(query, (err) => {
+        if (err) {
+          return err.message;
+        }
+        client.end();
+      }
+      );
+    };
+    beforeQuery();
     done();
   });
 

@@ -1,59 +1,74 @@
 import pg from 'pg';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import {} from 'dotenv/config';
 import supertest from 'supertest';
-import jwt from 'jsonwebtoken';
-import { expect } from 'chai';
-import bcrypt from 'bcrypt';
 import app from '..';
 
-const key = process.env.SECRET_KEY;
 const request = supertest(app);
-const connectionString = process.env.DATABASE_TEST_URL;
 const salt = bcrypt.genSaltSync(10);
-const password = bcrypt.hashSync('password', salt);
+const password = bcrypt.hashSync('password', salt)
+const connectionString = process.env.DATABASE_TEST_URL;
+const client = new pg.Client(connectionString);
 
+client.connect();
 
-let token;
-let entryId;
 describe('MyDiary API Routes', () => {
-// let token;
-// let entryId;
   before((done) => {
-    pg.connect(connectionString, (err, client, done) => {
-      client.query('TRUNCATE TABLE account CASCADE');
-      client.query('TRUNCATE TABLE entry')
-        .then(() => {
-          client.query(`INSERT INTO account(firstName, lastName, email, password) 
-          values($1, $2, $3, $4)`, ['Ken', 'David', 'kendavid1@gmail.com', password]);
-          client.query('SELECT * FROM account WHERE email=($1);', ['kendavid1@gmail.com'])
-            .then((user) => {
-              const userId = user.rows[0].user_id;
-              client.query(`INSERT INTO entry(entry_user_id, title, content) 
-              values('${userId}', 'My first day at Bootcamp', 'It all started when . . .')`);
-              client.query('SELECT * FROM entry WHERE entry_user_id=($1);', [userId])
-                .then((entry) => {
-                  entryId = entry.rows[0].entry_id;
-                  token = jwt.sign({ user_id: user.user_id }, key, { expiresIn: 60 * 60 });
-                  console.log('tokennnnnnnnn', token);
-                  console.log('entryIddddd', entryId);
-                }).catch((err) => {
-                  console.log(err);
-                });
-            }).catch((err) => {
-              console.log(err);
-            });
-        }).catch((err) => {
-          console.log(err);
-        });
-    });
+    const beforeQueries = () => {
+      const queries = `
+      DROP TABLE IF EXISTS account CASCADE;
+      
+      DROP TABLE IF EXISTS entry CASCADE;
+      
+      CREATE TABLE IF NOT EXISTS account (
+        user_id SERIAL PRIMARY KEY, 
+        firstName VARCHAR(255) NOT NULL,
+        lastName VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        photograph VARCHAR(255),
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW() );
+        
+        CREATE TABLE IF NOT EXISTS entry (
+          entry_id SERIAL PRIMARY KEY,
+          entry_user_id INTEGER NOT NULL,
+          title VARCHAR(255) NOT NULL,
+          content text NOT NULL,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          FOREIGN KEY (entry_user_id) REFERENCES account (user_id) );
+          
+          INSERT INTO account (firstName, lastName, email,
+          password) values('Kenny', 'Andrew', 'kenandrew@gmail.com', '${password}' );
+          
+          INSERT INTO entry (entry_user_id, title, content) values 
+          ('1', 'It all started when', 'It all started when I was still  . . .' );` 
+
+          client.query(queries, (err) => {
+            if (err) {
+              return err.message;
+            }
+            client.end();
+          }
+          );
+        };
+        beforeQueries();
     done();
   });
 
+  
+  const entryId = 1;
+  const token = jwt.sign({ user_id: '1' },
+    process.env.SECRET_KEY, { expiresIn: 60 * 60 }
+  );
+
+console.log(password);
+console.log(token);
 
   // Testing for GET /api/v1/entries
   describe('GET /api/v1/entries', () => {
-    console.log('token', token);
-    console.log('entryId', entryId);
     it('Gets all entries', (done) => {
       request.get('/api/v1/entries')
         .set('authentication', token)
@@ -63,20 +78,11 @@ describe('MyDiary API Routes', () => {
         });
     });
 
-    it('Gets all entries', (done) => {
-      request.get('/api/v1/entries')
-        .set('authentication', token)
-        .expect(200)
-        .end((err) => {
-          done(err);
-        });
-    });
-
-    // User cannot be found
-    it('Entries cannot be found', (done) => {
+    // User not authenticated to view entries
+    it('User not authenticated to view entries', (done) => {
       request.get('/api/v1/entries')
         .set('authentication', '12376t567fryf')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -97,7 +103,7 @@ describe('MyDiary API Routes', () => {
 
     // Gets a single entry
     it('Gets a single entry', (done) => {
-      request.get(`/api/v1/entries/${entryId}`)
+      request.get(`/api/v1/entries/1`)
         .set('authentication', token)
         .expect(200)
         .end((err) => {
@@ -109,7 +115,7 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to view an entry', (done) => {
       request.get(`/api/v1/entries/${entryId}`)
         .set('authentication', 'token')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -150,7 +156,10 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to post an entry', (done) => {
       request.post('/api/v1/entries')
         .set('authentication', '165575gvfcghc')
-        .expect(404)
+        .send({
+          content: 'My first bootcamp experience'
+        })
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -192,7 +201,7 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to modify an entry', (done) => {
       request.put(`/api/v1/entries/${entryId}`)
         .set('authentication', 'NBCFNDB34Y7B')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
@@ -226,11 +235,12 @@ describe('MyDiary API Routes', () => {
     it('User not authenticated to delete an entry', (done) => {
       request.delete(`/api/v1/entries/${entryId}`)
         .set('authentication', '376gdbjyh')
-        .expect(404)
+        .expect(401)
         .end((err) => {
           done(err);
         });
     });
   });
+  
 });
 
