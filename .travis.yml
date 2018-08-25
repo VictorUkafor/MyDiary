@@ -1,18 +1,9 @@
 language: node_js
 node_js:
   - "7"
-addons:
-    code_climate: 
-        repo_token: 
-          secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
-env:
-global:
-- export NODE_ENV=test  
 before_script:
-- psql -c 'create database mydiary_dev;' -U postgres
-- npm run schema
 - npm install
-- npm install codeclimate-test-reporter istanbul -g
+- npm run schema
 script:
 - npm test
 after_script:
