@@ -6,7 +6,31 @@ addons:
         repo_token: 
         secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
 services:
+  - postgresql          language: node_js
+node_js:
+  - "7"
+addons:
+    code_climate: 
+        repo_token: 
+        secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
+services:
   - postgresql          
+env:
+  global:
+    - NODE_ENV=test
+    - DATABASE_TEST_URL=postgresql://postgres:@localhost:5432/mydiary_test
+install:
+  - npm install
+before_script:
+  - psql -c 'drop database if exists mydiary_test;' -U postgres
+  - psql -c 'create database mydiary_test;' -U postgres
+  - npm run schema
+script:
+  - npm test
+after_script:
+  - codeclimate-test-reporter < ./coverage/Icov.info
+notifications:
+    email: false
 env:
   global:
     - NODE_ENV=test
