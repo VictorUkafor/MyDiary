@@ -22,10 +22,10 @@ before_script:
   - npm run schema
 script:
   - cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-lcov npm test
-  - npm test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - codeclimate-test-reporter < ./coverage/Icov.info
+  - "npm install coveralls && cat ./coverage/lcov.info | coveralls"
 notifications:
     email: false
 
