@@ -6,17 +6,17 @@ addons:
         repo_token: 
         secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
 services:
-- postgresql          
+  - postgresql          
 env:
   global:
-- NODE_ENV=test
+    - NODE_ENV=test
 before_script:
-- npm install
-- npm run schema
+  - npm install
+  - npm run schema
 script:
-- npm test
+  - npm test
 after_script:
   - codeclimate-test-reporter < ./coverage/Icov.info
 notifications:
-  email: false 
+    email: false 
 
