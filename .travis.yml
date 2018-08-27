@@ -13,7 +13,6 @@ env:
     - NODE_ENV=test
     - DATABASE_TEST_URL=postgresql://postgres:@localhost:5432/mydiary_test
 before_script:
-  - yarn global add nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
