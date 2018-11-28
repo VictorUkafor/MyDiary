@@ -27,7 +27,7 @@ const modifyEntry = () => {
     });
 
   return false;
-}
+};
 
 modifyEntry();
 
@@ -70,4 +70,4 @@ const processModifyEntry = () => {
     });
 
   return false;
-}
+};

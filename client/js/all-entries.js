@@ -9,7 +9,7 @@ const navBackward = (page) => {
   }
   return `<button onclick="backwardNav(${page})" type="submit"
    class="pagination-link first-page"><<</button>`;
-}
+};
 
 const navForward = (page, total) => {
   const lastPage = total / 5;
@@ -18,7 +18,7 @@ const navForward = (page, total) => {
      class="pagination-link first-page">>></button>`;
   }
   return '';
-}
+};
 
 const pagination = (page, total) => {
   let pagPage = '';
@@ -37,7 +37,7 @@ const pagination = (page, total) => {
   return `<div class="pagination">
   ${navBackward(page)}${pagPage}${navForward(page, total)}
     </div>`;
-}
+};
 
 const entryThumbnail = (entry) => {
   let content = entry.content;
@@ -51,7 +51,7 @@ const entryThumbnail = (entry) => {
     `<button onclick="modifyEntry(${entry.entry_id})"  type="submit" class="form-button button2">Modify</button>` +
     `<button onclick="deleteEntry(${entry.entry_id})" type="submit" class="form-button button2">Delete</button>` +
     '</div>';
-}
+};
 
 const getAllEntries = () => {
   const welcome = localStorage.getItem('welcome');
@@ -67,6 +67,6 @@ const getAllEntries = () => {
     return getAllEntriesBySearch();
   }
   return getAllEntriesDefault();
-}
+};
 
 getAllEntries();

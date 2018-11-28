@@ -1,11 +1,9 @@
-const oneEntry = (entry) => {
-  return `${'<div class="entry-container">' +
+const oneEntry = entry => `${'<div class="entry-container">' +
     '<div class="entry-body"><h1 class="entry-h1">'}${entry.title}</h1>` +
     `<hr class="entry-hr"/><p class="entryP">${entry.content}</p></div>` +
     `<button onclick="modifyEntry(${entry.entry_id})"  type="submit" class="form-button button2">Modify</button>` +
     `<button onclick="deleteEntry(${entry.entry_id})" type="submit" class="form-button button2">Delete</button>` +
     '</div>';
-}
 
 const getEntry = () => {
   const entryId = localStorage.getItem('entryId');
@@ -41,6 +39,6 @@ const getEntry = () => {
     });
 
   return false;
-}
+};
 
 getEntry();

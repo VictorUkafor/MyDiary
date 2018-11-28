@@ -22,7 +22,7 @@ const getAllEntriesBySearch = () => {
         window.localStorage.setItem('login', login);
         window.location.href = 'sign-in.html';
       } else if (data.message) {
-        document.getElementById('successMessage').innerHTML = 
+        document.getElementById('successMessage').innerHTML =
         `<h1 class="successField">${deleteEntry}</h1>`;
 
         if (deleteEntry === null) {
@@ -51,4 +51,4 @@ const getAllEntriesBySearch = () => {
     });
 
   return false;
-}
+};

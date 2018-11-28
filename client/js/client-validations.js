@@ -79,7 +79,7 @@ const validateSignUpForm = () => {
   }
 
   return false;
-}
+};
 
 
 // onSumbit event for signin form
@@ -107,7 +107,7 @@ const validateSignInForm = () => {
   }
 
   return false;
-}
+};
 
 
 // onSumbit event for add entry  form
@@ -126,7 +126,7 @@ const validateAddEntryForm = () => {
   }
 
   return processAddEntry();
-}
+};
 
 
 const validateModifyEntryForm = () => {
@@ -142,7 +142,7 @@ const validateModifyEntryForm = () => {
 
     return false;
   }
-  
+
   return processModifyEntry();
-}
+};
 

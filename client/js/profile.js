@@ -34,6 +34,6 @@ const userProfile = () => {
     });
 
   return false;
-}
+};
 
 userProfile();

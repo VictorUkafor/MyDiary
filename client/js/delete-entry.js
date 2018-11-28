@@ -30,4 +30,4 @@ const processDeleteEntry = () => {
     });
 
   return false;
-}
+};

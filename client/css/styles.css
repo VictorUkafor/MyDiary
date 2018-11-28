@@ -1141,7 +1141,7 @@ footer{
 }
 
 
-@media screen and (min-width:1280px) and (max-width:1300px) {
+/* @media screen and (min-width:1280px) and (max-width:1300px) {
 
     .landing{
         padding-top: 0px;
@@ -1160,9 +1160,9 @@ footer{
     }
 
     .image-ad img{
-        width: 600px;
+        width: 400px;
         margin-left: 3%;
-        margin-top: 210px;
+        margin-top: 200px;
         margin-bottom: -165px;
     }
 
@@ -1187,7 +1187,7 @@ footer{
     }
 
     
-}
+} */
 
 
 @media screen and (min-width:1440px){

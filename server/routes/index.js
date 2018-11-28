@@ -10,7 +10,7 @@ import DatabaseMiddleware from '../middlewares/database-middlewares';
 import UserMidddleware from '../middlewares/user-middlewares';
 import EntryMiddleware from '../middlewares/entry-middlewares';
 
-const env = process.env;
+const { env } = process;
 const apiRouter = express.Router();
 const user = new UserController(jwt, bcrypt, env, queries);
 const entry = new EntryController(queries);

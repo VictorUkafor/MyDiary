@@ -36,4 +36,4 @@ const processAddEntry = () => {
     });
 
   return false;
-}
+};
