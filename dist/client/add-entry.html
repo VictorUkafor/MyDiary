@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0"/>
+  <meta name="keywords" content=""/>
+  <meta name="description" content="Add a new entry"/>
+  <title>MyDiary - Add Entry </title>
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a onclick="indexPage()">
+            <h1 class="logo-text"><img src="images/logo.png" class="logo-image" />
+            My<span class="text2">Diary</span><h1>                
+            </a>
+        </div>
+        <ul class="side-button">
+            
+            <li><a onclick="allEntriesPage()"><input type="submit" class="sign-in" value="All Entries"/></a></li>
+            <li><a onclick="profilePage()"><input type="submit" class="sign-in my-profile-button" value="My Profile"/></a></li>
+            <li><a onclick="logOut()"><input type="submit" class="sign-in my-profile-button" value="Log Out"/></a></li>
+        </ul>
+    </header>
+    <div class="body">
+
+        <h1 class="page-header">Add an Entry</h1>
+
+        <form method="POST" name="addEntry" class="signup-form add-entry" >
+            <div id="errorMessage"></div>
+            <div class="form-group">
+              <label  class="input-label" for="Title">Title</label>
+              <input name="title" type="text" class="form-field form-field-2" id="Title" placeholder="Entry title here . . .">
+            </div>
+            <div class="form-group">
+              <label  class="input-label" for="Entry_content">Entry Content</label>
+              <textarea name="content" height="50px" class="form-field form-field-textarea" id="Entry_content" placeholder="Enter your thought . . ."></textarea>
+              <div id="entryContentError"></div>
+            </div>
+            <input type="button" class="form-button" value="Save Entry" onclick="validateAddEntryForm();"/>
+          </form>
+    </div>
+
+
+<footer>
+        <div class="p copyright">
+                Copyright (c) 2018 &nbsp; MyDiary &nbsp; All Rights Reserved &nbsp; |  &nbsp;
+                  Designed & Developed by Victor Ukafor
+        </div>
+</footer>
+  <script type="text/javascript" src="js/client-validations.js"></script>
+  <script type="text/javascript" src="js/events.js"></script>
+  <script type="text/javascript" src="js/add-entry.js"></script>
+</body>
+</html>
+   
