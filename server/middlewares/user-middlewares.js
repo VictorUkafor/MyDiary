@@ -115,7 +115,7 @@ export default class UserMiddleware {
 
 
     if (Object.keys(errors).length > 0) {
-      return res.status(400).send({ errors });
+      return res.status(400).send({ errors: 'All fields must be filled' });
     }
     next();
   }
@@ -163,7 +163,7 @@ export default class UserMiddleware {
     this.emailIsValid(req, errors);
 
     if (Object.keys(errors).length > 0) {
-      res.status(400).send({ errors });
+      res.status(400).send({ errors: 'Both fields must be filled' });
     } else {
       next();
     }
