@@ -1,12 +1,12 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 /**
  * @fileOverview this JS file contains logic for database middleware methods
@@ -20,7 +20,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class DatabaseMiddleware
   *
   */
-var DatabaseMiddleware = function () {
+const DatabaseMiddleware = (function () {
   /**
     *  constructor
     *  Takes 2 parameters
@@ -50,15 +50,15 @@ var DatabaseMiddleware = function () {
 
   _createClass(DatabaseMiddleware, [{
     key: 'handlesConnectionToTheDatabase',
-    value: function () {
+    value: (function () {
       function handlesConnectionToTheDatabase(req, res, next) {
-        var connectionString = this.env.DATABASE_DEV_URL;
+        let connectionString = this.env.DATABASE_DEV_URL;
         if (this.env.NODE_ENV === 'test') {
           connectionString = this.env.DATABASE_TEST_URL;
         }
-        var pool = new this.pg.Pool({ connectionString: connectionString });
+        const pool = new this.pg.Pool({ connectionString });
 
-        pool.connect(function (err, client, done) {
+        pool.connect((err, client, done) => {
           if (err) {
             done();
             return res.status(500).send({
@@ -73,11 +73,11 @@ var DatabaseMiddleware = function () {
       }
 
       return handlesConnectionToTheDatabase;
-    }()
+    }())
   }]);
 
   return DatabaseMiddleware;
-}();
+}());
 
-exports['default'] = DatabaseMiddleware;
-//# sourceMappingURL=database-middlewares.js.map
+exports.default = DatabaseMiddleware;
+// # sourceMappingURL=database-middlewares.js.map

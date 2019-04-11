@@ -1,12 +1,12 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 /**
  * @fileOverview this JS file contains logic for user's APIs logic
@@ -22,7 +22,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class UserController
   *
   */
-var UserController = function () {
+const UserController = (function () {
   /**
     *  constructor
     *  Takes 3 parameters
@@ -58,20 +58,20 @@ var UserController = function () {
 
   _createClass(UserController, [{
     key: 'postUser',
-    value: function () {
+    value: (function () {
       function postUser(req, res) {
-        var salt = this.bcrypt.genSaltSync(10);
-        var registeredUser = [];
-        var addUser = this.queries.insertUser(req, salt, this.bcrypt);
+        const salt = this.bcrypt.genSaltSync(10);
+        const registeredUser = [];
+        const addUser = this.queries.insertUser(req, salt, this.bcrypt);
 
-        addUser.on('row', function (row) {
+        addUser.on('row', (row) => {
           registeredUser.push(row);
         });
-        addUser.on('end', function () {
+        addUser.on('end', () => {
           req.done();
           if (addUser) {
             return res.status(201).send({
-              success: 'User registered successfully', registeredUser: registeredUser
+              success: 'User registered successfully', registeredUser
             });
           }
 
@@ -82,7 +82,7 @@ var UserController = function () {
       }
 
       return postUser;
-    }()
+    }())
 
     /**
      *  An API for logging into the app
@@ -96,13 +96,13 @@ var UserController = function () {
 
   }, {
     key: 'loginUser',
-    value: function () {
+    value: (function () {
       function loginUser(req, res) {
-        var token = this.jwt.sign({ user_id: req.user.user_id }, this.env.SECRET_KEY, { expiresIn: 60 * 60 });
+        const token = this.jwt.sign({ user_id: req.user.user_id }, this.env.SECRET_KEY, { expiresIn: 60 * 60 });
 
         if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {
           res.status(200).send({
-            message: 'Welcome! ' + String(req.user.firstname) + ' ' + String(req.user.lastname), token: token
+            message: `Welcome! ${String(req.user.firstname)} ${String(req.user.lastname)}`, token
           });
         } else {
           res.status(404).send({ errors: 'Invalid email or password!' });
@@ -110,7 +110,7 @@ var UserController = function () {
       }
 
       return loginUser;
-    }()
+    }())
 
     /**
      *  An API for fetching a single user from the app
@@ -124,28 +124,28 @@ var UserController = function () {
 
   }, {
     key: 'getAUser',
-    value: function () {
+    value: (function () {
       function getAUser(req, res) {
-        var entries = [];
-        var getEntries = this.queries.getAllEntries(req);
+        const entries = [];
+        const getEntries = this.queries.getAllEntries(req);
 
-        getEntries.on('row', function (row) {
+        getEntries.on('row', (row) => {
           entries.push(row);
         });
         req.user.entries = entries;
 
-        getEntries.on('end', function () {
+        getEntries.on('end', () => {
           req.done();
           return res.status(200).send(req.user);
         });
       }
 
       return getAUser;
-    }()
+    }())
   }]);
 
   return UserController;
-}();
+}());
 
-exports['default'] = UserController;
-//# sourceMappingURL=users.js.map
+exports.default = UserController;
+// # sourceMappingURL=users.js.map

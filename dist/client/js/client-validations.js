@@ -1,13 +1,13 @@
-'use strict';
+
 
 // onSumbit event for signup form
-var validateSignUpForm = function validateSignUpForm() {
-  var firstName = document.forms.signUp.firstName.value;
-  var lastName = document.forms.signUp.lastName.value;
-  var email = document.forms.signUp.email.value;
-  var password = document.forms.signUp.password.value;
-  var confirmPassword = document.forms.signUp.confirm_password.value;
-  var photograph = document.forms.signUp.photograph.value;
+const validateSignUpForm = function validateSignUpForm() {
+  const firstName = document.forms.signUp.firstName.value;
+  const lastName = document.forms.signUp.lastName.value;
+  const email = document.forms.signUp.email.value;
+  const password = document.forms.signUp.password.value;
+  const confirmPassword = document.forms.signUp.confirm_password.value;
+  const photograph = document.forms.signUp.photograph.value;
 
   document.getElementById('firstNameError').innerHTML = '';
   document.getElementById('lastNameError').innerHTML = '';
@@ -23,49 +23,49 @@ var validateSignUpForm = function validateSignUpForm() {
   }
 
   if (firstName.trim() === '') {
-    var firstNameError = 'First Name field is required';
-    document.getElementById('firstNameError').innerHTML = '<h1 class="errorField">' + firstNameError + '</h1>';
+    const firstNameError = 'First Name field is required';
+    document.getElementById('firstNameError').innerHTML = `<h1 class="errorField">${firstNameError}</h1>`;
     document.getElementById('FirstName').value = '';
   }
 
   if (lastName.trim() === '') {
-    var lastNameError = 'Last Name field is required';
-    document.getElementById('lastNameError').innerHTML = '<h1 class="errorField">' + lastNameError + '</h1>';
+    const lastNameError = 'Last Name field is required';
+    document.getElementById('lastNameError').innerHTML = `<h1 class="errorField">${lastNameError}</h1>`;
     document.getElementById('LastName').value = '';
   }
 
   if (email.trim() === '') {
-    var emailError = 'Email field is required';
-    document.getElementById('emailError').innerHTML = '<h1 class="errorField">' + emailError + '</h1>';
+    const emailError = 'Email field is required';
+    document.getElementById('emailError').innerHTML = `<h1 class="errorField">${emailError}</h1>`;
     document.getElementById('Email').value = '';
   }
 
   if (password.trim() === '') {
-    var passwordError = 'Password field is required';
-    document.getElementById('passwordError').innerHTML = '<h1 class="errorField">' + passwordError + '</h1>';
+    const passwordError = 'Password field is required';
+    document.getElementById('passwordError').innerHTML = `<h1 class="errorField">${passwordError}</h1>`;
     document.getElementById('Password1').value = '';
   }
 
   if (confirmPassword.trim() === '') {
-    var confirmPasswordError = 'Confirm Password field is required';
-    document.getElementById('confirm_passwordError').innerHTML = '<h1 class="errorField">' + confirmPasswordError + '</h1>';
+    const confirmPasswordError = 'Confirm Password field is required';
+    document.getElementById('confirm_passwordError').innerHTML = `<h1 class="errorField">${confirmPasswordError}</h1>`;
     document.getElementById('Password2').value = '';
   }
 
   if (password.trim() !== '' && confirmPassword.trim() !== '') {
     if (password !== confirmPassword) {
-      var confirmPasswordError1 = 'Passwords do not match';
-      document.getElementById('confirm_passwordError').innerHTML = '<h1 class="errorField">' + confirmPasswordError1 + '</h1>';
+      const confirmPasswordError1 = 'Passwords do not match';
+      document.getElementById('confirm_passwordError').innerHTML = `<h1 class="errorField">${confirmPasswordError1}</h1>`;
       document.getElementById('Password2').value = '';
     }
   }
 
-  var fileExt = photograph.split('.').pop();
+  const fileExt = photograph.split('.').pop();
 
   if (photograph) {
     if (fileExt !== 'jpg' && fileExt !== 'png' && fileExt !== 'jpeg' && fileExt !== 'gif') {
-      var photographError = 'File must be an image';
-      document.getElementById('photographError').innerHTML = '<h1 class="errorField">' + photographError + '</h1>';
+      const photographError = 'File must be an image';
+      document.getElementById('photographError').innerHTML = `<h1 class="errorField">${photographError}</h1>`;
       document.getElementById('photograph').value = '';
     }
   }
@@ -74,9 +74,9 @@ var validateSignUpForm = function validateSignUpForm() {
 };
 
 // onSumbit event for signin form
-var validateSignInForm = function validateSignInForm() {
-  var email = document.forms.signIn.email.value;
-  var password = document.forms.signIn.password.value;
+const validateSignInForm = function validateSignInForm() {
+  const email = document.forms.signIn.email.value;
+  const password = document.forms.signIn.password.value;
 
   document.getElementById('emailError').innerHTML = '';
   document.getElementById('passwordError').innerHTML = '';
@@ -86,14 +86,14 @@ var validateSignInForm = function validateSignInForm() {
   }
 
   if (email.trim() === '') {
-    var emailError = 'Email field is required';
-    document.getElementById('emailError').innerHTML = '<h1 class="errorField">' + emailError + '</h1>';
+    const emailError = 'Email field is required';
+    document.getElementById('emailError').innerHTML = `<h1 class="errorField">${emailError}</h1>`;
     document.getElementById('Email').value = '';
   }
 
   if (password.trim() === '') {
-    var passwordError = 'Password field is required';
-    document.getElementById('passwordError').innerHTML = '<h1 class="errorField">' + passwordError + '</h1>';
+    const passwordError = 'Password field is required';
+    document.getElementById('passwordError').innerHTML = `<h1 class="errorField">${passwordError}</h1>`;
     document.getElementById('Password1').value = '';
   }
 
@@ -101,14 +101,14 @@ var validateSignInForm = function validateSignInForm() {
 };
 
 // onSumbit event for add entry  form
-var validateAddEntryForm = function validateAddEntryForm() {
-  var entryContent = document.forms.addEntry.content.value;
+const validateAddEntryForm = function validateAddEntryForm() {
+  const entryContent = document.forms.addEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
 
   if (entryContent.trim() === '') {
-    var entryContentError = 'You must some entry';
-    document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">' + entryContentError + '</h1>';
+    const entryContentError = 'You must some entry';
+    document.getElementById('entryContentError').innerHTML = `<h1 class="errorField">${entryContentError}</h1>`;
     document.getElementById('Entry_content').value = '';
 
     return false;
@@ -117,14 +117,14 @@ var validateAddEntryForm = function validateAddEntryForm() {
   return processAddEntry();
 };
 
-var validateModifyEntryForm = function validateModifyEntryForm() {
-  var entryContent = document.forms.modifyEntry.content.value;
+const validateModifyEntryForm = function validateModifyEntryForm() {
+  const entryContent = document.forms.modifyEntry.content.value;
 
   document.getElementById('entryContentError').innerHTML = '';
 
   if (entryContent.trim() === '') {
-    var entryContentError = 'You must some entry';
-    document.getElementById('entryContentError').innerHTML = '<h1 class="errorField">' + entryContentError + '</h1>';
+    const entryContentError = 'You must some entry';
+    document.getElementById('entryContentError').innerHTML = `<h1 class="errorField">${entryContentError}</h1>`;
     document.getElementById('Entry_content').value = '';
 
     return false;
@@ -132,4 +132,4 @@ var validateModifyEntryForm = function validateModifyEntryForm() {
 
   return processModifyEntry();
 };
-//# sourceMappingURL=client-validations.js.map
+// # sourceMappingURL=client-validations.js.map

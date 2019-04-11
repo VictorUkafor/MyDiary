@@ -1,10 +1,10 @@
-'use strict';
 
-var modifyEntry = function modifyEntry() {
-  var entryId = localStorage.getItem('entryId');
-  var url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + String(entryId);
-  var token = localStorage.getItem('token');
-  var dataForFetch = {
+
+const modifyEntry = function modifyEntry() {
+  const entryId = localStorage.getItem('entryId');
+  const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${String(entryId)}`;
+  const token = localStorage.getItem('token');
+  const dataForFetch = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -12,18 +12,16 @@ var modifyEntry = function modifyEntry() {
     }
   };
 
-  fetch(url, dataForFetch).then(function (res) {
-    return res.json();
-  }).then(function (data) {
+  fetch(url, dataForFetch).then(res => res.json()).then((data) => {
     if (data.authenticated === false || data.errors) {
-      var login = 'oop! You have to login';
+      const login = 'oop! You have to login';
       window.localStorage.setItem('login', login);
       window.location.href = 'sign-in.html';
     } else {
       document.getElementById('title').value = data.title;
       document.getElementById('Entry_content').value = data.content;
     }
-  })['catch'](function (error) {
+  }).catch((error) => {
     console.log(error);
   });
 
@@ -32,41 +30,39 @@ var modifyEntry = function modifyEntry() {
 
 modifyEntry();
 
-var processModifyEntry = function processModifyEntry() {
-  var entryId = localStorage.getItem('entryId');
-  var url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/' + String(entryId);
-  var token = localStorage.getItem('token');
-  var title = document.forms.modifyEntry.title.value;
-  var content = document.forms.modifyEntry.content.value;
+const processModifyEntry = function processModifyEntry() {
+  const entryId = localStorage.getItem('entryId');
+  const url = `https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/entries/${String(entryId)}`;
+  const token = localStorage.getItem('token');
+  const title = document.forms.modifyEntry.title.value;
+  const content = document.forms.modifyEntry.content.value;
 
   document.getElementById('errorMessage').innerHTML = '';
 
-  var dataForFetch = {
+  const dataForFetch = {
     method: 'PUT',
-    body: JSON.stringify({ title: title, content: content }),
+    body: JSON.stringify({ title, content }),
     headers: {
       'Content-Type': 'application/json',
       authentication: token
     }
   };
 
-  fetch(url, dataForFetch).then(function (res) {
-    return res.json();
-  }).then(function (data) {
+  fetch(url, dataForFetch).then(res => res.json()).then((data) => {
     if (data.authenticated === false) {
-      var login = 'oop! You have to login';
+      const login = 'oop! You have to login';
       window.localStorage.setItem('login', login);
       window.location.href = 'sign-in.html';
     } else if (data.errors) {
-      document.getElementById('errorMessage').innerHTML = '<h1 class="errorField">' + String(data.errors) + '</h1>';
+      document.getElementById('errorMessage').innerHTML = `<h1 class="errorField">${String(data.errors)}</h1>`;
     } else {
       window.localStorage.setItem('modifyEntry', data.success);
       window.location.href = 'single-entry.html';
     }
-  })['catch'](function (error) {
+  }).catch((error) => {
     console.log(error);
   });
 
   return false;
 };
-//# sourceMappingURL=modify-entry.js.map
+// # sourceMappingURL=modify-entry.js.map

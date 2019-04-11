@@ -1,12 +1,12 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 /**
  * @fileOverview this JS file contains logic for entry's APIs logic
@@ -20,7 +20,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class EntryController
   *
   */
-var EntryController = function () {
+const EntryController = (function () {
   /**
     *  constructor
     *
@@ -51,42 +51,42 @@ var EntryController = function () {
 
   _createClass(EntryController, [{
     key: 'getAllEntries',
-    value: function () {
+    value: (function () {
       function getAllEntries(req, res) {
-        var allEntries = [];
-        var allEntriesWithNoPag = [];
-        var page = parseInt(req.query.page, 10);
+        const allEntries = [];
+        const allEntriesWithNoPag = [];
+        let page = parseInt(req.query.page, 10);
 
         if (!req.query.page) {
           page = 1;
         }
         if (isNaN(page) || page === 0) {
           return res.status(400).send({
-            errors: 'You\'ve entered an invalid page: ' + String(req.query.page)
+            errors: `You've entered an invalid page: ${String(req.query.page)}`
           });
         }
 
-        var getEntries = this.queries.getEntriesWithPag(req, page);
-        var getEntriesWithNoPag = this.queries.getAllEntries(req);
+        const getEntries = this.queries.getEntriesWithPag(req, page);
+        const getEntriesWithNoPag = this.queries.getAllEntries(req);
 
-        getEntries.on('row', function (row) {
+        getEntries.on('row', (row) => {
           allEntries.push(row);
         });
-        getEntriesWithNoPag.on('row', function (row) {
+        getEntriesWithNoPag.on('row', (row) => {
           allEntriesWithNoPag.push(row);
         });
 
-        getEntries.on('end', function () {
+        getEntries.on('end', () => {
           req.done();
           if (allEntries.length === 0) {
             return res.status(404).send({ message: 'You have no entries yet!' });
           }
 
-          getEntriesWithNoPag.on('end', function () {
+          getEntriesWithNoPag.on('end', () => {
             req.done();
 
             return res.status(200).send({
-              allEntries: allEntries,
+              allEntries,
               total: allEntriesWithNoPag.length
             });
           });
@@ -94,7 +94,7 @@ var EntryController = function () {
       }
 
       return getAllEntries;
-    }()
+    }())
 
     /** An API for searching for specific entries:
     *  POST: api/v1/entries/search?page=pageNumber
@@ -110,11 +110,11 @@ var EntryController = function () {
 
   }, {
     key: 'searchEntries',
-    value: function () {
+    value: (function () {
       function searchEntries(req, res) {
-        var allEntries = [];
-        var allEntriesWithNoPag = [];
-        var page = parseInt(req.query.page, 10);
+        const allEntries = [];
+        const allEntriesWithNoPag = [];
+        let page = parseInt(req.query.page, 10);
 
         if (!req.query.page) {
           page = 1;
@@ -124,31 +124,31 @@ var EntryController = function () {
         }
         if (isNaN(page) || page === 0) {
           return res.status(400).send({
-            errors: 'You\'ve entered an invalid page: ' + String(req.query.page)
+            errors: `You've entered an invalid page: ${String(req.query.page)}`
           });
         }
 
-        var getEntries = this.queries.searchEntriesWithPag(req, page);
-        var getEntriesWithNoPag = this.queries.searchEntries(req);
+        const getEntries = this.queries.searchEntriesWithPag(req, page);
+        const getEntriesWithNoPag = this.queries.searchEntries(req);
 
-        getEntries.on('row', function (row) {
+        getEntries.on('row', (row) => {
           allEntries.push(row);
         });
-        getEntriesWithNoPag.on('row', function (row) {
+        getEntriesWithNoPag.on('row', (row) => {
           allEntriesWithNoPag.push(row);
         });
 
-        getEntries.on('end', function () {
+        getEntries.on('end', () => {
           req.done();
           if (allEntries.length === 0) {
             return res.status(404).send({ message: 'You have no entries yet!' });
           }
 
-          getEntriesWithNoPag.on('end', function () {
+          getEntriesWithNoPag.on('end', () => {
             req.done();
 
             return res.status(200).send({
-              allEntries: allEntries,
+              allEntries,
               total: allEntriesWithNoPag.length
             });
           });
@@ -156,7 +156,7 @@ var EntryController = function () {
       }
 
       return searchEntries;
-    }()
+    }())
 
     /** An API for fetching a single entries:
     *  GET: api/v1/entries/<entryId>
@@ -169,13 +169,13 @@ var EntryController = function () {
 
   }, {
     key: 'getEntry',
-    value: function () {
+    value: (function () {
       function getEntry(req, res) {
         return res.status(200).send(req.entry);
       }
 
       return getEntry;
-    }()
+    }())
 
     /** method for setting the title in postEntry method
     *  Takes 2 parameters
@@ -187,7 +187,7 @@ var EntryController = function () {
 
   }, {
     key: 'setTitle',
-    value: function () {
+    value: (function () {
       function setTitle(title, content) {
         if (!title) {
           return content.substring(0, 20);
@@ -196,7 +196,7 @@ var EntryController = function () {
       }
 
       return setTitle;
-    }()
+    }())
 
     /** An API for adding a new diary entry:
     *  POST: api/v1/entries
@@ -212,26 +212,26 @@ var EntryController = function () {
 
   }, {
     key: 'postEntry',
-    value: function () {
+    value: (function () {
       function postEntry(req, res) {
-        var title = '';
+        let title = '';
         if (req.body.title) {
           title = req.body.title.trim();
         }
-        var content = req.body.content.trim();
-        var newTitle = this.setTitle(title, content);
-        var newEntry = [];
-        var addEntry = this.queries.insertEntry(req, newTitle, content);
+        const content = req.body.content.trim();
+        const newTitle = this.setTitle(title, content);
+        const newEntry = [];
+        const addEntry = this.queries.insertEntry(req, newTitle, content);
 
-        addEntry.on('row', function (row) {
+        addEntry.on('row', (row) => {
           newEntry.push(row);
         });
 
-        addEntry.on('end', function () {
+        addEntry.on('end', () => {
           req.done();
           if (addEntry) {
             return res.status(201).send({
-              success: 'A new diary entry has been added successfully', newEntry: newEntry
+              success: 'A new diary entry has been added successfully', newEntry
             });
           }
 
@@ -242,7 +242,7 @@ var EntryController = function () {
       }
 
       return postEntry;
-    }()
+    }())
 
     /** method for setting the title in updateEntry method
     *  Takes 2 parameters
@@ -254,7 +254,7 @@ var EntryController = function () {
 
   }, {
     key: 'setTitleForUpdate',
-    value: function () {
+    value: (function () {
       function setTitleForUpdate(title, entry) {
         if (!title) {
           return entry.title;
@@ -263,7 +263,7 @@ var EntryController = function () {
       }
 
       return setTitleForUpdate;
-    }()
+    }())
 
     /** method for setting the content in updateEntry method
     *  Takes 2 parameters
@@ -275,7 +275,7 @@ var EntryController = function () {
 
   }, {
     key: 'setContentForUpdate',
-    value: function () {
+    value: (function () {
       function setContentForUpdate(content, entry) {
         if (!content) {
           return entry.content;
@@ -284,7 +284,7 @@ var EntryController = function () {
       }
 
       return setContentForUpdate;
-    }()
+    }())
 
     /** An API for modifying diary entry:
     *  POST: api/v1/entries/<entryId>
@@ -300,12 +300,12 @@ var EntryController = function () {
 
   }, {
     key: 'putEntry',
-    value: function () {
+    value: (function () {
       function putEntry(req, res) {
-        var updatedEntry = [];
+        const updatedEntry = [];
 
-        var title = '';
-        var content = '';
+        let title = '';
+        let content = '';
 
         if (req.body.title) {
           title = req.body.title.trim();
@@ -314,19 +314,19 @@ var EntryController = function () {
           content = req.body.content.trim();
         }
 
-        var titleUpdated = this.setTitleForUpdate(title, req.entry);
-        var contentUpdated = this.setContentForUpdate(content, req.entry);
-        var newDate = new Date();
-        var update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate);
+        const titleUpdated = this.setTitleForUpdate(title, req.entry);
+        const contentUpdated = this.setContentForUpdate(content, req.entry);
+        const newDate = new Date();
+        const update = this.queries.updateEntry(req, titleUpdated, contentUpdated, newDate);
 
-        update.on('row', function (row) {
+        update.on('row', (row) => {
           updatedEntry.push(row);
         });
-        update.on('end', function () {
+        update.on('end', () => {
           req.done();
           if (update) {
             return res.status(200).send({
-              success: 'The entry has been updated successfully', updatedEntry: updatedEntry
+              success: 'The entry has been updated successfully', updatedEntry
             });
           }
 
@@ -337,7 +337,7 @@ var EntryController = function () {
       }
 
       return putEntry;
-    }()
+    }())
 
     /** An API for deleting a diary entry:
     *  DELETE: api/v1/entries/<entryId>
@@ -353,9 +353,9 @@ var EntryController = function () {
 
   }, {
     key: 'deleteEntry',
-    value: function () {
+    value: (function () {
       function deleteEntry(req, res) {
-        var deleteEntry = this.queries.deleteEntry(req);
+        const deleteEntry = this.queries.deleteEntry(req);
 
         if (deleteEntry) {
           return res.status(200).send({
@@ -369,11 +369,11 @@ var EntryController = function () {
       }
 
       return deleteEntry;
-    }()
+    }())
   }]);
 
   return EntryController;
-}();
+}());
 
-exports['default'] = EntryController;
-//# sourceMappingURL=entries.js.map
+exports.default = EntryController;
+// # sourceMappingURL=entries.js.map

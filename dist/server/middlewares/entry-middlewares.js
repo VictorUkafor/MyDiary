@@ -1,12 +1,12 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 /**
  * @fileOverview this JS file contains logic for entry middleware methods
@@ -20,7 +20,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class EntryMiddleware
   *
   */
-var EntryMiddleware = function () {
+const EntryMiddleware = (function () {
   /**
     *  constructor
     *
@@ -43,7 +43,7 @@ var EntryMiddleware = function () {
 
   _createClass(EntryMiddleware, [{
     key: 'checksForAddEntryRequiredFields',
-    value: function () {
+    value: (function () {
       function checksForAddEntryRequiredFields(req, res, next) {
         if (!req.body.content || req.body.content.trim() === 0) {
           return res.status(400).send({
@@ -54,7 +54,7 @@ var EntryMiddleware = function () {
       }
 
       return checksForAddEntryRequiredFields;
-    }()
+    }())
 
     /**
      * A middleware method for checking if an entry exist
@@ -70,23 +70,23 @@ var EntryMiddleware = function () {
 
   }, {
     key: 'checksIfEntryExist',
-    value: function () {
+    value: (function () {
       function checksIfEntryExist(req, res, next) {
-        var entry = [];
-        var entryId = parseInt(req.params.entryId, 10);
+        const entry = [];
+        const entryId = parseInt(req.params.entryId, 10);
 
         if (isNaN(entryId)) {
           return res.status(400).send({
-            errors: 'You\'ve entered an invalid entryId: ' + String(req.params.entryId)
+            errors: `You've entered an invalid entryId: ${String(req.params.entryId)}`
           });
         }
-        var getEntry = this.queries.getAnEntry(req);
+        const getEntry = this.queries.getAnEntry(req);
 
-        getEntry.on('row', function (row) {
+        getEntry.on('row', (row) => {
           entry.push(row);
         });
 
-        getEntry.on('end', function () {
+        getEntry.on('end', () => {
           req.done();
           if (entry.length === 0) {
             return res.status(404).send({ errors: 'Entry can not be found!' });
@@ -98,7 +98,7 @@ var EntryMiddleware = function () {
       }
 
       return checksIfEntryExist;
-    }()
+    }())
 
     /**
      * A middleware method for checking if an entry can be updated
@@ -114,12 +114,12 @@ var EntryMiddleware = function () {
 
   }, {
     key: 'checksIfEntryCanBeUpdated',
-    value: function () {
+    value: (function () {
       function checksIfEntryCanBeUpdated(req, res, next) {
-        var twentyFourHoursInMins = 24 * 60;
-        var timeNow = new Date();
-        var timeDifferences = timeNow - req.entry.created_at;
-        var timeDifferencesInMins = timeDifferences / 60000;
+        const twentyFourHoursInMins = 24 * 60;
+        const timeNow = new Date();
+        const timeDifferences = timeNow - req.entry.created_at;
+        const timeDifferencesInMins = timeDifferences / 60000;
 
         if (timeDifferencesInMins > twentyFourHoursInMins) {
           return res.status(500).send({
@@ -131,11 +131,11 @@ var EntryMiddleware = function () {
       }
 
       return checksIfEntryCanBeUpdated;
-    }()
+    }())
   }]);
 
   return EntryMiddleware;
-}();
+}());
 
-exports['default'] = EntryMiddleware;
-//# sourceMappingURL=entry-middlewares.js.map
+exports.default = EntryMiddleware;
+// # sourceMappingURL=entry-middlewares.js.map

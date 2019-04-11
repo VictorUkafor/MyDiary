@@ -1,10 +1,10 @@
-'use strict';
 
-var userProfile = function userProfile() {
-  var url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/user';
-  var token = localStorage.getItem('token');
 
-  var dataForFetch = {
+const userProfile = function userProfile() {
+  const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/user';
+  const token = localStorage.getItem('token');
+
+  const dataForFetch = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -12,11 +12,9 @@ var userProfile = function userProfile() {
     }
   };
 
-  fetch(url, dataForFetch).then(function (res) {
-    return res.json();
-  }).then(function (data) {
+  fetch(url, dataForFetch).then(res => res.json()).then((data) => {
     if (data.authenticated === false || data.errors) {
-      var login = 'oop! You have to login';
+      const login = 'oop! You have to login';
       window.localStorage.setItem('login', login);
       window.location.href = 'sign-in.html';
     } else {
@@ -24,13 +22,13 @@ var userProfile = function userProfile() {
       if (data.photograph === '') {
         photo = 'no-image.png';
       }
-      document.getElementById('profile-image').src = 'images/users/' + String(photo);
+      document.getElementById('profile-image').src = `images/users/${String(photo)}`;
       document.getElementById('firstName').innerHTML = data.firstname;
       document.getElementById('lastName').innerHTML = data.lastname;
       document.getElementById('email').innerHTML = data.email;
       document.getElementById('numberOfEntries').innerHTML = data.entries.length;
     }
-  })['catch'](function (error) {
+  }).catch((error) => {
     console.log(error);
   });
 
@@ -38,4 +36,4 @@ var userProfile = function userProfile() {
 };
 
 userProfile();
-//# sourceMappingURL=profile.js.map
+// # sourceMappingURL=profile.js.map

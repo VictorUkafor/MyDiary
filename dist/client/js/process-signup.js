@@ -1,22 +1,22 @@
-'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var displayErrorInFields = function displayErrorInFields(errors, field) {
-  document.getElementById(String(field) + 'Error').innerHTML = '<h1 class="errorField">' + String(errors[field]) + '</h1>';
+const _typeof = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj; };
+
+const displayErrorInFields = function displayErrorInFields(errors, field) {
+  document.getElementById(`${String(field)}Error`).innerHTML = `<h1 class="errorField">${String(errors[field])}</h1>`;
 };
 
-var processSignUp = function processSignUp() {
-  var url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/auth/signup';
-  var firstName = document.forms.signUp.firstName.value;
-  var lastName = document.forms.signUp.lastName.value;
-  var email = document.forms.signUp.email.value;
-  var password = document.forms.signUp.password.value;
-  var confirm_password = document.forms.signUp.confirm_password.value;
-  var body = {
-    firstName: firstName, lastName: lastName, email: email, password: password, confirm_password: confirm_password
+const processSignUp = function processSignUp() {
+  const url = 'https://deploy-challenge3-to-heroku.herokuapp.com/api/v1/auth/signup';
+  const firstName = document.forms.signUp.firstName.value;
+  const lastName = document.forms.signUp.lastName.value;
+  const email = document.forms.signUp.email.value;
+  const password = document.forms.signUp.password.value;
+  const confirm_password = document.forms.signUp.confirm_password.value;
+  const body = {
+    firstName, lastName, email, password, confirm_password
   };
-  var fields = ['firstName', 'lastName', 'email', 'password', 'confirm_password'];
+  const fields = ['firstName', 'lastName', 'email', 'password', 'confirm_password'];
 
   document.getElementById('firstNameError').innerHTML = '';
   document.getElementById('lastNameError').innerHTML = '';
@@ -27,32 +27,30 @@ var processSignUp = function processSignUp() {
   document.getElementById('errorMessage').innerHTML = '';
   document.getElementById('successMessage').innerHTML = '';
 
-  var dataForFetch = {
+  const dataForFetch = {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' }
   };
 
-  fetch(url, dataForFetch).then(function (res) {
-    return res.json();
-  }).then(function (data) {
+  fetch(url, dataForFetch).then(res => res.json()).then((data) => {
     if (data.errors) {
       if (data.errors !== null && _typeof(data.errors) === 'object') {
-        fields.forEach(function (field) {
+        fields.forEach((field) => {
           if (data.errors[field]) {
             return displayErrorInFields(data.errors, field);
           }
         });
       } else {
-        document.getElementById('errorMessage').innerHTML = '<h1 class="errorField">' + String(data.errors) + '</h1>';
+        document.getElementById('errorMessage').innerHTML = `<h1 class="errorField">${String(data.errors)}</h1>`;
       }
     } else if (data.success) {
-      document.getElementById('successMessage').innerHTML = '<h1 class="successField">' + String(data.success) + '</h1>';
+      document.getElementById('successMessage').innerHTML = `<h1 class="successField">${String(data.success)}</h1>`;
     }
-  })['catch'](function (error) {
+  }).catch((error) => {
     console.log(error);
   });
 
   return false;
 };
-//# sourceMappingURL=process-signup.js.map
+// # sourceMappingURL=process-signup.js.map
