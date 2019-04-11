@@ -68,8 +68,7 @@ const deleteEntry = req => req.client.query('DELETE FROM entry WHERE entry_id=($
 
 
 const schema = (url, pg) => {
-  const connectionString = url;
-  const client = new pg.Client(connectionString);
+  const client = new pg.Client(url);
   client.connect();
 
   const queries = `CREATE TABLE IF NOT EXISTS account(

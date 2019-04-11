@@ -9,16 +9,15 @@ import swaggerDocument from './swagger.json';
 import apiRouter from './server/routes';
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 app.use(fileUpload());
 app.use(logger('dev'));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/api/v1', apiRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port);
 

@@ -4,10 +4,9 @@
   "description": "MyDiary web app",
   "main": "index.js",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.2",
     "cors": "^2.8.5",
-    "create-react-app": "^2.1.1",
     "dotenv": "^6.0.0",
     "eslint-plugin-react": "^7.11.1",
     "express": "^4.16.2",
@@ -16,8 +15,7 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.17.1",
     "pg": "^6.1.0",
-    "swagger-ui-express": "^2.0.15",
-    "uuid": "^3.2.1"
+    "swagger-ui-express": "^2.0.15"
   },
   "devDependencies": {
     "airbnb-browser-shims": "^2.1.0",
@@ -36,8 +34,7 @@
     "mocha": "^5.0.1",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^11.4.1",
-    "supertest": "^3.0.0",
-    "validator": "^9.4.1"
+    "supertest": "^3.0.0"
   },
   "engines": {
     "node": "8.11.4"
