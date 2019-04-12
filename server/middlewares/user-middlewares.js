@@ -17,6 +17,7 @@ export default class UserMiddleware {
       *  Takes 2 parameters
       *  @param {object} jwt the first parameter
       *  @param  {object} env the second parameter
+      * @param  {object} queries the third parameter
       *
       */
   constructor(jwt, env, queries) {
@@ -54,7 +55,9 @@ export default class UserMiddleware {
     User.on('end', () => {
       req.done();
       if (registeredUser.length > 0) {
-        return res.status(409).send({ errors: 'An account with this email has already been created!' });
+        return res.status(409).send({
+          errorMessage: 'An account with this email has already been created'
+        });
       }
       next();
     });
@@ -62,29 +65,30 @@ export default class UserMiddleware {
 
   /** A middleware method for checking  if login required fields are filled
     *  Takes 3 parameters
-    *  @param {object} req the first parameter
-    *  @param  {object} errors the second parameter
+    *  @param {object} errors the first parameter
+    *  @param  {string} input the second parameter
     *  @param  {string} field the third parameter
-    *  @param  {string} fieldName the fourth parameter
+    *  @param  {string} label the fourth parameter
     *  @returns {object} return an object
     */
-  fieldIsEmpty(req, errors, field, fieldName) {
-    if (!req.body[field] || req.body[field].trim() === 0) {
-      errors[field] = `${fieldName} field is required`;
+  fieldValidation(errors, input, field, label) {
+    if (field !== 'photograph' && label !== 'Photograph') {
+      if (!input || input.trim() === 0) {
+        errors[field] = `${label} field is required`;
+      }
     }
-  }
 
-
-  /** A middleware method for checking  if login required fields are filled
-  *  Takes 3 parameters
-  *  @param {object} req the first parameter
-  *  @param  {object} errors the second parameter
-  *  @returns {object} return an object
-  */
-  emailIsValid(req, errors) {
-    if (req.body.email) {
-      if (!this.emailFormat.test(req.body.email.trim())) {
+    if (input && field === 'email' && label === 'Email') {
+      if (!this.emailFormat.test(input.trim())) {
         errors.email = 'You\'ve entered an invalid email';
+      }
+    }
+
+    if (input && field === 'photograph' && label === 'Photograph') {
+      if (input.mimetype !== 'image/jpeg' &&
+      input.mimetype !== 'image/png' &&
+      input.mimetype !== 'image/gif') {
+        errors.photograph = 'Uploaded file must be an image type of png, jpg or gif';
       }
     }
   }
@@ -99,23 +103,25 @@ export default class UserMiddleware {
         */
   checksForSignUpRequiredFields(req, res, next) {
     const errors = {};
+    const {
+      firstName, lastName, email, password, confirmPassword
+    } = req.body;
 
-    this.fieldIsEmpty(req, errors, 'firstName', 'First Name');
-    this.fieldIsEmpty(req, errors, 'lastName', 'Last Name');
-    this.fieldIsEmpty(req, errors, 'email', 'Email');
-    this.fieldIsEmpty(req, errors, 'password', 'Password');
-    this.fieldIsEmpty(req, errors, 'confirm_password', 'Confirm Password');
-    this.emailIsValid(req, errors);
+    this.fieldValidation(errors, firstName, 'firstName', 'First Name');
+    this.fieldValidation(errors, lastName, 'lastName', 'Last Name');
+    this.fieldValidation(errors, email, 'email', 'Email');
+    this.fieldValidation(errors, password, 'password', 'Password');
+    this.fieldValidation(errors, confirmPassword, 'confirmPassword', 'Confirm Password');
 
-    if (req.body.password && req.body.confirm_password) {
-      if (req.body.password.trim() !== req.body.confirm_password.trim()) {
-        errors.confirm_password = 'Passwords do not match';
+    if (password && confirmPassword) {
+      if (password.trim() !== confirmPassword.trim()) {
+        errors.confirmPassword = 'Passwords do not match';
       }
     }
 
 
     if (Object.keys(errors).length > 0) {
-      return res.status(400).send({ errors: 'All fields must be filled' });
+      return res.status(400).send({ errors });
     }
     next();
   }
@@ -140,10 +146,11 @@ export default class UserMiddleware {
     User.on('end', () => {
       req.done();
       if (authenticatedUser.length === 0) {
-        return res.status(404).send({ errors: 'Invalid email or password!' });
+        return res.status(404).send({ errorMessage: 'Invalid email or password' });
       }
 
-      req.user = authenticatedUser[0];
+      const [user] = authenticatedUser;
+      req.user = user;
       next();
     });
   }
@@ -157,13 +164,13 @@ export default class UserMiddleware {
           */
   checksForLogInRequiredFields(req, res, next) {
     const errors = {};
+    const { email, password } = req.body;
 
-    this.fieldIsEmpty(req, errors, 'email', 'Email');
-    this.fieldIsEmpty(req, errors, 'password', 'Password');
-    this.emailIsValid(req, errors);
+    this.fieldValidation(errors, email, 'email', 'Email');
+    this.fieldValidation(errors, password, 'password', 'Password');
 
     if (Object.keys(errors).length > 0) {
-      res.status(400).send({ errors: 'Both fields must be filled' });
+      res.status(400).send({ errors });
     } else {
       next();
     }
@@ -179,22 +186,25 @@ export default class UserMiddleware {
    *  @returns {object} return an object
    */
   checksIfPhotoIsUploaded(req, res, next) {
+    const errors = {};
     if (!req.files) {
       next();
     } else {
-      if (req.files.photograph.mimetype !== 'image/jpeg' &&
-       req.files.photograph.mimetype !== 'image/png' &&
-       req.files.photograph.mimetype !== 'image/gif') {
-        return res.status(400).send({ errors: 'Uploaded file must be an image type of png, jpg or gif' });
-      }
-      const photograph = req.files.photograph;
-      photograph.mv(`./client/images/users/${photograph.name}`, (err) => {
-        if (err) {
-          return res.status(500).send({ errors: 'Server error! Photograph can not be saved' });
-        }
+      const { photograph } = req.files;
+      this.fieldValidation(errors, photograph, 'photograph', 'Photograph');
+      if (Object.keys(errors).length > 0) {
+        res.status(400).send({ errors });
+      } else {
+        photograph.mv(`./uploads/users/${photograph.name}`, (err) => {
+          if (err) {
+            return res.status(500).send({
+              errorMessage: 'Internal server error'
+            });
+          }
 
-        next();
-      });
+          next();
+        });
+      }
     }
   }
 
@@ -216,14 +226,14 @@ export default class UserMiddleware {
 
     if (!token) {
       return res.status(401).send({
-        authenticated: false, errors: 'You are not registered user!'
+        authenticated: false, errorMessage: 'You are not registered user'
       });
     }
 
     this.jwt.verify(token, this.env.SECRET_KEY, (err, authenticated) => {
       if (!authenticated) {
         return res.status(401).send({
-          authenticated: false, errors: 'You are not registered user!'
+          authenticated: false, errorMessage: 'You are not registered user'
         });
       }
 
@@ -234,10 +244,11 @@ export default class UserMiddleware {
       getUser.on('end', () => {
         req.done();
         if (authenticatedUser.length === 0) {
-          return res.status(404).send({ message: 'User can not be found!' });
+          return res.status(404).send({ errorMessage: 'User can not be found' });
         }
 
-        req.user = authenticatedUser[0];
+        const [user] = authenticatedUser;
+        req.user = user;
         next();
       });
     });

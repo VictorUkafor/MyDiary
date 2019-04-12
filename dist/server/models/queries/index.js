@@ -54,8 +54,7 @@ const deleteEntry = function deleteEntry(req) {
 };
 
 const schema = function schema(url, pg) {
-  const connectionString = url;
-  const client = new pg.Client(connectionString);
+  const client = new pg.Client(url);
   client.connect();
 
   const queries = 'CREATE TABLE IF NOT EXISTS account(\n  user_id SERIAL PRIMARY KEY, \n  firstName VARCHAR(255) NOT NULL,\n  lastName VARCHAR(255) NOT NULL,\n  email VARCHAR(255) UNIQUE NOT NULL,\n  password VARCHAR(255) NOT NULL,\n  photograph VARCHAR(255),\n  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW());\n\n  CREATE TABLE IF NOT EXISTS entry(\n  entry_id SERIAL PRIMARY KEY,\n  entry_user_id INTEGER NOT NULL,\n  title VARCHAR(255) NOT NULL,\n  content text NOT NULL,\n  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n  FOREIGN KEY (entry_user_id) REFERENCES account (user_id));\n  ';

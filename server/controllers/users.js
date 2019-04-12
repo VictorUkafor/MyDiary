@@ -19,6 +19,7 @@ export default class UserController {
   *  @param {object} jwt the first parameter
   *  @param  {object} bcrypt the second parameter
   *  @param  {object} env the third parameter
+  *  @param  {object} queries the fourth parameter
   *
   */
   constructor(jwt, bcrypt, env, queries) {
@@ -52,13 +53,18 @@ export default class UserController {
     addUser.on('end', () => {
       req.done();
       if (addUser) {
-        return res.status(201).send({
-          success: 'User registered successfully', registeredUser
-        });
+        const [user] = registeredUser;
+
+        const token = this.jwt.sign(
+          { user_id: user.user_id },
+          this.env.SECRET_KEY, { expiresIn: 60 * 60 }
+        );
+
+        return res.status(201).send({ user, token });
       }
 
       return res.status(500).send({
-        errors: 'Server error: User could not be added!'
+        errorMessage: 'Internal server error'
       });
     });
   }
@@ -74,17 +80,16 @@ export default class UserController {
    *  @returns {object} return an object
    */
   loginUser(req, res) {
+    const { user, body } = req;
     const token = this.jwt.sign(
-      { user_id: req.user.user_id },
+      { user_id: user.user_id },
       this.env.SECRET_KEY, { expiresIn: 60 * 60 }
     );
 
-    if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {
-      res.status(200).send({
-        message: `Welcome! ${req.user.firstname} ${req.user.lastname}`, token
-      });
+    if (this.bcrypt.compareSync(body.password.trim(), user.password)) {
+      res.status(200).send({ user, token });
     } else {
-      res.status(404).send({ errors: 'Invalid email or password!' });
+      res.status(404).send({ errorMessage: 'Invalid email or password' });
     }
   }
 

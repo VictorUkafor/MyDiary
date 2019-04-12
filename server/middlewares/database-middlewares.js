@@ -41,13 +41,18 @@ export default class DatabaseMiddleware {
     if (this.env.NODE_ENV === 'test') {
       connectionString = this.env.DATABASE_TEST_URL;
     }
+
+    if (this.env.NODE_ENV === 'production') {
+      connectionString = this.env.DATABASE_PRO_URL;
+    }
+
     const pool = new this.pg.Pool({ connectionString });
 
     pool.connect((err, client, done) => {
       if (err) {
         done();
         return res.status(500).send({
-          errors: 'Server error: Connection to the database failed!'
+          errorMessage: 'Internal server error'
         });
       }
 

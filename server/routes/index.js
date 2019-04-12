@@ -18,10 +18,6 @@ const databaseMiddleware = new DatabaseMiddleware(pg, env);
 const userMiddleware = new UserMidddleware(jwt, env, queries);
 const entryMiddleware = new EntryMiddleware(queries);
 
-apiRouter.get('/', (req, res) => res.status(200).send({
-  message: 'Welcome to MyDiary app!',
-}));
-
 
 apiRouter.post(
   '/auth/signup',

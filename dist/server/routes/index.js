@@ -58,10 +58,6 @@ const databaseMiddleware = new _databaseMiddlewares2.default(_pg2.default, env);
 const userMiddleware = new _userMiddlewares2.default(_jsonwebtoken2.default, env, _queries2.default);
 const entryMiddleware = new _entryMiddlewares2.default(_queries2.default);
 
-apiRouter.get('/', (req, res) => res.status(200).send({
-  message: 'Welcome to MyDiary app!'
-}));
-
 apiRouter.post('/auth/signup', userMiddleware.checksForSignUpRequiredFields, userMiddleware.checksIfPhotoIsUploaded, databaseMiddleware.handlesConnectionToTheDatabase, userMiddleware.checksIfUserAlreadyExist, user.postUser);
 
 apiRouter.post('/auth/login', userMiddleware.checksForLogInRequiredFields, databaseMiddleware.handlesConnectionToTheDatabase, userMiddleware.checksIfUserExist, user.loginUser);

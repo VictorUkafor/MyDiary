@@ -13,6 +13,6 @@ const _queries2 = _interopRequireDefault(_queries);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _queries2.default.schema(process.env.DATABASE_DEV_URL, _pg2.default);
-_queries2.default.schema(process.env.DATABASE_TEST_URL, _pg2.default);
-_queries2.default.schema(process.env.DATABASE_PRO_URL, _pg2.default);
+// schema(process.env.DATABASE_TEST_URL, pg);
+// schema(process.env.DATABASE_PRO_URL, pg);
 // # sourceMappingURL=index.js.map
