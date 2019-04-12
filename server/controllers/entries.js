@@ -13,12 +13,12 @@
 export default class EntryController {
   /**
     *  constructor
-    *
+    *  Takes one parameters
+    *  @param {object} queries the only parameter
     */
   constructor(queries) {
     this.queries = queries;
     this.getAllEntries = this.getAllEntries.bind(this);
-    this.searchEntries = this.searchEntries.bind(this);
     this.postEntry = this.postEntry.bind(this);
     this.putEntry = this.putEntry.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
@@ -37,87 +37,40 @@ export default class EntryController {
   * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
   */
   getAllEntries(req, res) {
+    const entriesInPage = [];
     const allEntries = [];
-    const allEntriesWithNoPag = [];
-    let page = parseInt(req.query.page, 10);
+    let pageNumber = parseInt(req.query.page, 10);
 
-    if (!req.query.page) { page = 1; }
-    if (isNaN(page) || page === 0) {
+    if (!req.query.page) { pageNumber = 1; }
+    if (Number.isNaN(pageNumber) || pageNumber === 0) {
       return res.status(400).send({
-        errors: `You've entered an invalid page: ${req.query.page}`
+        errorMessage: `You've entered an invalid page number: ${req.query.page}`
       });
     }
 
-    const getEntries = this.queries.getEntriesWithPag(req, page);
+    const getEntries = this.queries.getEntriesWithPag(req, pageNumber);
     const getEntriesWithNoPag = this.queries.getAllEntries(req);
 
-    getEntries.on('row', (row) => { allEntries.push(row); });
+    getEntries.on('row', (row) => {
+      entriesInPage.push(row);
+    });
+
     getEntriesWithNoPag.on('row', (row) => {
-      allEntriesWithNoPag.push(row);
+      allEntries.push(row);
     });
 
     getEntries.on('end', () => {
       req.done();
-      if (allEntries.length === 0) {
-        return res.status(404).send({ message: 'You have no entries yet!' });
+      if (entriesInPage.length === 0) {
+        return res.status(404).send({ errorMessage: 'You have no entries' });
       }
 
       getEntriesWithNoPag.on('end', () => {
         req.done();
 
         return res.status(200).send({
-          allEntries,
-          total: allEntriesWithNoPag.length
-        });
-      });
-    });
-  }
-
-
-  /** An API for searching for specific entries:
-  *  POST: api/v1/entries/search?page=pageNumber
-  *  Takes 2 parameters
-  *  @param {object} req the first parameter
-  *  @param  {object} res the second parameter
-  *
-  *  @returns {object} return an object
-  *
-  * The logic behind this was inspired by 'PostreSQL and NodeJS' article on 'www.mherman.com'
-  * see full link https://mherman.org/blog/2015/02/12/postgresql-and-nodejs/
-  */
-  searchEntries(req, res) {
-    const allEntries = [];
-    const allEntriesWithNoPag = [];
-    let page = parseInt(req.query.page, 10);
-
-    if (!req.query.page) { page = 1; }
-    if (!req.body.search) { req.body.search = ''; }
-    if (isNaN(page) || page === 0) {
-      return res.status(400).send({
-        errors: `You've entered an invalid page: ${req.query.page}`
-      });
-    }
-
-    const getEntries = this.queries.searchEntriesWithPag(req, page);
-    const getEntriesWithNoPag = this.queries.searchEntries(req);
-
-    getEntries.on('row', (row) => { allEntries.push(row); });
-    getEntriesWithNoPag.on('row', (row) => {
-      allEntriesWithNoPag.push(row);
-    });
-
-    getEntries.on('end', () => {
-      req.done();
-      if (allEntries.length === 0) {
-        return res.status(404).send({ message: 'You have no entries yet!' });
-      }
-
-      getEntriesWithNoPag.on('end', () => {
-        req.done();
-
-        return res.status(200).send({
-          allEntries,
-          total: allEntriesWithNoPag.length
+          entries: entriesInPage,
+          total: allEntries.length
         });
       });
     });
@@ -129,7 +82,6 @@ export default class EntryController {
   *  Takes 2 parameters
   *  @param {object} req the first parameter
   *  @param  {object} res the second parameter
-  *
   *  @returns {object} return an object
   */
   getEntry(req, res) {
@@ -180,12 +132,12 @@ export default class EntryController {
       req.done();
       if (addEntry) {
         return res.status(201).send({
-          success: 'A new diary entry has been added successfully', newEntry
+          successMessage: 'Entry added successfully', newEntry
         });
       }
 
       return res.status(500).send({
-        errors: 'Server error: Entry could not be added!'
+        errorMessage: 'Internal Server error'
       });
     });
   }
@@ -249,12 +201,12 @@ export default class EntryController {
       req.done();
       if (update) {
         return res.status(200).send({
-          success: 'The entry has been updated successfully', updatedEntry
+          successMessage: 'Entry updated successfully', entry: updatedEntry
         });
       }
 
       return res.status(500).send({
-        errors: 'Server error: Entry could not be updated!'
+        errorMessage: 'Internal server error'
       });
     });
   }
@@ -276,12 +228,12 @@ export default class EntryController {
 
     if (deleteEntry) {
       return res.status(200).send({
-        success: 'The entry has been deleted successfully'
+        successMessage: 'Entry deleted successfully'
       });
     }
 
     return res.status(500).send({
-      errors: 'Server error: Entry could not be deleted!'
+      errorMessage: 'Internal server error!'
     });
   }
 }

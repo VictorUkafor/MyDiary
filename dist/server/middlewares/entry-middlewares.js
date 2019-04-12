@@ -1,12 +1,12 @@
+'use strict';
 
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * @fileOverview this JS file contains logic for entry middleware methods
@@ -20,9 +20,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class EntryMiddleware
   *
   */
-const EntryMiddleware = (function () {
+var EntryMiddleware = function () {
   /**
     *  constructor
+    *  @param  {object} queries the only parameter
     *
     */
   function EntryMiddleware(queries) {
@@ -43,18 +44,18 @@ const EntryMiddleware = (function () {
 
   _createClass(EntryMiddleware, [{
     key: 'checksForAddEntryRequiredFields',
-    value: (function () {
+    value: function () {
       function checksForAddEntryRequiredFields(req, res, next) {
         if (!req.body.content || req.body.content.trim() === 0) {
           return res.status(400).send({
-            errors: 'Content field is required!'
+            errorMessage: 'Content field is required'
           });
         }
         next();
       }
 
       return checksForAddEntryRequiredFields;
-    }())
+    }()
 
     /**
      * A middleware method for checking if an entry exist
@@ -70,35 +71,37 @@ const EntryMiddleware = (function () {
 
   }, {
     key: 'checksIfEntryExist',
-    value: (function () {
+    value: function () {
       function checksIfEntryExist(req, res, next) {
-        const entry = [];
-        const entryId = parseInt(req.params.entryId, 10);
+        var entry = [];
+        var entryId = parseInt(req.params.entryId, 10);
 
-        if (isNaN(entryId)) {
+        if (Number.isNaN(entryId)) {
           return res.status(400).send({
-            errors: `You've entered an invalid entryId: ${String(req.params.entryId)}`
+            errorMessage: 'You\'ve entered an invalid entryId: ' + String(req.params.entryId)
           });
         }
-        const getEntry = this.queries.getAnEntry(req);
+        var getEntry = this.queries.getAnEntry(req);
 
-        getEntry.on('row', (row) => {
+        getEntry.on('row', function (row) {
           entry.push(row);
         });
 
-        getEntry.on('end', () => {
+        getEntry.on('end', function () {
           req.done();
           if (entry.length === 0) {
-            return res.status(404).send({ errors: 'Entry can not be found!' });
+            return res.status(404).send({ errorMessage: 'Entry can not be found' });
           }
 
-          req.entry = entry[0];
+          var anEntry = entry[0];
+
+          req.entry = anEntry;
           next();
         });
       }
 
       return checksIfEntryExist;
-    }())
+    }()
 
     /**
      * A middleware method for checking if an entry can be updated
@@ -114,16 +117,16 @@ const EntryMiddleware = (function () {
 
   }, {
     key: 'checksIfEntryCanBeUpdated',
-    value: (function () {
+    value: function () {
       function checksIfEntryCanBeUpdated(req, res, next) {
-        const twentyFourHoursInMins = 24 * 60;
-        const timeNow = new Date();
-        const timeDifferences = timeNow - req.entry.created_at;
-        const timeDifferencesInMins = timeDifferences / 60000;
+        var twentyFourHoursInMins = 24 * 60;
+        var timeNow = new Date();
+        var timeDifferences = timeNow - req.entry.created_at;
+        var timeDifferencesInMins = timeDifferences / 60000;
 
         if (timeDifferencesInMins > twentyFourHoursInMins) {
           return res.status(500).send({
-            errors: 'Entries can only be Updated within 24 hours of creation!'
+            errorMessage: 'Entries can only be Updated within 24 hours of creation'
           });
         }
 
@@ -131,11 +134,11 @@ const EntryMiddleware = (function () {
       }
 
       return checksIfEntryCanBeUpdated;
-    }())
+    }()
   }]);
 
   return EntryMiddleware;
-}());
+}();
 
-exports.default = EntryMiddleware;
-// # sourceMappingURL=entry-middlewares.js.map
+exports['default'] = EntryMiddleware;
+//# sourceMappingURL=entry-middlewares.js.map

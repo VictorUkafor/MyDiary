@@ -13,6 +13,7 @@
 export default class EntryMiddleware {
   /**
     *  constructor
+    *  @param  {object} queries the only parameter
     *
     */
   constructor(queries) {
@@ -30,7 +31,7 @@ export default class EntryMiddleware {
   checksForAddEntryRequiredFields(req, res, next) {
     if (!req.body.content || req.body.content.trim() === 0) {
       return res.status(400).send({
-        errors: 'Content field is required!'
+        errorMessage: 'Content field is required'
       });
     }
     next();
@@ -52,9 +53,9 @@ export default class EntryMiddleware {
     const entry = [];
     const entryId = parseInt(req.params.entryId, 10);
 
-    if (isNaN(entryId)) {
+    if (Number.isNaN(entryId)) {
       return res.status(400).send({
-        errors: `You've entered an invalid entryId: ${req.params.entryId}`
+        errorMessage: `You've entered an invalid entryId: ${req.params.entryId}`
       });
     }
     const getEntry = this.queries.getAnEntry(req);
@@ -64,10 +65,11 @@ export default class EntryMiddleware {
     getEntry.on('end', () => {
       req.done();
       if (entry.length === 0) {
-        return res.status(404).send({ errors: 'Entry can not be found!' });
+        return res.status(404).send({ errorMessage: 'Entry can not be found' });
       }
 
-      req.entry = entry[0];
+      const [anEntry] = entry;
+      req.entry = anEntry;
       next();
     });
   }
@@ -92,7 +94,7 @@ export default class EntryMiddleware {
 
     if (timeDifferencesInMins > twentyFourHoursInMins) {
       return res.status(500).send({
-        errors: 'Entries can only be Updated within 24 hours of creation!'
+        errorMessage: 'Entries can only be Updated within 24 hours of creation'
       });
     }
 

@@ -50,13 +50,6 @@ apiRouter.get(
   entry.getAllEntries
 );
 
-apiRouter.post(
-  '/entries/search',
-  databaseMiddleware.handlesConnectionToTheDatabase,
-  userMiddleware.checksIfUserIsAuthenticated,
-  entry.searchEntries
-);
-
 apiRouter.get(
   '/entries/:entryId',
   databaseMiddleware.handlesConnectionToTheDatabase,

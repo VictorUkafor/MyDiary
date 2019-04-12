@@ -1,12 +1,12 @@
+'use strict';
 
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * @fileOverview this JS file contains logic for user middleware methods
@@ -21,12 +21,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class UserMiddleware
   *
   */
-const UserMiddleware = (function () {
+var UserMiddleware = function () {
   /**
       *  constructor
       *  Takes 2 parameters
       *  @param {object} jwt the first parameter
       *  @param  {object} env the second parameter
+      *  @param  {object} queries the third parameter
       *
       */
   function UserMiddleware(jwt, env, queries) {
@@ -61,68 +62,63 @@ const UserMiddleware = (function () {
 
   _createClass(UserMiddleware, [{
     key: 'checksIfUserAlreadyExist',
-    value: (function () {
+    value: function () {
       function checksIfUserAlreadyExist(req, res, next) {
-        const registeredUser = [];
-        const User = this.queries.getAUser(req);
+        var registeredUser = [];
+        var User = this.queries.getAUser(req);
 
-        User.on('row', (row) => {
+        User.on('row', function (row) {
           registeredUser.push(row);
         });
 
-        User.on('end', () => {
+        User.on('end', function () {
           req.done();
           if (registeredUser.length > 0) {
-            return res.status(409).send({ errors: 'An account with this email has already been created!' });
+            return res.status(409).send({
+              errorMessage: 'An account with this email has already been created'
+            });
           }
           next();
         });
       }
 
       return checksIfUserAlreadyExist;
-    }())
+    }()
 
     /** A middleware method for checking  if login required fields are filled
       *  Takes 3 parameters
-      *  @param {object} req the first parameter
-      *  @param  {object} errors the second parameter
+      *  @param {object} errors the first parameter
+      *  @param  {string} input the second parameter
       *  @param  {string} field the third parameter
-      *  @param  {string} fieldName the fourth parameter
+      *  @param  {string} label the fourth parameter
       *  @returns {object} return an object
       */
 
   }, {
-    key: 'fieldIsEmpty',
-    value: (function () {
-      function fieldIsEmpty(req, errors, field, fieldName) {
-        if (!req.body[field] || req.body[field].trim() === 0) {
-          errors[field] = `${String(fieldName)} field is required`;
+    key: 'fieldValidation',
+    value: function () {
+      function fieldValidation(errors, input, field, label) {
+        if (field !== 'photograph' && label !== 'Photograph') {
+          if (!input || input.trim() === 0) {
+            errors[field] = String(label) + ' field is required';
+          }
         }
-      }
 
-      return fieldIsEmpty;
-    }())
-
-    /** A middleware method for checking  if login required fields are filled
-    *  Takes 3 parameters
-    *  @param {object} req the first parameter
-    *  @param  {object} errors the second parameter
-    *  @returns {object} return an object
-    */
-
-  }, {
-    key: 'emailIsValid',
-    value: (function () {
-      function emailIsValid(req, errors) {
-        if (req.body.email) {
-          if (!this.emailFormat.test(req.body.email.trim())) {
+        if (input && field === 'email' && label === 'Email') {
+          if (!this.emailFormat.test(input.trim())) {
             errors.email = 'You\'ve entered an invalid email';
+          }
+        }
+
+        if (input && field === 'photograph' && label === 'Photograph') {
+          if (input.mimetype !== 'image/jpeg' && input.mimetype !== 'image/png' && input.mimetype !== 'image/gif') {
+            errors.photograph = 'Uploaded file must be an image type of png, jpg or gif';
           }
         }
       }
 
-      return emailIsValid;
-    }())
+      return fieldValidation;
+    }()
 
     /** A method for checking if required fields are filled for signup API
           *  Takes 3 parameters
@@ -134,31 +130,37 @@ const UserMiddleware = (function () {
 
   }, {
     key: 'checksForSignUpRequiredFields',
-    value: (function () {
+    value: function () {
       function checksForSignUpRequiredFields(req, res, next) {
-        const errors = {};
+        var errors = {};
+        var _req$body = req.body,
+            firstName = _req$body.firstName,
+            lastName = _req$body.lastName,
+            email = _req$body.email,
+            password = _req$body.password,
+            confirmPassword = _req$body.confirmPassword;
 
-        this.fieldIsEmpty(req, errors, 'firstName', 'First Name');
-        this.fieldIsEmpty(req, errors, 'lastName', 'Last Name');
-        this.fieldIsEmpty(req, errors, 'email', 'Email');
-        this.fieldIsEmpty(req, errors, 'password', 'Password');
-        this.fieldIsEmpty(req, errors, 'confirm_password', 'Confirm Password');
-        this.emailIsValid(req, errors);
 
-        if (req.body.password && req.body.confirm_password) {
-          if (req.body.password.trim() !== req.body.confirm_password.trim()) {
-            errors.confirm_password = 'Passwords do not match';
+        this.fieldValidation(errors, firstName, 'firstName', 'First Name');
+        this.fieldValidation(errors, lastName, 'lastName', 'Last Name');
+        this.fieldValidation(errors, email, 'email', 'Email');
+        this.fieldValidation(errors, password, 'password', 'Password');
+        this.fieldValidation(errors, confirmPassword, 'confirmPassword', 'Confirm Password');
+
+        if (password && confirmPassword) {
+          if (password.trim() !== confirmPassword.trim()) {
+            errors.confirmPassword = 'Passwords do not match';
           }
         }
 
         if (Object.keys(errors).length > 0) {
-          return res.status(400).send({ errors: 'All fields must be filled' });
+          return res.status(400).send({ errors: errors });
         }
         next();
       }
 
       return checksForSignUpRequiredFields;
-    }())
+    }()
 
     /** A method for checking if user exist
           *  Takes 3 parameters
@@ -173,28 +175,30 @@ const UserMiddleware = (function () {
 
   }, {
     key: 'checksIfUserExist',
-    value: (function () {
+    value: function () {
       function checksIfUserExist(req, res, next) {
-        const authenticatedUser = [];
-        const User = this.queries.getAUser(req);
+        var authenticatedUser = [];
+        var User = this.queries.getAUser(req);
 
-        User.on('row', (row) => {
+        User.on('row', function (row) {
           authenticatedUser.push(row);
         });
 
-        User.on('end', () => {
+        User.on('end', function () {
           req.done();
           if (authenticatedUser.length === 0) {
-            return res.status(404).send({ errors: 'Invalid email or password!' });
+            return res.status(404).send({ errorMessage: 'Invalid email or password' });
           }
 
-          req.user = authenticatedUser[0];
+          var user = authenticatedUser[0];
+
+          req.user = user;
           next();
         });
       }
 
       return checksIfUserExist;
-    }())
+    }()
 
     /** A middleware method for checking  if login required fields are filled
             *  Takes 3 parameters
@@ -206,23 +210,26 @@ const UserMiddleware = (function () {
 
   }, {
     key: 'checksForLogInRequiredFields',
-    value: (function () {
+    value: function () {
       function checksForLogInRequiredFields(req, res, next) {
-        const errors = {};
+        var errors = {};
+        var _req$body2 = req.body,
+            email = _req$body2.email,
+            password = _req$body2.password;
 
-        this.fieldIsEmpty(req, errors, 'email', 'Email');
-        this.fieldIsEmpty(req, errors, 'password', 'Password');
-        this.emailIsValid(req, errors);
+
+        this.fieldValidation(errors, email, 'email', 'Email');
+        this.fieldValidation(errors, password, 'password', 'Password');
 
         if (Object.keys(errors).length > 0) {
-          res.status(400).send({ errors: 'Both fields must be filled' });
+          res.status(400).send({ errors: errors });
         } else {
           next();
         }
       }
 
       return checksForLogInRequiredFields;
-    }())
+    }()
 
     /**
      *  A middleware method for checking  if login required fields are filled
@@ -235,27 +242,33 @@ const UserMiddleware = (function () {
 
   }, {
     key: 'checksIfPhotoIsUploaded',
-    value: (function () {
+    value: function () {
       function checksIfPhotoIsUploaded(req, res, next) {
+        var errors = {};
         if (!req.files) {
           next();
         } else {
-          if (req.files.photograph.mimetype !== 'image/jpeg' && req.files.photograph.mimetype !== 'image/png' && req.files.photograph.mimetype !== 'image/gif') {
-            return res.status(400).send({ errors: 'Uploaded file must be an image type of png, jpg or gif' });
-          }
-          const photograph = req.files.photograph;
-          photograph.mv(`./client/images/users/${String(photograph.name)}`, (err) => {
-            if (err) {
-              return res.status(500).send({ errors: 'Server error! Photograph can not be saved' });
-            }
+          var photograph = req.files.photograph;
 
-            next();
-          });
+          this.fieldValidation(errors, photograph, 'photograph', 'Photograph');
+          if (Object.keys(errors).length > 0) {
+            res.status(400).send({ errors: errors });
+          } else {
+            photograph.mv('./uploads/users/' + String(photograph.name), function (err) {
+              if (err) {
+                return res.status(500).send({
+                  errorMessage: 'Internal server error'
+                });
+              }
+
+              next();
+            });
+          }
         }
       }
 
       return checksIfPhotoIsUploaded;
-    }())
+    }()
 
     /**
        * A middleware method for checking if user is authenticated
@@ -271,50 +284,52 @@ const UserMiddleware = (function () {
 
   }, {
     key: 'checksIfUserIsAuthenticated',
-    value: (function () {
+    value: function () {
       function checksIfUserIsAuthenticated(req, res, next) {
-        const _this = this;
+        var _this = this;
 
-        const token = req.body.token || req.query.token || req.headers.authentication;
-        const authenticatedUser = [];
+        var token = req.body.token || req.query.token || req.headers.authentication;
+        var authenticatedUser = [];
 
         if (!token) {
           return res.status(401).send({
-            authenticated: false, errors: 'You are not registered user!'
+            authenticated: false, errorMessage: 'You are not registered user'
           });
         }
 
-        this.jwt.verify(token, this.env.SECRET_KEY, (err, authenticated) => {
+        this.jwt.verify(token, this.env.SECRET_KEY, function (err, authenticated) {
           if (!authenticated) {
             return res.status(401).send({
-              authenticated: false, errors: 'You are not registered user!'
+              authenticated: false, errorMessage: 'You are not registered user'
             });
           }
 
-          const getUser = _this.queries.getAUserById(req, authenticated);
+          var getUser = _this.queries.getAUserById(req, authenticated);
 
-          getUser.on('row', (row) => {
+          getUser.on('row', function (row) {
             authenticatedUser.push(row);
           });
 
-          getUser.on('end', () => {
+          getUser.on('end', function () {
             req.done();
             if (authenticatedUser.length === 0) {
-              return res.status(404).send({ message: 'User can not be found!' });
+              return res.status(404).send({ errorMessage: 'User can not be found' });
             }
 
-            req.user = authenticatedUser[0];
+            var user = authenticatedUser[0];
+
+            req.user = user;
             next();
           });
         });
       }
 
       return checksIfUserIsAuthenticated;
-    }())
+    }()
   }]);
 
   return UserMiddleware;
-}());
+}();
 
-exports.default = UserMiddleware;
-// # sourceMappingURL=user-middlewares.js.map
+exports['default'] = UserMiddleware;
+//# sourceMappingURL=user-middlewares.js.map

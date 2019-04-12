@@ -43,7 +43,7 @@
     "start": "node dist/index.js",
     "dev": "nodemon index.js --exec babel-node",
     "lint": "eslint . --fix",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text --reporter=lcov mocha --timeout 250000 tests/* --require babel-register --exit",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text --reporter=lcov mocha --timeout 250000 test/* --require babel-register --exit",
     "test-watch": "nodemon --exec 'npm test'",
     "cover": "NODE_ENV=test istanbul cover _mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls",

@@ -1,12 +1,12 @@
+'use strict';
 
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const _createClass = (function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }());
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * @fileOverview this JS file contains logic for user's APIs logic
@@ -22,13 +22,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   *  class UserController
   *
   */
-const UserController = (function () {
+var UserController = function () {
   /**
     *  constructor
-    *  Takes 3 parameters
+    *  Takes 4 parameters
     *  @param {object} jwt the first parameter
     *  @param  {object} bcrypt the second parameter
     *  @param  {object} env the third parameter
+    *  @param  {object} queries the fourth parameter
     *
     */
   function UserController(jwt, bcrypt, env, queries) {
@@ -58,31 +59,36 @@ const UserController = (function () {
 
   _createClass(UserController, [{
     key: 'postUser',
-    value: (function () {
+    value: function () {
       function postUser(req, res) {
-        const salt = this.bcrypt.genSaltSync(10);
-        const registeredUser = [];
-        const addUser = this.queries.insertUser(req, salt, this.bcrypt);
+        var _this = this;
 
-        addUser.on('row', (row) => {
+        var salt = this.bcrypt.genSaltSync(10);
+        var registeredUser = [];
+        var addUser = this.queries.insertUser(req, salt, this.bcrypt);
+
+        addUser.on('row', function (row) {
           registeredUser.push(row);
         });
-        addUser.on('end', () => {
+        addUser.on('end', function () {
           req.done();
           if (addUser) {
-            return res.status(201).send({
-              success: 'User registered successfully', registeredUser
-            });
+            var user = registeredUser[0];
+
+
+            var token = _this.jwt.sign({ user_id: user.user_id }, _this.env.SECRET_KEY, { expiresIn: 60 * 60 });
+
+            return res.status(201).send({ user: user, token: token });
           }
 
           return res.status(500).send({
-            errors: 'Server error: User could not be added!'
+            errorMessage: 'Internal server error'
           });
         });
       }
 
       return postUser;
-    }())
+    }()
 
     /**
      *  An API for logging into the app
@@ -96,21 +102,22 @@ const UserController = (function () {
 
   }, {
     key: 'loginUser',
-    value: (function () {
+    value: function () {
       function loginUser(req, res) {
-        const token = this.jwt.sign({ user_id: req.user.user_id }, this.env.SECRET_KEY, { expiresIn: 60 * 60 });
+        var user = req.user,
+            body = req.body;
 
-        if (this.bcrypt.compareSync(req.body.password.trim(), req.user.password)) {
-          res.status(200).send({
-            message: `Welcome! ${String(req.user.firstname)} ${String(req.user.lastname)}`, token
-          });
+        var token = this.jwt.sign({ user_id: user.user_id }, this.env.SECRET_KEY, { expiresIn: 60 * 60 });
+
+        if (this.bcrypt.compareSync(body.password.trim(), user.password)) {
+          res.status(200).send({ user: user, token: token });
         } else {
-          res.status(404).send({ errors: 'Invalid email or password!' });
+          res.status(404).send({ errorMessage: 'Invalid email or password' });
         }
       }
 
       return loginUser;
-    }())
+    }()
 
     /**
      *  An API for fetching a single user from the app
@@ -124,28 +131,28 @@ const UserController = (function () {
 
   }, {
     key: 'getAUser',
-    value: (function () {
+    value: function () {
       function getAUser(req, res) {
-        const entries = [];
-        const getEntries = this.queries.getAllEntries(req);
+        var entries = [];
+        var getEntries = this.queries.getAllEntries(req);
 
-        getEntries.on('row', (row) => {
+        getEntries.on('row', function (row) {
           entries.push(row);
         });
         req.user.entries = entries;
 
-        getEntries.on('end', () => {
+        getEntries.on('end', function () {
           req.done();
           return res.status(200).send(req.user);
         });
       }
 
       return getAUser;
-    }())
+    }()
   }]);
 
   return UserController;
-}());
+}();
 
-exports.default = UserController;
-// # sourceMappingURL=users.js.map
+exports['default'] = UserController;
+//# sourceMappingURL=users.js.map
