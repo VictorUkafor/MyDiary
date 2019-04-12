@@ -15,7 +15,7 @@
 export default class UserController {
 /**
   *  constructor
-  *  Takes 3 parameters
+  *  Takes 4 parameters
   *  @param {object} jwt the first parameter
   *  @param  {object} bcrypt the second parameter
   *  @param  {object} env the third parameter

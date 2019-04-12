@@ -1,7 +1,6 @@
 import pg from 'pg';
 import {} from 'dotenv/config';
 import supertest from 'supertest';
-import { expect } from 'chai';
 import queries from '../server/models/queries';
 import app from '..';
 
@@ -17,19 +16,6 @@ describe('MyDiary API Routes', () => {
     done();
   });
 
-  // Displays 'Welcome to MyDiary app!'
-  describe('GET /api/v1', () => {
-    it('Displays the welcome message', (done) => {
-      request.get('/api/v1')
-        .expect(200)
-        .end((err, res) => {
-          const expected = { message: 'Welcome to MyDiary app!' };
-          expect(res.body).to.eql(expected);
-          done(err);
-        });
-    });
-  });
-
 
   // Testing for 'POST /api/v1/auth/signup'
   describe('POST /api/v1/auth/signup', () => {
@@ -41,7 +27,7 @@ describe('MyDiary API Routes', () => {
           lastName: 'Doe',
           email: 'jeandoe@gmail.com',
           password: 'password',
-          confirm_password: 'password',
+          confirmPassword: 'password',
         })
         .expect(201)
         .end((err) => {
@@ -67,7 +53,7 @@ describe('MyDiary API Routes', () => {
           lastName: 'Doe',
           email: 'jeandoe@gmail.com',
           password: 'password',
-          confirm_password: 'password1',
+          confirmPassword: 'password1',
         })
         .expect(400)
         .end((err) => {
@@ -83,7 +69,7 @@ describe('MyDiary API Routes', () => {
           lastName: 'Doe',
           email: 'jeandoe@gmail.com',
           password: 'password',
-          confirm_password: 'password',
+          confirmPassword: 'password',
         })
         .expect(409)
         .end((err) => {

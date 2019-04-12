@@ -17,7 +17,7 @@ export default class UserMiddleware {
       *  Takes 2 parameters
       *  @param {object} jwt the first parameter
       *  @param  {object} env the second parameter
-      * @param  {object} queries the third parameter
+      *  @param  {object} queries the third parameter
       *
       */
   constructor(jwt, env, queries) {

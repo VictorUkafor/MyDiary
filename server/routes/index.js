@@ -50,25 +50,18 @@ apiRouter.get(
   entry.getAllEntries
 );
 
-apiRouter.post(
-  '/entries/search',
-  databaseMiddleware.handlesConnectionToTheDatabase,
-  userMiddleware.checksIfUserIsAuthenticated,
-  entry.searchEntries
-);
-
 apiRouter.get(
   '/entries/:entryId',
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   entryMiddleware.checksIfEntryExist,
-  entry.getEntry
+  EntryController.getEntry
 );
 
 apiRouter.post(
   '/entries',
   databaseMiddleware.handlesConnectionToTheDatabase,
-  entryMiddleware.checksForAddEntryRequiredFields,
+  EntryMiddleware.checksForAddEntryRequiredFields,
   userMiddleware.checksIfUserIsAuthenticated,
   entry.postEntry
 );
@@ -78,7 +71,7 @@ apiRouter.put(
   databaseMiddleware.handlesConnectionToTheDatabase,
   userMiddleware.checksIfUserIsAuthenticated,
   entryMiddleware.checksIfEntryExist,
-  entryMiddleware.checksIfEntryCanBeUpdated,
+  EntryMiddleware.checksIfEntryCanBeUpdated,
   entry.putEntry
 );
 
