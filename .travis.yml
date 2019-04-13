@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+  - "7"
+addons:
+    code_climate: 
+        repo_token: 
+        secure: 69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
+services:
+  - postgresql          
+env:
+  global:
+    - CC_TEST_REPORTER_ID=69280dbeef9a1325a4d78c6d310995fdea180b42141ebecc7ed50390a433306c
+    - NODE_ENV=test
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - npm install
+  - psql -c 'drop database if exists mydiary_test;' -U postgres
+  - psql -c 'create database mydiary_test;' -U postgres
+  - npm run schema
+script:
+  - cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-lcov npm test
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - codeclimate-test-reporter < ./coverage/Icov.info
+  - "npm install coveralls && cat ./coverage/lcov.info | coveralls"
+notifications:
+  email: false
+
+
