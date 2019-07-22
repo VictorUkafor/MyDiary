@@ -66,8 +66,6 @@ Victor Ukafor victorukafor@gmail.com
 
 
 
-# Acknowledgement
 
-Andela Talent Development Team 2018
 
 
